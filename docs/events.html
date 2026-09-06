@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Events — Our Story ❤️</title>
+<style>
+*{box-sizing:border-box}
+:root{--red:#ff1744;--red2:#ff4d6d;--white:#f5f5f7;--muted:#8d8d98;--bg:#030407;--panel:rgba(12,13,19,.88);--line:rgba(255,255,255,.09)}
+html,body{margin:0;min-height:100%;background:radial-gradient(circle at 50% 0,#18050a 0,#06070b 38%,#020307 80%);color:var(--white);font-family:Inter,system-ui,-apple-system,Segoe UI,sans-serif}
+body{overflow-x:hidden}
+body:before{content:"";position:fixed;inset:0;pointer-events:none;background-image:radial-gradient(#fff 1px,transparent 1px);background-size:80px 80px;opacity:.08;animation:stars 18s linear infinite}
+@keyframes stars{to{transform:translateY(80px)}}
+a{text-decoration:none;color:inherit}
+button{font:inherit}
+.top{position:sticky;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between;padding:15px 22px;border-bottom:1px solid var(--line);background:rgba(3,4,7,.82);backdrop-filter:blur(18px)}
+.brand{font-weight:800;letter-spacing:.08em;text-transform:uppercase;font-size:13px}.brand span{color:var(--red)}
+.back{border:1px solid var(--line);padding:9px 13px;border-radius:999px;color:#ddd;background:#090a0f}
+.wrap{width:min(1120px,92%);margin:auto;padding:55px 0 100px}
+.hero{text-align:center;padding:30px 0 40px}.eyebrow{font-size:11px;letter-spacing:.35em;color:var(--red2);text-transform:uppercase}
+h1{font-size:clamp(42px,8vw,82px);margin:12px 0 8px;line-height:.95;letter-spacing:-.05em}
+.hero p{max-width:650px;margin:18px auto;color:#aaaab4;line-height:1.7}
+.tabs{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:10px 0 35px}
+.tab{cursor:pointer;border:1px solid var(--line);background:#090a0f;color:#aaa;padding:11px 17px;border-radius:999px;transition:.25s}
+.tab.active,.tab:hover{border-color:rgba(255,23,68,.55);color:white;background:rgba(255,23,68,.1);box-shadow:0 0 25px rgba(255,23,68,.1)}
+.view{display:none}.view.active{display:block}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(275px,1fr));gap:16px}
+.card{position:relative;border:1px solid var(--line);background:linear-gradient(145deg,rgba(16,17,24,.92),rgba(6,7,11,.95));border-radius:22px;padding:22px;overflow:hidden;transition:.3s}
+.card:hover{transform:translateY(-3px);border-color:rgba(255,23,68,.3)}
+.card:after{content:"";position:absolute;width:130px;height:130px;border-radius:50%;right:-70px;top:-70px;background:rgba(255,23,68,.08);filter:blur(15px)}
+.icon{font-size:27px}.code{font-size:10px;letter-spacing:.2em;color:var(--red2);font-weight:800}
+.card h2{font-size:21px;margin:10px 0 7px}.card p{color:#9898a3;line-height:1.6;font-size:14px;margin:0 0 17px}
+.meta{display:flex;gap:8px;flex-wrap:wrap}.pill{font-size:11px;border:1px solid var(--line);border-radius:999px;padding:6px 9px;color:#bbb}
+.status{font-weight:800}.available{color:#79e6a1}.locked{color:#777}.done{color:#ff758d}
+.progress{height:5px;background:#15161d;border-radius:10px;overflow:hidden;margin:12px 0}.bar{height:100%;width:0;background:linear-gradient(90deg,var(--red),#ff879c);transition:width .25s}
+.actions{display:flex;gap:9px;flex-wrap:wrap}
+.btn{border:1px solid rgba(255,23,68,.35);background:rgba(255,23,68,.09);color:white;border-radius:12px;padding:10px 13px;cursor:pointer;transition:.2s}.btn:hover{background:rgba(255,23,68,.18);transform:translateY(-1px)}.btn.secondary{border-color:var(--line);background:#0b0c11;color:#bbb}.btn:disabled{opacity:.4;cursor:not-allowed;transform:none}
+.section-title{display:flex;align-items:end;justify-content:space-between;gap:15px;margin:0 0 18px}.section-title h2{margin:0;font-size:28px}.section-title span{font-size:12px;color:#777}
+.achievement{min-height:185px}.achievement.unlocked{border-color:rgba(255,23,68,.35);box-shadow:0 0 35px rgba(255,23,68,.06)}
+.lock{position:absolute;right:20px;top:20px;font-size:20px}.rarity{font-size:10px;letter-spacing:.2em;color:var(--red2);text-transform:uppercase}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:0 0 28px}.stat{border:1px solid var(--line);background:#08090e;border-radius:17px;padding:15px;text-align:center}.stat b{display:block;font-size:25px}.stat span{font-size:10px;color:#777;letter-spacing:.12em;text-transform:uppercase}
+.book{border:1px solid rgba(255,23,68,.18);background:linear-gradient(135deg,#0b0b10,#15070b);border-radius:25px;padding:30px;min-height:330px}.book h2{font-size:30px;margin:8px 0}.book p{color:#a4a4ae;line-height:1.8;max-width:700px}.entry{display:flex;justify-content:space-between;gap:15px;padding:14px 0;border-bottom:1px solid var(--line)}.entry:last-child{border-bottom:0}.entry small{color:#777}.key{display:inline-flex;align-items:center;gap:8px;padding:9px 12px;border-radius:12px;background:#100b0d;border:1px solid rgba(255,23,68,.3);color:#ff9aac}
+.empty{text-align:center;padding:60px;color:#777;border:1px dashed var(--line);border-radius:20px}
+.modal{position:fixed;inset:0;z-index:100;display:none;place-items:center;padding:20px;background:rgba(0,0,0,.78);backdrop-filter:blur(12px)}.modal.show{display:grid}.modalbox{width:min(560px,100%);border:1px solid rgba(255,23,68,.35);border-radius:25px;background:#08090d;padding:27px;box-shadow:0 20px 100px rgba(0,0,0,.7)}.modalbox h2{font-size:32px;margin:7px 0}.timer{font-size:48px;font-variant-numeric:tabular-nums;text-align:center;margin:25px 0}.eventbar{height:9px;background:#16171d;border-radius:10px;overflow:hidden}.eventbar i{display:block;height:100%;width:0;background:var(--red);transition:width .2s}.center{text-align:center}.notice{position:fixed;right:18px;bottom:18px;z-index:150;max-width:340px;padding:15px 17px;background:#0b0c11;border:1px solid rgba(255,23,68,.35);border-radius:15px;opacity:0;transform:translateY(15px);transition:.3s;pointer-events:none}.notice.show{opacity:1;transform:none}
+@media(max-width:650px){.stats{grid-template-columns:repeat(2,1fr)}.top{padding:13px 15px}.wrap{padding-top:35px}.card{padding:18px}}
+</style>
+</head>
+<body>
+<header class="top">
+  <a class="brand" href="story.html">OUR STORY <span>♥</span></a>
+  <a class="back" href="story.html">← Back to Story</a>
+</header>
+
+<main class="wrap">
+<section class="hero">
+  <div class="eyebrow">A living part of our world</div>
+  <h1>EVENTS</h1>
+  <p>Some things happen immediately. Some things must be discovered. Some things are meant to wait.</p>
+</section>
+
+<div class="tabs">
+  <button class="tab active" data-view="events">Events</button>
+  <button class="tab" data-view="achievements">Event Achievements</button>
+  <button class="tab" data-view="encyclopedia">Encyclopedia</button>
+</div>
+
+<section id="events" class="view active">
+  <div class="stats">
+    <div class="stat"><b id="completedCount">0</b><span>Completed</span></div>
+    <div class="stat"><b id="availableCount">0</b><span>Available</span></div>
+    <div class="stat"><b id="achievementCount">0</b><span>Achievements</span></div>
+    <div class="stat"><b id="keyCount">0</b><span>Keys</span></div>
+  </div>
+  <div class="section-title"><h2>Event Archive</h2><span id="eventProgressText">0 / 0</span></div>
+  <div id="eventGrid" class="grid"></div>
+</section>
+
+<section id="achievements" class="view">
+  <div class="section-title"><h2>Event Achievements</h2><span>Separate from the main Story achievements</span></div>
+  <div class="progress"><div id="achievementBar" class="bar"></div></div>
+  <div id="achievementGrid" class="grid"></div>
+</section>
+
+<section id="encyclopedia" class="view">
+  <div class="book">
+    <div class="eyebrow">THE ARCHIVE</div>
+    <h2>Encyclopedia</h2>
+    <p>Every event can leave something behind: a fact, a memory, a fragment, or a clue. Discover enough entries and the archive will give you a key.</p>
+    <div class="meta" style="margin:20px 0"><span class="key">🔑 <span id="keysText">0</span> archive key(s)</span><span class="pill" id="entryProgress">0 / 0 entries</span></div>
+    <div id="encyclopediaList"></div>
+  </div>
+</section>
+</main>
+
+<div class="modal" id="eventModal">
+  <div class="modalbox">
+    <div class="eyebrow" id="modalCode">EVENT</div>
+    <h2 id="modalTitle">Event</h2>
+    <p id="modalDesc"></p>
+    <div class="timer" id="timer">00:00</div>
+    <div class="eventbar"><i id="modalBar"></i></div>
+    <p class="center" id="modalStatus" style="color:#888"></p>
+    <div class="actions" style="justify-content:center">
+      <button class="btn" id="closeModal">Close</button>
+    </div>
+  </div>
+</div>
+<div class="notice" id="notice"></div>
+
+<script>
+/* =========================================================
+   EVENTS SYSTEM
+   This page has its own save state and does not overwrite
+   the main Story achievement system.
+========================================================= */
+
+const STORAGE_KEY = "marina_events_world_v1";
+
+const EVENTS = [
+  {
+    id:"first-light", code:"EVENT 01", icon:"✦", title:"FIRST LIGHT",
+    desc:"The first event. Something in the world is waiting to wake up.",
+    duration:60, unlock:()=>true,
+    reward:"Room Level +1 • Encyclopedia entry",
+    entry:"The Beginning",
+    achievement:"first-event"
+  },
+  {
+    id:"lost-page", code:"EVENT 02", icon:"❖", title:"THE LOST PAGE",
+    desc:"A page has disappeared from the archive. Find what was left behind.",
+    duration:90, unlock:s=>s.completed.includes("first-light"),
+    reward:"Encyclopedia entry • Hidden fragment",
+    entry:"The Lost Page",
+    achievement:"page-finder"
+  },
+  {
+    id:"red-thread", code:"EVENT 03", icon:"⌁", title:"THE RED THREAD",
+    desc:"Follow the thread. It may lead somewhere the archive does not mention.",
+    duration:120, unlock:s=>s.completed.includes("lost-page"),
+    reward:"Red Thread discovery • Encyclopedia entry",
+    entry:"The Red Thread",
+    achievement:"thread-walker"
+  },
+  {
+    id:"night-watch", code:"EVENT 04", icon:"☾", title:"NIGHT WATCH",
+    desc:"Some events only reveal themselves when you are willing to wait.",
+    duration:150, unlock:s=>s.completed.includes("red-thread"),
+    reward:"Night fragment • Encyclopedia entry",
+    entry:"The Night",
+    achievement:"beyond-time"
+  },
+  {
+    id:"hidden-door", code:"EVENT 05", icon:"▣", title:"THE HIDDEN DOOR",
+    desc:"There is a door that was never marked on the map. The archive has a key for it.",
+    duration:120, unlock:s=>s.completed.includes("night-watch") && s.encyclopedia.length>=4,
+    reward:"🔑 ARCHIVE KEY • Secret room unlocked",
+    entry:"The Hidden Door",
+    achievement:"key-holder"
+  },
+  {
+    id:"something-waits", code:"EVENT 06", icon:"⋆", title:"SOMETHING WAITS",
+    desc:"A sealed event. Its real purpose will only become clear after the archive grows.",
+    duration:180, unlock:s=>s.completed.includes("hidden-door") && s.keys>=1,
+    reward:"Secret Encyclopedia entry",
+    entry:"Something That Waited",
+    achievement:"secret-finder"
+  }
+];
+
+const ACHIEVEMENTS = [
+  {id:"first-event",icon:"Ⅰ",title:"FIRST STEP",desc:"Complete your first event.",rarity:"Common",test:s=>s.completed.length>=1},
+  {id:"five-events",icon:"Ⅴ",title:"EVENT HUNTER",desc:"Complete 5 events.",rarity:"Rare",test:s=>s.completed.length>=5},
+  {id:"page-finder",icon:"❖",title:"PAGE FINDER",desc:"Complete The Lost Page.",rarity:"Common",test:s=>s.completed.includes("lost-page")},
+  {id:"thread-walker",icon:"⌁",title:"THREAD WALKER",desc:"Complete The Red Thread.",rarity:"Rare",test:s=>s.completed.includes("red-thread")},
+  {id:"beyond-time",icon:"☾",title:"BEYOND TIME",desc:"Complete Night Watch.",rarity:"Epic",test:s=>s.completed.includes("night-watch")},
+  {id:"secret-finder",icon:"⋆",title:"SECRET FINDER",desc:"Discover the sealed event.",rarity:"Epic",test:s=>s.completed.includes("something-waits")},
+  {id:"key-holder",icon:"🔑",title:"KEY HOLDER",desc:"Obtain an event key.",rarity:"Epic",test:s=>s.keys>=1},
+  {id:"archivist",icon:"▤",title:"ARCHIVIST",desc:"Unlock 5 Encyclopedia entries.",rarity:"Rare",test:s=>s.encyclopedia.length>=5},
+  {id:"completionist",icon:"◆",title:"100%",desc:"Complete every current event.",rarity:"Legendary",test:s=>s.completed.length===EVENTS.length}
+];
+
+let state = loadState();
+let running = null;
+
+function loadState(){
+  try{
+    const raw=localStorage.getItem(STORAGE_KEY);
+    if(raw) return {...defaultState(),...JSON.parse(raw)};
+  }catch(e){}
+  return defaultState();
+}
+function defaultState(){
+  return {completed:[],encyclopedia:[],keys:0,roomLevel:0,achievements:[],progress:{},lastSave:Date.now()};
+}
+function save(){
+  state.lastSave=Date.now();
+  localStorage.setItem(STORAGE_KEY,JSON.stringify(state));
+}
+function esc(s){return s.replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]))}
+function eventStatus(e){
+  if(state.completed.includes(e.id)) return "completed";
+  if(e.unlock(state)) return "available";
+  return "locked";
+}
+function render(){
+  renderEvents(); renderAchievements(); renderEncyclopedia(); updateStats(); save();
+}
+function renderEvents(){
+  const grid=document.getElementById("eventGrid");
+  grid.innerHTML=EVENTS.map(e=>{
+    const st=eventStatus(e), pct=state.progress[e.id]||0;
+    const label=st==="completed"?"COMPLETED":st==="available"?"AVAILABLE":"LOCKED";
+    const condition=st==="locked"?getUnlockText(e):e.reward;
+    return `<article class="card">
+      <div class="icon">${e.icon}</div>
+      <div class="code">${e.code}</div>
+      <h2>${e.title}</h2>
+      <p>${e.desc}</p>
+      <div class="meta">
+        <span class="pill status ${st==='completed'?'done':st}">${label}</span>
+        <span class="pill">Duration: ${formatDuration(e.duration)}</span>
+      </div>
+      <div class="progress"><div class="bar" style="width:${pct}%"></div></div>
+      <p style="font-size:12px">${esc(condition)}</p>
+      <div class="actions">
+        ${st==="available"?`<button class="btn" onclick="startEvent('${e.id}')">${pct>0?'CONTINUE':'START EVENT'}</button>`:''}
+        ${st==="completed"?`<button class="btn secondary" disabled>✓ COMPLETED</button>`:''}
+        ${st==="locked"?`<button class="btn secondary" disabled>🔒 LOCKED</button>`:''}
+      </div>
+    </article>`;
+  }).join("");
+  document.getElementById("eventProgressText").textContent=`${state.completed.length} / ${EVENTS.length}`;
+}
+function getUnlockText(e){
+  const map={
+    "lost-page":"Unlock: complete FIRST LIGHT.",
+    "red-thread":"Unlock: complete THE LOST PAGE.",
+    "night-watch":"Unlock: complete THE RED THREAD.",
+    "hidden-door":"Unlock: complete NIGHT WATCH and discover 4 Encyclopedia entries.",
+    "something-waits":"Unlock: complete THE HIDDEN DOOR and obtain an Archive Key."
+  };
+  return map[e.id]||"Unlock condition hidden.";
+}
+function renderAchievements(){
+  const grid=document.getElementById("achievementGrid");
+  grid.innerHTML=ACHIEVEMENTS.map(a=>{
+    const ok=a.test(state);
+    return `<article class="card achievement ${ok?'unlocked':''}">
+      <span class="lock">${ok?'✓':'🔒'}</span>
+      <div class="icon">${a.icon}</div>
+      <div class="rarity">${a.rarity}</div>
+      <h2>${a.title}</h2>
+      <p>${a.desc}</p>
+      <div class="pill">${ok?'UNLOCKED':'LOCKED'}</div>
+    </article>`;
+  }).join("");
+  const n=ACHIEVEMENTS.filter(a=>a.test(state)).length;
+  document.getElementById("achievementBar").style.width=(n/ACHIEVEMENTS.length*100)+"%";
+}
+function renderEncyclopedia(){
+  const list=document.getElementById("encyclopediaList");
+  const all=[...new Set(EVENTS.map(e=>e.entry))];
+  document.getElementById("entryProgress").textContent=`${state.encyclopedia.length} / ${all.length} entries`;
+  document.getElementById("keysText").textContent=state.keys;
+  list.innerHTML=all.map((x,i)=>{
+    const open=state.encyclopedia.includes(x);
+    return `<div class="entry"><div><b>${open?esc(x):"UNKNOWN ENTRY"}</b><br><small>${open?"Discovered in the event archive.":"This knowledge has not been discovered yet."}</small></div><span>${open?"✓":"???"}</span></div>`;
+  }).join("");
+}
+function updateStats(){
+  const available=EVENTS.filter(e=>eventStatus(e)==="available").length;
+  const ach=ACHIEVEMENTS.filter(a=>a.test(state)).length;
+  document.getElementById("completedCount").textContent=state.completed.length;
+  document.getElementById("availableCount").textContent=available;
+  document.getElementById("achievementCount").textContent=ach;
+  document.getElementById("keyCount").textContent=state.keys;
+}
+function formatDuration(sec){
+  const m=Math.floor(sec/60),s=sec%60;
+  return `${String(m).padStart(2,"0")}:${String(s).padStart(2,"0")}`;
+}
+function startEvent(id){
+  const e=EVENTS.find(x=>x.id===id);
+  if(!e || eventStatus(e)!=="available") return;
+  let elapsed=state.progress[id] ? Math.floor(e.duration*state.progress[id]/100) : 0;
+  running={e,elapsed};
+  document.getElementById("modalCode").textContent=e.code;
+  document.getElementById("modalTitle").textContent=e.title;
+  document.getElementById("modalDesc").textContent=e.desc;
+  document.getElementById("eventModal").classList.add("show");
+  tick();
+}
+function tick(){
+  if(!running)return;
+  const {e}=running;
+  document.getElementById("timer").textContent=formatDuration(Math.max(0,e.duration-running.elapsed));
+  const pct=Math.min(100,running.elapsed/e.duration*100);
+  document.getElementById("modalBar").style.width=pct+"%";
+  document.getElementById("modalStatus").textContent=pct>=100?"EVENT COMPLETE":"EVENT IN PROGRESS";
+  state.progress[e.id]=Math.floor(pct); save();
+  if(running.elapsed>=e.duration){finishEvent(e.id);return;}
+  running.elapsed++;
+  renderEvents();
+  setTimeout(tick,1000);
+}
+function finishEvent(id){
+  const e=EVENTS.find(x=>x.id===id);
+  if(!state.completed.includes(id)) state.completed.push(id);
+  delete state.progress[id];
+  if(e.entry && !state.encyclopedia.includes(e.entry)) state.encyclopedia.push(e.entry);
+  state.roomLevel++;
+  if(id==="hidden-door" && state.keys<1){state.keys++; showNotice("🔑 ARCHIVE KEY obtained.");}
+  if(id==="something-waits") showNotice("⋆ Secret event completed.");
+  save(); render();
+  document.getElementById("modalStatus").textContent="EVENT COMPLETE • WORLD UPDATED";
+  document.getElementById("timer").textContent="00:00";
+  document.getElementById("modalBar").style.width="100%";
+  running=null;
+  setTimeout(()=>document.getElementById("eventModal").classList.remove("show"),1400);
+  showNotice("EVENT COMPLETE — new discoveries added.");
+}
+function showNotice(text){
+  const n=document.getElementById("notice");n.textContent=text;n.classList.add("show");
+  clearTimeout(showNotice.t);showNotice.t=setTimeout(()=>n.classList.remove("show"),3000);
+}
+
+document.querySelectorAll(".tab").forEach(btn=>btn.addEventListener("click",()=>{
+  document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));
+  document.querySelectorAll(".view").forEach(x=>x.classList.remove("active"));
+  btn.classList.add("active");document.getElementById(btn.dataset.view).classList.add("active");
+}));
+document.getElementById("closeModal").onclick=()=>{running=null;document.getElementById("eventModal").classList.remove("show");render()};
+document.getElementById("eventModal").addEventListener("click",e=>{if(e.target.id==="eventModal"){running=null;e.currentTarget.classList.remove("show");render()}});
+
+render();
+</script>
+</body>
+</html>
