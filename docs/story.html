@@ -2092,6 +2092,8 @@ body::after{content:"";position:fixed;inset:0;z-index:40;pointer-events:none;opa
 @media(max-width:700px){.v10-garden{padding:55px 14px 70px;border-radius:24px}.v10-flowers{gap:8px}.v10-flower{transform:scale(.9)}.v10-discovery{right:10px;bottom:10px}.v10-memory-card{padding:32px 24px}.v10-memory-card h3{font-size:25px}}
 @media(prefers-reduced-motion:reduce){.hero-content,.hero-heart,.v10-star{animation:none!important}.moon{transition:none}}
 
+
+.events-nav-link{color:#fff;text-decoration:none;position:relative;transition:.25s}.events-nav-link:hover{color:#ff6b78;text-shadow:0 0 14px rgba(255,55,75,.65)}
 </style>
 
 <style id="v13-book-redesign">
@@ -2253,7 +2255,7 @@ filter:blur(1px);opacity:.55;pointer-events:none;transition:opacity 1.4s,transfo
         <a href="#journey" data-i18n="navJourney">Journey</a>
         <a href="#lantern">Lantern</a>
         <a href="#end" data-i18n="navEnd">End</a>
-        <a href="events.html" class="events-nav-link">Events ✦</a>
+        <a href="events.html" class="events-nav-link">Events ✦</a><a href="events.html#achievements" class="events-nav-link">Event Achievements ✦</a>
         <div class="lang-switch-v4" role="group" aria-label="Language">
             <button type="button" class="lang-btn-v4 active" data-lang="en">EN</button>
             <button type="button" class="lang-btn-v4" data-lang="ru">RU</button>
@@ -6636,7 +6638,24 @@ html[data-lang="ru"] .today-message-quote-v4{white-space:normal}
       </div>
     </div>
 
-    <div class="v20-ach-panel">
+    
+<style id="event-achievements-bridge-css">
+.event-achievements-bridge{margin-top:28px;padding:26px;border-radius:20px;border:1px solid rgba(220,55,80,.18);background:linear-gradient(145deg,rgba(120,15,35,.07),rgba(255,255,255,.015));}
+.event-achievements-bridge .bridge-head{display:flex;align-items:end;justify-content:space-between;gap:15px;flex-wrap:wrap;margin-bottom:15px}
+.event-achievements-bridge .bridge-kicker{font:700 9px system-ui,sans-serif;letter-spacing:.25em;text-transform:uppercase;color:#e66b7e}
+.event-achievements-bridge .bridge-head h3{margin:7px 0 0;font-size:1.35rem}
+.event-achievements-bridge .bridge-count{font:600 10px system-ui,sans-serif;letter-spacing:.15em;text-transform:uppercase;color:#999}
+.event-achievement-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.event-achievement{min-height:118px;padding:15px;border-radius:13px;border:1px solid rgba(255,255,255,.06);background:rgba(0,0,0,.18);opacity:.34;transition:.35s}
+.event-achievement.unlocked{opacity:1;border-color:rgba(220,55,80,.34);box-shadow:0 0 25px rgba(170,20,50,.09)}
+.event-achievement b{display:block;font-size:11px;line-height:1.35}.event-achievement span{display:block;margin-top:7px;font-size:10px;line-height:1.5;color:#aaa}
+.event-achievement .ea-status{display:inline-block;margin-top:10px;font:700 8px system-ui,sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#777}
+.event-achievement.unlocked .ea-status{color:#f0788e}
+@media(max-width:800px){.event-achievement-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:480px){.event-achievement-grid{grid-template-columns:1fr}}
+</style>
+
+<div class="v20-ach-panel">
       <div class="v20-ach-head"><div><div class="eyebrow">THE WORLD REMEMBERS</div><h3>🏆 Achievements</h3></div><div class="v20-ach-count" id="v20AchCount">0 / 20</div></div>
       <div class="v20-ach-progress"><i id="v20AchBar"></i></div>
       <div class="v20-ach-grid" id="v20AchGrid"></div>
@@ -6645,6 +6664,30 @@ html[data-lang="ru"] .today-message-quote-v4{white-space:normal}
   </div>
 </section>
 <div class="v20-toast2" id="v20Toast"><strong>ACHIEVEMENT UNLOCKED</strong><span></span></div>
+
+<script id="event-achievements-bridge-js">
+// Living World Event Achievements — shared with events.html / Scarlet Banner.
+(function(){
+  var defs=[
+    ['🩸','WELCOME TO THE SCARLET BANNER','Enter the living red world.','welcome'],
+    ['👁','EYES SEE EVERYTHING','Complete the first three Scarlet Banner events.','eyes'],
+    ['✦','YOU FOUND WHAT I HID','Reach the end of the Scarlet Banner.','final'],
+    ['🩸','SCARLET BANNER — COMPLETE','Cross the red world and recover the story behind it.','complete']
+  ];
+  function unlocked(id){
+    try{var a=JSON.parse(localStorage.getItem('scarlet_achievements_v1')||'[]');if(id==='complete')return localStorage.getItem('scarlet_banner_completed_v1')==='true'||a.includes('final');return a.includes(id)}catch(e){return false}
+  }
+  function renderEventAchievements(){
+    var g=document.getElementById('eventAchBridgeGrid');if(!g)return;
+    var n=defs.filter(function(d){return unlocked(d[3])}).length;
+    g.innerHTML=defs.map(function(d){var ok=unlocked(d[3]);return '<div class="event-achievement '+(ok?'unlocked':'')+'"><b>'+d[0]+' '+d[1]+'</b><span>'+d[2]+'</span><i class="ea-status">'+(ok?'UNLOCKED':'LOCKED')+'</i></div>'}).join('');
+    document.getElementById('eventAchBridgeCount').textContent=n+' / '+defs.length;
+  }
+  renderEventAchievements();
+  window.addEventListener('storage',renderEventAchievements);
+  setInterval(renderEventAchievements,1500);
+})();
+</script>
 
 <script id="v20-engine">
 (function(){
