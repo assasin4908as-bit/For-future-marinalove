@@ -1,338 +1,68 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Events — Our Story ❤️</title>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Events — The Living World</title>
 <style>
-*{box-sizing:border-box}
-:root{--red:#ff1744;--red2:#ff4d6d;--white:#f5f5f7;--muted:#8d8d98;--bg:#030407;--panel:rgba(12,13,19,.88);--line:rgba(255,255,255,.09)}
-html,body{margin:0;min-height:100%;background:radial-gradient(circle at 50% 0,#18050a 0,#06070b 38%,#020307 80%);color:var(--white);font-family:Inter,system-ui,-apple-system,Segoe UI,sans-serif}
-body{overflow-x:hidden}
-body:before{content:"";position:fixed;inset:0;pointer-events:none;background-image:radial-gradient(#fff 1px,transparent 1px);background-size:80px 80px;opacity:.08;animation:stars 18s linear infinite}
-@keyframes stars{to{transform:translateY(80px)}}
-a{text-decoration:none;color:inherit}
-button{font:inherit}
-.top{position:sticky;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between;padding:15px 22px;border-bottom:1px solid var(--line);background:rgba(3,4,7,.82);backdrop-filter:blur(18px)}
-.brand{font-weight:800;letter-spacing:.08em;text-transform:uppercase;font-size:13px}.brand span{color:var(--red)}
-.back{border:1px solid var(--line);padding:9px 13px;border-radius:999px;color:#ddd;background:#090a0f}
-.wrap{width:min(1120px,92%);margin:auto;padding:55px 0 100px}
-.hero{text-align:center;padding:30px 0 40px}.eyebrow{font-size:11px;letter-spacing:.35em;color:var(--red2);text-transform:uppercase}
-h1{font-size:clamp(42px,8vw,82px);margin:12px 0 8px;line-height:.95;letter-spacing:-.05em}
-.hero p{max-width:650px;margin:18px auto;color:#aaaab4;line-height:1.7}
-.tabs{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:10px 0 35px}
-.tab{cursor:pointer;border:1px solid var(--line);background:#090a0f;color:#aaa;padding:11px 17px;border-radius:999px;transition:.25s}
-.tab.active,.tab:hover{border-color:rgba(255,23,68,.55);color:white;background:rgba(255,23,68,.1);box-shadow:0 0 25px rgba(255,23,68,.1)}
-.view{display:none}.view.active{display:block}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(275px,1fr));gap:16px}
-.card{position:relative;border:1px solid var(--line);background:linear-gradient(145deg,rgba(16,17,24,.92),rgba(6,7,11,.95));border-radius:22px;padding:22px;overflow:hidden;transition:.3s}
-.card:hover{transform:translateY(-3px);border-color:rgba(255,23,68,.3)}
-.card:after{content:"";position:absolute;width:130px;height:130px;border-radius:50%;right:-70px;top:-70px;background:rgba(255,23,68,.08);filter:blur(15px)}
-.icon{font-size:27px}.code{font-size:10px;letter-spacing:.2em;color:var(--red2);font-weight:800}
-.card h2{font-size:21px;margin:10px 0 7px}.card p{color:#9898a3;line-height:1.6;font-size:14px;margin:0 0 17px}
-.meta{display:flex;gap:8px;flex-wrap:wrap}.pill{font-size:11px;border:1px solid var(--line);border-radius:999px;padding:6px 9px;color:#bbb}
-.status{font-weight:800}.available{color:#79e6a1}.locked{color:#777}.done{color:#ff758d}
-.progress{height:5px;background:#15161d;border-radius:10px;overflow:hidden;margin:12px 0}.bar{height:100%;width:0;background:linear-gradient(90deg,var(--red),#ff879c);transition:width .25s}
-.actions{display:flex;gap:9px;flex-wrap:wrap}
-.btn{border:1px solid rgba(255,23,68,.35);background:rgba(255,23,68,.09);color:white;border-radius:12px;padding:10px 13px;cursor:pointer;transition:.2s}.btn:hover{background:rgba(255,23,68,.18);transform:translateY(-1px)}.btn.secondary{border-color:var(--line);background:#0b0c11;color:#bbb}.btn:disabled{opacity:.4;cursor:not-allowed;transform:none}
-.section-title{display:flex;align-items:end;justify-content:space-between;gap:15px;margin:0 0 18px}.section-title h2{margin:0;font-size:28px}.section-title span{font-size:12px;color:#777}
-.achievement{min-height:185px}.achievement.unlocked{border-color:rgba(255,23,68,.35);box-shadow:0 0 35px rgba(255,23,68,.06)}
-.lock{position:absolute;right:20px;top:20px;font-size:20px}.rarity{font-size:10px;letter-spacing:.2em;color:var(--red2);text-transform:uppercase}
-.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:0 0 28px}.stat{border:1px solid var(--line);background:#08090e;border-radius:17px;padding:15px;text-align:center}.stat b{display:block;font-size:25px}.stat span{font-size:10px;color:#777;letter-spacing:.12em;text-transform:uppercase}
-.book{border:1px solid rgba(255,23,68,.18);background:linear-gradient(135deg,#0b0b10,#15070b);border-radius:25px;padding:30px;min-height:330px}.book h2{font-size:30px;margin:8px 0}.book p{color:#a4a4ae;line-height:1.8;max-width:700px}.entry{display:flex;justify-content:space-between;gap:15px;padding:14px 0;border-bottom:1px solid var(--line)}.entry:last-child{border-bottom:0}.entry small{color:#777}.key{display:inline-flex;align-items:center;gap:8px;padding:9px 12px;border-radius:12px;background:#100b0d;border:1px solid rgba(255,23,68,.3);color:#ff9aac}
-.empty{text-align:center;padding:60px;color:#777;border:1px dashed var(--line);border-radius:20px}
-.modal{position:fixed;inset:0;z-index:100;display:none;place-items:center;padding:20px;background:rgba(0,0,0,.78);backdrop-filter:blur(12px)}.modal.show{display:grid}.modalbox{width:min(560px,100%);border:1px solid rgba(255,23,68,.35);border-radius:25px;background:#08090d;padding:27px;box-shadow:0 20px 100px rgba(0,0,0,.7)}.modalbox h2{font-size:32px;margin:7px 0}.timer{font-size:48px;font-variant-numeric:tabular-nums;text-align:center;margin:25px 0}.eventbar{height:9px;background:#16171d;border-radius:10px;overflow:hidden}.eventbar i{display:block;height:100%;width:0;background:var(--red);transition:width .2s}.center{text-align:center}.notice{position:fixed;right:18px;bottom:18px;z-index:150;max-width:340px;padding:15px 17px;background:#0b0c11;border:1px solid rgba(255,23,68,.35);border-radius:15px;opacity:0;transform:translateY(15px);transition:.3s;pointer-events:none}.notice.show{opacity:1;transform:none}
-@media(max-width:650px){.stats{grid-template-columns:repeat(2,1fr)}.top{padding:13px 15px}.wrap{padding-top:35px}.card{padding:18px}}
+*{box-sizing:border-box}html{scroll-behavior:smooth}:root{--red:#e51b3e;--red2:#ff5572;--ink:#030407;--panel:rgba(9,10,15,.82);--line:rgba(255,255,255,.09);--text:#f4f4f6;--muted:#92939e;--green:#78e6a2}body{margin:0;background:#030407;color:var(--text);font-family:Inter,system-ui,-apple-system,Segoe UI,sans-serif;overflow-x:hidden}body:before{content:"";position:fixed;inset:0;z-index:-5;background:radial-gradient(circle at 50% 0,#1a070c 0,transparent 42%),radial-gradient(circle at 15% 70%,rgba(60,20,40,.12),transparent 30%),#030407}body:after{content:"";position:fixed;inset:0;z-index:-4;opacity:.13;background-image:radial-gradient(#fff 1px,transparent 1px);background-size:92px 92px;animation:stars 24s linear infinite}@keyframes stars{to{transform:translateY(92px)}}a{color:inherit;text-decoration:none}button{font:inherit}.top{position:sticky;top:0;z-index:40;display:flex;align-items:center;justify-content:space-between;padding:14px 22px;border-bottom:1px solid var(--line);background:rgba(3,4,7,.78);backdrop-filter:blur(18px)}.brand{font-size:12px;font-weight:900;letter-spacing:.16em;text-transform:uppercase}.brand span{color:var(--red2)}.back{border:1px solid var(--line);background:#08090e;border-radius:999px;padding:9px 14px;color:#ddd;font-size:12px}.back:hover{border-color:rgba(255,23,68,.5);color:#fff}.wrap{width:min(1140px,92%);margin:auto;padding:42px 0 110px}.hero{text-align:center;padding:15px 0 34px}.eyebrow{font-size:10px;letter-spacing:.34em;text-transform:uppercase;color:var(--red2)}.hero h1{font-size:clamp(48px,8vw,88px);letter-spacing:-.055em;line-height:.9;margin:13px 0 13px}.hero p{max-width:700px;margin:auto;color:var(--muted);line-height:1.75}.tabs{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:8px 0 34px}.tab{cursor:pointer;border:1px solid var(--line);background:#08090d;color:#aaa;border-radius:999px;padding:11px 17px;transition:.25s}.tab.active,.tab:hover{color:#fff;border-color:rgba(255,23,68,.48);background:rgba(229,27,62,.09);box-shadow:0 0 30px rgba(229,27,62,.08)}.view{display:none}.view.active{display:block}.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:26px}.stat{border:1px solid var(--line);background:rgba(8,9,14,.72);border-radius:17px;padding:15px;text-align:center}.stat b{display:block;font-size:25px}.stat span{font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:#777}.section-title{display:flex;align-items:end;justify-content:space-between;gap:15px;margin:0 0 16px}.section-title h2{margin:0;font-size:27px}.section-title span{font-size:11px;color:#777}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(275px,1fr));gap:16px}.card{position:relative;overflow:hidden;border:1px solid var(--line);background:linear-gradient(145deg,rgba(15,16,23,.92),rgba(5,6,10,.96));border-radius:22px;padding:22px;transition:.3s}.card:hover{transform:translateY(-3px);border-color:rgba(255,23,68,.32)}.card:after{content:"";position:absolute;right:-70px;top:-70px;width:150px;height:150px;border-radius:50%;background:rgba(229,27,62,.07);filter:blur(18px)}.icon{font-size:28px}.code{font-size:10px;letter-spacing:.2em;color:var(--red2);font-weight:800;margin-top:8px}.card h2{font-size:21px;margin:9px 0 7px}.card p{font-size:14px;color:#9a9ba6;line-height:1.65;margin:0 0 15px}.meta{display:flex;gap:8px;flex-wrap:wrap}.pill{font-size:10px;border:1px solid var(--line);border-radius:999px;padding:6px 9px;color:#aaa}.status{font-weight:800}.available{color:var(--green)}.locked{color:#777}.done{color:#ff758d}.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:15px}.btn{cursor:pointer;border:1px solid rgba(255,23,68,.38);background:rgba(229,27,62,.08);color:#fff;border-radius:12px;padding:10px 13px;transition:.2s}.btn:hover{transform:translateY(-1px);background:rgba(229,27,62,.17)}.btn.secondary{border-color:var(--line);background:#090a0f;color:#bbb}.btn:disabled{opacity:.45;cursor:not-allowed}.progress{height:5px;background:#15161d;border-radius:99px;overflow:hidden;margin:13px 0}.bar{height:100%;width:0;background:linear-gradient(90deg,var(--red),var(--red2));transition:width .4s}.book{border:1px solid rgba(255,23,68,.2);background:linear-gradient(135deg,#090a0e,#16070c);border-radius:25px;padding:30px;min-height:350px}.book h2{font-size:31px;margin:8px 0}.book>p{max-width:740px;color:#a5a6b0;line-height:1.8}.entry{position:relative;padding:18px 0;border-bottom:1px solid var(--line);cursor:pointer}.entry:last-child{border-bottom:0}.entry b{font-size:14px;letter-spacing:.04em}.entry small{display:block;color:#777;margin-top:5px;line-height:1.5}.entry .mark{position:absolute;right:0;top:18px;color:#777}.entry.open{padding-left:14px;border-left:2px solid var(--red)}.entry.open b{color:#ff8ca0}.entry.open small{color:#aaa}.achievement{min-height:188px}.achievement.unlocked{border-color:rgba(255,23,68,.34);box-shadow:0 0 35px rgba(229,27,62,.06)}.lock{position:absolute;right:19px;top:18px;font-size:18px}.rarity{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--red2)}.portal-wrap{display:none;margin:44px 0 20px}.portal-wrap.show{display:block}.portal{position:relative;min-height:270px;border:1px solid rgba(229,27,62,.35);border-radius:28px;overflow:hidden;display:grid;place-items:center;background:radial-gradient(circle at 50% 48%,rgba(229,27,62,.18),transparent 32%),radial-gradient(circle at 50% 50%,rgba(0,0,0,.2),#050609 65%);box-shadow:inset 0 0 100px rgba(229,27,62,.05),0 0 70px rgba(229,27,62,.06)}.portal:before{content:"";position:absolute;width:170px;height:240px;border-radius:50%;border:1px solid rgba(255,60,90,.4);box-shadow:0 0 35px rgba(229,27,62,.18),inset 0 0 35px rgba(229,27,62,.1);transform:perspective(500px) rotateX(8deg);animation:pulse 2.8s ease-in-out infinite}.portal:after{content:"";position:absolute;width:3px;height:85%;background:linear-gradient(transparent,var(--red),transparent);box-shadow:0 0 22px rgba(255,40,70,.9);transform:rotate(1deg);animation:portalline 2s ease-in-out infinite}.portal-content{position:relative;z-index:2;text-align:center}.portal-content .sig{font-size:34px;color:#ff6a83;text-shadow:0 0 22px rgba(255,23,68,.8)}.portal-content h2{margin:8px 0;font-size:32px;letter-spacing:.08em}.portal-content p{color:#777;font-size:12px}.portal-content .btn{margin-top:8px}@keyframes pulse{50%{transform:perspective(500px) rotateX(8deg) scale(1.08);opacity:.7}}@keyframes portalline{50%{opacity:.45;height:94%}}.red-world{display:none;position:relative;min-height:70vh}.red-world.active{display:block}.red-world:before{content:"";position:fixed;inset:0;z-index:-3;background:radial-gradient(circle at 50% 35%,rgba(110,0,20,.22),transparent 35%),radial-gradient(circle at 80% 80%,rgba(255,0,40,.07),transparent 30%),#020204}.red-world:after{content:"";position:fixed;inset:0;z-index:-2;opacity:.09;background-image:linear-gradient(rgba(255,30,60,.15) 1px,transparent 1px),linear-gradient(90deg,rgba(255,30,60,.1) 1px,transparent 1px);background-size:70px 70px}.red-nav{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0 30px}.red-nav button{cursor:pointer;border:1px solid rgba(255,40,70,.16);background:#07070b;color:#777;border-radius:10px;padding:9px 11px;font-size:10px;letter-spacing:.12em;text-transform:uppercase}.red-nav button.active,.red-nav button:hover{color:#fff;border-color:rgba(255,40,70,.5);background:rgba(130,0,25,.18)}.red-view{display:none}.red-view.active{display:block}.red-hero{padding:20px 0 30px}.red-hero .eyebrow{color:#ff4e6e}.red-hero h1{font-size:clamp(42px,7vw,76px);margin:10px 0}.red-hero p{max-width:680px;color:#8e8e98;line-height:1.8}.subject{display:grid;grid-template-columns:250px 1fr;gap:22px}.silhouette{min-height:320px;border:1px solid rgba(255,40,70,.25);border-radius:25px;background:radial-gradient(ellipse at 50% 42%,rgba(255,23,68,.14),transparent 30%),#050509;display:grid;place-items:center;position:relative;overflow:hidden}.silhouette:before{content:"";width:110px;height:210px;border-radius:48% 48% 42% 42%;background:linear-gradient(#09090c,#010102);box-shadow:0 0 30px rgba(255,23,68,.14)}.silhouette:after{content:"";position:absolute;width:2px;height:90%;background:rgba(255,23,68,.3);transform:rotate(5deg);box-shadow:0 0 16px rgba(255,23,68,.5)}.subject-info{border:1px solid var(--line);border-radius:25px;padding:25px;background:rgba(7,8,12,.75)}.subject-info h2{margin:0 0 18px}.facts{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.fact{border:1px solid var(--line);border-radius:13px;padding:12px}.fact span{display:block;font-size:9px;letter-spacing:.15em;color:#666;text-transform:uppercase}.fact b{display:block;margin-top:4px}.memory{border-left:2px solid var(--red);padding:18px 20px;background:rgba(100,0,20,.06);margin:13px 0;border-radius:0 15px 15px 0}.memory p{margin:0;color:#c9c9ce;line-height:1.9}.memory .red{color:#ff6b83}.fragment-actions{margin-top:15px}.sealed{color:#555;font-size:11px;letter-spacing:.12em;text-transform:uppercase}.transition{position:fixed;inset:0;z-index:200;pointer-events:none;display:none;background:#000}.transition.show{display:block;animation:fadein .35s forwards}.transition .oldworld{position:absolute;inset:0;background:radial-gradient(circle at 50% 25%,#18070b,#030407 60%)}.transition .cut{position:absolute;left:-10%;top:50%;width:120%;height:3px;background:linear-gradient(90deg,transparent,#ff1d45,#fff,#ff1d45,transparent);box-shadow:0 0 20px #ff1d45,0 0 60px rgba(255,29,69,.65);transform:rotate(-1.2deg) scaleX(0);animation:cut 1.15s .55s forwards}.transition .remember{position:absolute;inset:0;display:grid;place-items:center;opacity:0;animation:remember 1.4s 1.25s forwards}.remember-inner{text-align:center}.remember-small{font-size:11px;letter-spacing:.35em;color:#e94a67}.remember-title{font-size:clamp(44px,9vw,100px);font-weight:900;letter-spacing:-.06em;margin:13px 0;color:#f3f3f5;text-shadow:0 0 30px rgba(255,23,68,.35)}.remember-sub{color:#ff6c84;letter-spacing:.18em;text-transform:uppercase;font-size:11px}.transition.done{animation:fadeout .7s 3.7s forwards}@keyframes cut{to{transform:rotate(-1.2deg) scaleX(1)}}@keyframes remember{0%{opacity:0;transform:scale(.96)}25%,80%{opacity:1;transform:none}100%{opacity:0}}@keyframes fadein{to{opacity:1}}@keyframes fadeout{to{opacity:0}}.toast{position:fixed;right:18px;bottom:18px;z-index:180;max-width:340px;padding:15px 17px;background:#090a0f;border:1px solid rgba(255,23,68,.38);border-radius:15px;opacity:0;transform:translateY(12px);transition:.3s;pointer-events:none}.toast.show{opacity:1;transform:none}.mini{font-size:11px;color:#777}.hidden{display:none!important}@media(max-width:700px){.stats{grid-template-columns:repeat(2,1fr)}.subject{grid-template-columns:1fr}.silhouette{min-height:230px}.facts{grid-template-columns:1fr}.top{padding:12px 14px}.wrap{padding-top:30px}}
 </style>
 </head>
 <body>
-<header class="top">
-  <a class="brand" href="story.html">OUR STORY <span>♥</span></a>
-  <a class="back" href="story.html">← Back to Story</a>
-</header>
-
-<main class="wrap">
-<section class="hero">
-  <div class="eyebrow">A living part of our world</div>
-  <h1>EVENTS</h1>
-  <p>Some things happen immediately. Some things must be discovered. Some things are meant to wait.</p>
-</section>
-
-<div class="tabs">
-  <button class="tab active" data-view="events">Events</button>
-  <button class="tab" data-view="achievements">Event Achievements</button>
-  <button class="tab" data-view="encyclopedia">Encyclopedia</button>
-</div>
-
+<header class="top"><a class="brand" href="story.html">OUR STORY <span>♥</span></a><a class="back" href="story.html">← Back to Story</a></header>
+<main class="wrap" id="normalWorld">
+<section class="hero"><div class="eyebrow">A living part of the world</div><h1>EVENTS</h1><p>Some things happen immediately. Some things must be discovered. Some things are meant to wait.</p></section>
+<div class="tabs"><button class="tab active" data-view="events">Events</button><button class="tab" data-view="achievements">Event Achievements</button><button class="tab" data-view="encyclopedia">Encyclopedia</button></div>
 <section id="events" class="view active">
-  <div class="stats">
-    <div class="stat"><b id="completedCount">0</b><span>Completed</span></div>
-    <div class="stat"><b id="availableCount">0</b><span>Available</span></div>
-    <div class="stat"><b id="achievementCount">0</b><span>Achievements</span></div>
-    <div class="stat"><b id="keyCount">0</b><span>Keys</span></div>
-  </div>
-  <div class="section-title"><h2>Event Archive</h2><span id="eventProgressText">0 / 0</span></div>
-  <div id="eventGrid" class="grid"></div>
+<div class="stats"><div class="stat"><b id="completedCount">0</b><span>Completed</span></div><div class="stat"><b id="availableCount">0</b><span>Available</span></div><div class="stat"><b id="achievementCount">0</b><span>Achievements</span></div><div class="stat"><b id="keyCount">0</b><span>Keys</span></div></div>
+<div class="section-title"><h2>Event Archive</h2><span id="eventProgressText">0 / 6</span></div><div id="eventGrid" class="grid"></div>
+<div id="portalWrap" class="portal-wrap"><div class="section-title"><h2>Something has changed.</h2><span>WORLD GATE</span></div><div class="portal"><div class="portal-content"><div class="sig">◈</div><h2>THE RED GATE</h2><p>The world has opened a place that was not there before.</p><button class="btn" onclick="enterRed()">ENTER THE RED</button></div></div></div>
 </section>
-
-<section id="achievements" class="view">
-  <div class="section-title"><h2>Event Achievements</h2><span>Separate from the main Story achievements</span></div>
-  <div class="progress"><div id="achievementBar" class="bar"></div></div>
-  <div id="achievementGrid" class="grid"></div>
-</section>
-
-<section id="encyclopedia" class="view">
-  <div class="book">
-    <div class="eyebrow">THE ARCHIVE</div>
-    <h2>Encyclopedia</h2>
-    <p>Every event can leave something behind: a fact, a memory, a fragment, or a clue. Discover enough entries and the archive will give you a key.</p>
-    <div class="meta" style="margin:20px 0"><span class="key">🔑 <span id="keysText">0</span> archive key(s)</span><span class="pill" id="entryProgress">0 / 0 entries</span></div>
-    <div id="encyclopediaList"></div>
-  </div>
-</section>
+<section id="achievements" class="view"><div class="section-title"><h2>Event Achievements</h2><span id="achievementProgress">0 / 9</span></div><div class="progress"><div id="achievementBar" class="bar"></div></div><div id="achievementGrid" class="grid"></div></section>
+<section id="encyclopedia" class="view"><div class="book"><div class="eyebrow">THE ARCHIVE</div><h2>Encyclopedia</h2><p>The archive grows when the world gives you something worth remembering. Old entries remain. New pages appear as you discover them.</p><div class="meta" style="margin:20px 0"><span class="pill">🔑 <span id="keysText">0</span> key(s)</span><span class="pill" id="entryProgress">0 / 6 entries</span></div><div id="encyclopediaList"></div></div></section>
 </main>
-
-<div class="modal" id="eventModal">
-  <div class="modalbox">
-    <div class="eyebrow" id="modalCode">EVENT</div>
-    <h2 id="modalTitle">Event</h2>
-    <p id="modalDesc"></p>
-    <div class="timer" id="timer">00:00</div>
-    <div class="eventbar"><i id="modalBar"></i></div>
-    <p class="center" id="modalStatus" style="color:#888"></p>
-    <div class="actions" style="justify-content:center">
-      <button class="btn" id="closeModal">Close</button>
-    </div>
-  </div>
-</div>
-<div class="notice" id="notice"></div>
-
+<section class="red-world" id="redWorld"><div class="wrap"><div class="red-hero"><div class="eyebrow">PHASE II · RED WORLD</div><h1>АЛОЕ ЗНАМЯ</h1><p>You crossed the line. The world is still the same place — but something inside it is no longer hidden.</p></div><div class="red-nav"><button class="active" data-red="redEvents">Red Events</button><button data-red="redArchive">Red Archive</button><button data-red="subject">Subject</button><button data-red="redUnknown">???</button></div>
+<section id="redEvents" class="red-view active"><div class="section-title"><h2>RED EVENTS</h2><span id="redProgress">0 / 6</span></div><div id="redEventGrid" class="grid"></div></section>
+<section id="redArchive" class="red-view"><div class="book"><div class="eyebrow">RED ARCHIVE</div><h2>Recovered Pages</h2><p>Fragments appear here as the Red Events are completed. At first they are only pieces. Later they begin to speak to each other.</p><div id="memoryList"></div></div></section>
+<section id="subject" class="red-view"><div class="section-title"><h2>SUBJECT DETECTED</h2><span>PROFILE RECOVERY</span></div><div class="subject"><div class="silhouette"></div><div class="subject-info"><h2 id="subjectName">UNKNOWN</h2><div class="facts"><div class="fact"><span>Name</span><b id="factName">UNKNOWN</b></div><div class="fact"><span>Origin</span><b id="factOrigin">UNKNOWN</b></div><div class="fact"><span>Status</span><b>ALIVE</b></div><div class="fact"><span>Recovery</span><b id="factRecovery">0%</b></div></div><div id="subjectText" style="margin-top:22px;color:#8f9099;line-height:1.8">No reliable information has been recovered yet.</div></div></div></section>
+<section id="redUnknown" class="red-view"><div class="book" style="text-align:center;min-height:420px;display:grid;place-items:center"><div><div style="font-size:52px;color:#ff4768">???</div><h2>ACCESS DENIED</h2><p>Something is waiting beyond the archive. The condition is not recorded.</p><div class="sealed">SECRET CONDITION REQUIRED</div></div></div></section>
+</div></section>
+<div class="transition" id="transition"><div class="oldworld"></div><div class="cut"></div><div class="remember"><div class="remember-inner"><div class="remember-small">THE WORLD REMEMBERS</div><div class="remember-title">🩸 АЛОЕ ЗНАМЯ</div><div class="remember-sub">You opened something that was never meant to be opened.</div></div></div></div><div class="toast" id="toast"></div>
 <script>
-/* =========================================================
-   EVENTS SYSTEM
-   This page has its own save state and does not overwrite
-   the main Story achievement system.
-========================================================= */
-
-const STORAGE_KEY = "marina_events_world_v1";
-
-const EVENTS = [
-  {
-    id:"first-light", code:"EVENT 01", icon:"✦", title:"FIRST LIGHT",
-    desc:"The first event. Something in the world is waiting to wake up.",
-    duration:60, unlock:()=>true,
-    reward:"Room Level +1 • Encyclopedia entry",
-    entry:"The Beginning",
-    achievement:"first-event"
-  },
-  {
-    id:"lost-page", code:"EVENT 02", icon:"❖", title:"THE LOST PAGE",
-    desc:"A page has disappeared from the archive. Find what was left behind.",
-    duration:90, unlock:s=>s.completed.includes("first-light"),
-    reward:"Encyclopedia entry • Hidden fragment",
-    entry:"The Lost Page",
-    achievement:"page-finder"
-  },
-  {
-    id:"red-thread", code:"EVENT 03", icon:"⌁", title:"THE RED THREAD",
-    desc:"Follow the thread. It may lead somewhere the archive does not mention.",
-    duration:120, unlock:s=>s.completed.includes("lost-page"),
-    reward:"Red Thread discovery • Encyclopedia entry",
-    entry:"The Red Thread",
-    achievement:"thread-walker"
-  },
-  {
-    id:"night-watch", code:"EVENT 04", icon:"☾", title:"NIGHT WATCH",
-    desc:"Some events only reveal themselves when you are willing to wait.",
-    duration:150, unlock:s=>s.completed.includes("red-thread"),
-    reward:"Night fragment • Encyclopedia entry",
-    entry:"The Night",
-    achievement:"beyond-time"
-  },
-  {
-    id:"hidden-door", code:"EVENT 05", icon:"▣", title:"THE HIDDEN DOOR",
-    desc:"There is a door that was never marked on the map. The archive has a key for it.",
-    duration:120, unlock:s=>s.completed.includes("night-watch") && s.encyclopedia.length>=4,
-    reward:"🔑 ARCHIVE KEY • Secret room unlocked",
-    entry:"The Hidden Door",
-    achievement:"key-holder"
-  },
-  {
-    id:"something-waits", code:"EVENT 06", icon:"⋆", title:"SOMETHING WAITS",
-    desc:"A sealed event. Its real purpose will only become clear after the archive grows.",
-    duration:180, unlock:s=>s.completed.includes("hidden-door") && s.keys>=1,
-    reward:"Secret Encyclopedia entry",
-    entry:"Something That Waited",
-    achievement:"secret-finder"
-  }
-];
-
-const ACHIEVEMENTS = [
-  {id:"first-event",icon:"Ⅰ",title:"FIRST STEP",desc:"Complete your first event.",rarity:"Common",test:s=>s.completed.length>=1},
-  {id:"five-events",icon:"Ⅴ",title:"EVENT HUNTER",desc:"Complete 5 events.",rarity:"Rare",test:s=>s.completed.length>=5},
-  {id:"page-finder",icon:"❖",title:"PAGE FINDER",desc:"Complete The Lost Page.",rarity:"Common",test:s=>s.completed.includes("lost-page")},
-  {id:"thread-walker",icon:"⌁",title:"THREAD WALKER",desc:"Complete The Red Thread.",rarity:"Rare",test:s=>s.completed.includes("red-thread")},
-  {id:"beyond-time",icon:"☾",title:"BEYOND TIME",desc:"Complete Night Watch.",rarity:"Epic",test:s=>s.completed.includes("night-watch")},
-  {id:"secret-finder",icon:"⋆",title:"SECRET FINDER",desc:"Discover the sealed event.",rarity:"Epic",test:s=>s.completed.includes("something-waits")},
-  {id:"key-holder",icon:"🔑",title:"KEY HOLDER",desc:"Obtain an event key.",rarity:"Epic",test:s=>s.keys>=1},
-  {id:"archivist",icon:"▤",title:"ARCHIVIST",desc:"Unlock 5 Encyclopedia entries.",rarity:"Rare",test:s=>s.encyclopedia.length>=5},
-  {id:"completionist",icon:"◆",title:"100%",desc:"Complete every current event.",rarity:"Legendary",test:s=>s.completed.length===EVENTS.length}
-];
-
-let state = loadState();
-let running = null;
-
-function loadState(){
-  try{
-    const raw=localStorage.getItem(STORAGE_KEY);
-    if(raw) return {...defaultState(),...JSON.parse(raw)};
-  }catch(e){}
-  return defaultState();
-}
-function defaultState(){
-  return {completed:[],encyclopedia:[],keys:0,roomLevel:0,achievements:[],progress:{},lastSave:Date.now()};
-}
-function save(){
-  state.lastSave=Date.now();
-  localStorage.setItem(STORAGE_KEY,JSON.stringify(state));
-}
-function esc(s){return s.replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]))}
-function eventStatus(e){
-  if(state.completed.includes(e.id)) return "completed";
-  if(e.unlock(state)) return "available";
-  return "locked";
-}
-function render(){
-  renderEvents(); renderAchievements(); renderEncyclopedia(); updateStats(); save();
-}
-function renderEvents(){
-  const grid=document.getElementById("eventGrid");
-  grid.innerHTML=EVENTS.map(e=>{
-    const st=eventStatus(e), pct=state.progress[e.id]||0;
-    const label=st==="completed"?"COMPLETED":st==="available"?"AVAILABLE":"LOCKED";
-    const condition=st==="locked"?getUnlockText(e):e.reward;
-    return `<article class="card">
-      <div class="icon">${e.icon}</div>
-      <div class="code">${e.code}</div>
-      <h2>${e.title}</h2>
-      <p>${e.desc}</p>
-      <div class="meta">
-        <span class="pill status ${st==='completed'?'done':st}">${label}</span>
-        <span class="pill">Duration: ${formatDuration(e.duration)}</span>
-      </div>
-      <div class="progress"><div class="bar" style="width:${pct}%"></div></div>
-      <p style="font-size:12px">${esc(condition)}</p>
-      <div class="actions">
-        ${st==="available"?`<button class="btn" onclick="startEvent('${e.id}')">${pct>0?'CONTINUE':'START EVENT'}</button>`:''}
-        ${st==="completed"?`<button class="btn secondary" disabled>✓ COMPLETED</button>`:''}
-        ${st==="locked"?`<button class="btn secondary" disabled>🔒 LOCKED</button>`:''}
-      </div>
-    </article>`;
-  }).join("");
-  document.getElementById("eventProgressText").textContent=`${state.completed.length} / ${EVENTS.length}`;
-}
-function getUnlockText(e){
-  const map={
-    "lost-page":"Unlock: complete FIRST LIGHT.",
-    "red-thread":"Unlock: complete THE LOST PAGE.",
-    "night-watch":"Unlock: complete THE RED THREAD.",
-    "hidden-door":"Unlock: complete NIGHT WATCH and discover 4 Encyclopedia entries.",
-    "something-waits":"Unlock: complete THE HIDDEN DOOR and obtain an Archive Key."
-  };
-  return map[e.id]||"Unlock condition hidden.";
-}
-function renderAchievements(){
-  const grid=document.getElementById("achievementGrid");
-  grid.innerHTML=ACHIEVEMENTS.map(a=>{
-    const ok=a.test(state);
-    return `<article class="card achievement ${ok?'unlocked':''}">
-      <span class="lock">${ok?'✓':'🔒'}</span>
-      <div class="icon">${a.icon}</div>
-      <div class="rarity">${a.rarity}</div>
-      <h2>${a.title}</h2>
-      <p>${a.desc}</p>
-      <div class="pill">${ok?'UNLOCKED':'LOCKED'}</div>
-    </article>`;
-  }).join("");
-  const n=ACHIEVEMENTS.filter(a=>a.test(state)).length;
-  document.getElementById("achievementBar").style.width=(n/ACHIEVEMENTS.length*100)+"%";
-}
-function renderEncyclopedia(){
-  const list=document.getElementById("encyclopediaList");
-  const all=[...new Set(EVENTS.map(e=>e.entry))];
-  document.getElementById("entryProgress").textContent=`${state.encyclopedia.length} / ${all.length} entries`;
-  document.getElementById("keysText").textContent=state.keys;
-  list.innerHTML=all.map((x,i)=>{
-    const open=state.encyclopedia.includes(x);
-    return `<div class="entry"><div><b>${open?esc(x):"UNKNOWN ENTRY"}</b><br><small>${open?"Discovered in the event archive.":"This knowledge has not been discovered yet."}</small></div><span>${open?"✓":"???"}</span></div>`;
-  }).join("");
-}
-function updateStats(){
-  const available=EVENTS.filter(e=>eventStatus(e)==="available").length;
-  const ach=ACHIEVEMENTS.filter(a=>a.test(state)).length;
-  document.getElementById("completedCount").textContent=state.completed.length;
-  document.getElementById("availableCount").textContent=available;
-  document.getElementById("achievementCount").textContent=ach;
-  document.getElementById("keyCount").textContent=state.keys;
-}
-function formatDuration(sec){
-  const m=Math.floor(sec/60),s=sec%60;
-  return `${String(m).padStart(2,"0")}:${String(s).padStart(2,"0")}`;
-}
-function startEvent(id){
-  const e=EVENTS.find(x=>x.id===id);
-  if(!e || eventStatus(e)!=="available") return;
-  let elapsed=state.progress[id] ? Math.floor(e.duration*state.progress[id]/100) : 0;
-  running={e,elapsed};
-  document.getElementById("modalCode").textContent=e.code;
-  document.getElementById("modalTitle").textContent=e.title;
-  document.getElementById("modalDesc").textContent=e.desc;
-  document.getElementById("eventModal").classList.add("show");
-  tick();
-}
-function tick(){
-  if(!running)return;
-  const {e}=running;
-  document.getElementById("timer").textContent=formatDuration(Math.max(0,e.duration-running.elapsed));
-  const pct=Math.min(100,running.elapsed/e.duration*100);
-  document.getElementById("modalBar").style.width=pct+"%";
-  document.getElementById("modalStatus").textContent=pct>=100?"EVENT COMPLETE":"EVENT IN PROGRESS";
-  state.progress[e.id]=Math.floor(pct); save();
-  if(running.elapsed>=e.duration){finishEvent(e.id);return;}
-  running.elapsed++;
-  renderEvents();
-  setTimeout(tick,1000);
-}
-function finishEvent(id){
-  const e=EVENTS.find(x=>x.id===id);
-  if(!state.completed.includes(id)) state.completed.push(id);
-  delete state.progress[id];
-  if(e.entry && !state.encyclopedia.includes(e.entry)) state.encyclopedia.push(e.entry);
-  state.roomLevel++;
-  if(id==="hidden-door" && state.keys<1){state.keys++; showNotice("🔑 ARCHIVE KEY obtained.");}
-  if(id==="something-waits") showNotice("⋆ Secret event completed.");
-  save(); render();
-  document.getElementById("modalStatus").textContent="EVENT COMPLETE • WORLD UPDATED";
-  document.getElementById("timer").textContent="00:00";
-  document.getElementById("modalBar").style.width="100%";
-  running=null;
-  setTimeout(()=>document.getElementById("eventModal").classList.remove("show"),1400);
-  showNotice("EVENT COMPLETE — new discoveries added.");
-}
-function showNotice(text){
-  const n=document.getElementById("notice");n.textContent=text;n.classList.add("show");
-  clearTimeout(showNotice.t);showNotice.t=setTimeout(()=>n.classList.remove("show"),3000);
-}
-
-document.querySelectorAll(".tab").forEach(btn=>btn.addEventListener("click",()=>{
-  document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));
-  document.querySelectorAll(".view").forEach(x=>x.classList.remove("active"));
-  btn.classList.add("active");document.getElementById(btn.dataset.view).classList.add("active");
-}));
-document.getElementById("closeModal").onclick=()=>{running=null;document.getElementById("eventModal").classList.remove("show");render()};
-document.getElementById("eventModal").addEventListener("click",e=>{if(e.target.id==="eventModal"){running=null;e.currentTarget.classList.remove("show");render()}});
-
-render();
-</script>
-</body>
-</html>
+const KEY='marina_events_world_v2';
+const EVENTS=[
+{id:'first',code:'EVENT 01',icon:'✦',title:'FIRST LIGHT',desc:'Find the first thing that wakes inside the living world.',unlock:s=>true,reward:'Encyclopedia page',entry:'The Beginning'},
+{id:'page',code:'EVENT 02',icon:'❖',title:'THE LOST PAGE',desc:'A missing page is somewhere in the world. Find what was left behind.',unlock:s=>s.completed.includes('first'),reward:'New page + fragment',entry:'The Lost Page'},
+{id:'thread',code:'EVENT 03',icon:'⌁',title:'THE RED THREAD',desc:'Follow a strange trail and discover where it ends.',unlock:s=>s.completed.includes('page'),reward:'Red Thread discovery',entry:'The Red Thread'},
+{id:'night',code:'EVENT 04',icon:'☾',title:'NIGHT WATCH',desc:'Observe the world carefully. Something only appears when you look closer.',unlock:s=>s.completed.includes('thread'),reward:'Night fragment',entry:'The Night'},
+{id:'door',code:'EVENT 05',icon:'▣',title:'THE HIDDEN DOOR',desc:'A door appears where there was only a wall. Find the way to it.',unlock:s=>s.completed.includes('night')&&s.encyclopedia.length>=4,reward:'Archive Key',entry:'The Hidden Door'},
+{id:'waits',code:'EVENT 06',icon:'⋆',title:'SOMETHING WAITS',desc:'The final ordinary event. Complete it and the living world will reveal a gate.',unlock:s=>s.completed.includes('door')&&s.keys>=1,reward:'The Red Gate',entry:'Something That Waited'}];
+const RED=[
+{id:'mark',code:'RED 01',icon:'⌁',title:'THE FIRST MARK',desc:'A mark appears where it should not exist.',entry:'RED MEMORY 01',unlock:s=>true},
+{id:'room',code:'RED 02',icon:'□',title:'THE EMPTY ROOM',desc:'There is nothing here. That is exactly what makes it strange.',entry:'RED MEMORY 02',unlock:s=>s.redCompleted.includes('mark')},
+{id:'remains',code:'RED 03',icon:'†',title:'WHAT REMAINS',desc:'Find the object the Subject left behind.',entry:'RED MEMORY 03',unlock:s=>s.redCompleted.includes('room')},
+{id:'creator',code:'RED 04',icon:'⌘',title:'THE CREATOR',desc:'The archive begins connecting the Subject with the person who built this world.',entry:'THE CREATOR',unlock:s=>s.redCompleted.includes('remains')},
+{id:'memory',code:'RED 05',icon:'◌',title:'THE MEMORY',desc:'Separate fragments begin to form a conversation.',entry:'RED MEMORY 05',unlock:s=>s.redCompleted.includes('creator')},
+{id:'door2',code:'RED 06',icon:'▣',title:'THE LAST DOOR',desc:'The final door does not ask for a key. It asks whether you are ready.',entry:'RED MEMORY 06',unlock:s=>s.redCompleted.includes('memory')}];
+const ACH=[
+['first-step','Ⅰ','FIRST STEP','Complete your first event.','Common',s=>s.completed.length>=1],['event-hunter','Ⅴ','EVENT HUNTER','Complete five ordinary events.','Rare',s=>s.completed.length>=5],['key-holder','🔑','KEY HOLDER','Obtain the Archive Key.','Rare',s=>s.keys>=1],['archivist','▤','ARCHIVIST','Discover four Encyclopedia pages.','Rare',s=>s.encyclopedia.length>=4],['world-changed','🩸','WORLD CHANGED','Enter the Red World.','Epic',s=>s.red],['first-mark','⌁','FIRST MARK','Complete RED 01.','Epic',s=>s.redCompleted.includes('mark')],['subject-found','👤','SUBJECT FOUND','Recover the first Subject detail.','Epic',s=>s.redCompleted.length>=2],['red-archivist','📕','RED ARCHIVIST','Recover five Red Archive pages.','Legendary',s=>s.redCompleted.length>=5],['unknown','???','BEYOND THE ARCHIVE','Discover the condition behind ???.','Secret',s=>s.unknown]];
+const MEM=[
+['RED MEMORY 01','I remember the mark.','Fragment recovered. It does not explain who left it.'],['RED MEMORY 02','I remember the room.','There was a room where nothing happened — and that was the memory.'],['RED MEMORY 03','I remember what remained.','One object survived. Its meaning is still incomplete.'],['THE CREATOR','The hands that built the world.','A project can become more than a project when its creator leaves part of himself inside it.'],['RED MEMORY 05','— Are you okay?\n— Yeah. I’m fine.','The first recovered dialogue. Two voices. One of them is still unidentified.'],['RED MEMORY 06','The last door.','Some memories do not open because you force them. They open when you are ready to see them.']];
+let state=load();
+function fresh(){return{completed:[],encyclopedia:[],keys:0,achievements:[],red:false,redCompleted:[],memory:[],unknown:false}}
+function load(){try{return Object.assign(fresh(),JSON.parse(localStorage.getItem(KEY)||'{}'))}catch(e){return fresh()}}
+function save(){localStorage.setItem(KEY,JSON.stringify(state))}
+function esc(x){return String(x).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function status(e,red=false){if(red)return state.redCompleted.includes(e.id)?'completed':e.unlock(state)?'available':'locked';return state.completed.includes(e.id)?'completed':e.unlock(state)?'available':'locked'}
+function render(){renderEvents();renderAch();renderEnc();renderRed();stats();save()}
+function renderEvents(){document.getElementById('eventGrid').innerHTML=EVENTS.map(e=>{let st=status(e),done=st==='completed';return `<article class="card"><div class="icon">${e.icon}</div><div class="code">${e.code}</div><h2>${e.title}</h2><p>${e.desc}</p><div class="meta"><span class="pill status ${st==='completed'?'done':st}">${st.toUpperCase()}</span><span class="pill">${done?'WORLD UPDATED':e.reward}</span></div><div class="actions">${st==='available'?`<button class="btn" onclick="play('${e.id}')">PLAY EVENT</button>`:''}${done?'<button class="btn secondary" disabled>✓ COMPLETED</button>':''}${st==='locked'?'<button class="btn secondary" disabled>🔒 LOCKED</button>':''}</div></article>`}).join('') ;document.getElementById('eventProgressText').textContent=state.completed.length+' / 6';document.getElementById('portalWrap').classList.toggle('show',state.completed.length===6&&!state.red)}
+function renderAch(){let n=ACH.filter(a=>a[5](state)).length;document.getElementById('achievementCount').textContent=n;document.getElementById('achievementProgress').textContent=n+' / '+ACH.length;document.getElementById('achievementBar').style.width=(n/ACH.length*100)+'%';document.getElementById('achievementGrid').innerHTML=ACH.map(a=>{let ok=a[5](state);return `<article class="card achievement ${ok?'unlocked':''}"><span class="lock">${ok?'✓':'🔒'}</span><div class="icon">${a[1]}</div><div class="rarity">${a[4]}</div><h2>${a[2]}</h2><p>${a[3]}</p><div class="pill">${ok?'UNLOCKED':'LOCKED'}</div></article>`}).join('')}
+function renderEnc(){let all=EVENTS.map(e=>e.entry);let extras=state.memory.map(i=>MEM[i][0]);let names=[...all,...extras.filter(x=>!all.includes(x))];document.getElementById('entryProgress').textContent=state.encyclopedia.length+' / '+names.length+' entries';document.getElementById('keysText').textContent=state.keys;document.getElementById('encyclopediaList').innerHTML=names.map((x,i)=>{let open=state.encyclopedia.includes(x)||state.memory.some(j=>MEM[j][0]===x);let txt=open?((MEM.find(m=>m[0]===x)||[])[2]||'Recovered from the event world.'):'This page has not been discovered yet.';return `<div class="entry ${open?'open':''}"><b>${open?esc(x):'UNKNOWN ENTRY'}</b><small>${esc(txt)}</small><span class="mark">${open?'✓':'???'}</span></div>`}).join('')}
+function renderRed(){document.getElementById('redWorld').classList.toggle('active',state.red);document.getElementById('normalWorld').classList.toggle('hidden',state.red);if(!state.red)return;document.getElementById('redProgress').textContent=state.redCompleted.length+' / 6';document.getElementById('redEventGrid').innerHTML=RED.map(e=>{let st=status(e,true);return `<article class="card"><div class="icon">${e.icon}</div><div class="code">${e.code}</div><h2>${e.title}</h2><p>${e.desc}</p><div class="meta"><span class="pill status ${st==='completed'?'done':st}">${st.toUpperCase()}</span><span class="pill">${st==='completed'?'ARCHIVE UPDATED':e.entry}</span></div><div class="actions">${st==='available'?`<button class="btn" onclick="playRed('${e.id}')">ENTER EVENT</button>`:''}${st==='completed'?'<button class="btn secondary" disabled>✓ COMPLETED</button>':''}${st==='locked'?'<button class="btn secondary" disabled>🔒 LOCKED</button>':''}</div></article>`}).join('');document.getElementById('memoryList').innerHTML=MEM.map((m,i)=>{let open=state.memory.includes(i);return `<div class="memory"><div class="code">${open?m[0]:'REDACTED FILE'}</div><p>${open?esc(m[1]).replace(/\n/g,'<br>'):'<span class="sealed">ACCESS LOCKED</span>'}</p><small class="mini">${open?esc(m[2]):'Complete the corresponding Red Event.'}</small></div>`}).join('');let pct=Math.min(100,state.redCompleted.length/6*100);document.getElementById('factRecovery').textContent=Math.round(pct)+'%';document.getElementById('subjectName').textContent=state.redCompleted.length>=4?'THE SUBJECT':'UNKNOWN';document.getElementById('factName').textContent=state.redCompleted.length>=4?'THE SUBJECT':'UNKNOWN';document.getElementById('factOrigin').textContent=state.redCompleted.length>=5?'CONNECTED TO THE ARCHIVE':'UNKNOWN';document.getElementById('subjectText').textContent=state.redCompleted.length? 'The Subject is becoming clearer. Each event reveals another piece, but the complete story is still sealed.':'No reliable information has been recovered yet.'}
+function stats(){document.getElementById('completedCount').textContent=state.completed.length;document.getElementById('availableCount').textContent=EVENTS.filter(e=>status(e)==='available').length;document.getElementById('keyCount').textContent=state.keys}
+function play(id){let e=EVENTS.find(x=>x.id===id);if(!e||status(e)!=='available')return;complete(e)}
+function complete(e){state.completed.push(e.id);if(!state.encyclopedia.includes(e.entry))state.encyclopedia.push(e.entry);if(e.id==='door'&&state.keys<1)state.keys=1;showToast(e.title+' completed — the world has changed.');render()}
+function playRed(id){let e=RED.find(x=>x.id===id);if(!e||status(e,true)!=='available')return;state.redCompleted.push(id);let idx=RED.findIndex(x=>x.id===id);if(!state.memory.includes(idx)){state.memory.push(idx);if(!state.encyclopedia.includes(e.entry))state.encyclopedia.push(e.entry)}showToast('RED EVENT COMPLETE — a new page appeared.');render()}
+function enterRed(){if(state.completed.length<6||state.red)return;const t=document.getElementById('transition');t.classList.add('show');t.classList.add('done');setTimeout(()=>{state.red=true;save();render();window.scrollTo({top:0,behavior:'instant'})},4100)}
+function showToast(x){let t=document.getElementById('toast');t.textContent=x;t.classList.add('show');clearTimeout(showToast.t);showToast.t=setTimeout(()=>t.classList.remove('show'),2800)}
+document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>{document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));document.querySelectorAll('.view').forEach(x=>x.classList.remove('active'));b.classList.add('active');document.getElementById(b.dataset.view).classList.add('active')});document.querySelectorAll('.red-nav button').forEach(b=>b.onclick=()=>{document.querySelectorAll('.red-nav button').forEach(x=>x.classList.remove('active'));document.querySelectorAll('.red-view').forEach(x=>x.classList.remove('active'));b.classList.add('active');document.getElementById(b.dataset.red).classList.add('active')});render();
+</script></body></html>
