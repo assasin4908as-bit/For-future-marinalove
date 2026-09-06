@@ -44,6 +44,7 @@
 const KEY='marina_living_events_v10';
 const fresh=()=>({completed:[],encyclopedia:[],keys:0,achievements:[],red:false,redCompleted:[],memory:[],current:null,night:{correct:0,crosses:0},fever:{seq:[],hints:0},final:false});
 let state=load();
+if(location.hash==='#scarlet' && state.completed.length>=6)state.red=true;
 function load(){try{return Object.assign(fresh(),JSON.parse(localStorage.getItem(KEY)||'{}'))}catch(e){return fresh()}}
 function save(){localStorage.setItem(KEY,JSON.stringify(state))}
 function esc(x){return String(x).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
@@ -85,7 +86,7 @@ const ACH=[
 function status(e){if(state.completed.includes(e.id))return'completed';return e.unlock(state)?'available':'locked'}
 function render(){renderEvents();renderAchievements();renderEncyclopedia();renderRed();stats();save()}
 function renderEvents(){let html=EVENTS.map(e=>{let st=status(e),done=st==='completed',available=st!=='locked';return `<article class="card"><div class="icon">${e.icon}</div><div class="code">${e.code}</div><h2>${e.title}</h2><p>${e.desc}</p><div class="meta"><span class="pill status ${st}">${st.toUpperCase()}</span><span class="pill">${done?'WORLD UPDATED':e.reward}</span></div><div class="actions">${available?`<button class="btn" onclick="playEvent('${e.id}')">${done?'REPLAY EVENT':'ENTER EVENT'}</button>`:'<button class="btn secondary" disabled>🔒 LOCKED</button>'}</div></article>`}).join('');
-if(state.completed.length===6){html+=`<article class="card" style="border-color:rgba(255,35,70,.5);box-shadow:0 0 35px rgba(229,27,62,.08)"><div class="icon">🩸</div><div class="code">EVENT VII · PHASE II</div><h2>THE SCARLET BANNER</h2><p>Six ordinary events are complete. A new living world has opened beyond them.</p><div class="meta"><span class="pill status available">AVAILABLE</span><span class="pill">LIVING WORLD</span></div><div class="actions"><button class="btn red-pulse" onclick="enterScarlet()">ENTER THE SCARLET BANNER</button></div></article>`}
+if(state.completed.length===6){html+=`<article class="card"><div class="icon">✦</div><div class="code">EVENT VII · PHASE II</div><h2>THE SCARLET BANNER</h2><p>Six ordinary events are complete. A new living world has opened beyond them.</p><div class="meta"><span class="pill status available">AVAILABLE</span><span class="pill">LIVING WORLD</span></div><div class="actions"><button class="btn red-pulse" onclick="enterScarlet()">ENTER THE SCARLET BANNER</button></div></article>`}
 document.getElementById('eventGrid').innerHTML=html;document.getElementById('eventProgressText').textContent=state.completed.length+' / 6';document.getElementById('portalWrap').innerHTML=state.completed.length===6?`<div class="section-title"><h2>Something has changed.</h2><span>WORLD GATE</span></div><div class="portal"><div class="portal-content"><div class="eyebrow">PHASE II</div><h2>THE RED GATE</h2><p>The world has opened a place that was not there before.</p><button class="btn red-pulse" onclick="enterScarlet()">ENTER THE RED</button></div></div>`:'';document.getElementById('portalWrap').style.display=state.completed.length===6?'block':'none'}
 function renderAchievements(){
   const n=ACH.filter(a=>a[3](state)).length;
@@ -133,6 +134,8 @@ function doorPick(btn,x){window.doorState.push(x);btn.classList.add('selected');
 function gameWaits(a){a.innerHTML=`<div class="game active"><div class="game-board"><p>Something is waiting. What will you do?</p><div class="words"><button class="word" onclick="finishNormal('waits')">STAY</button><button class="word" onclick="finishNormal('waits')">OPEN</button></div><div class="game-message">Either choice reaches the end. The important part is that you choose.</div></div></div>`}
 function enterScarlet(){
  if(state.completed.length<6){showToast('Complete all six events first.');return;}
+ if(state.red)return;
+ history.pushState({},'',location.pathname+'#scarlet');
  const tr=document.getElementById('transition');
  tr.classList.remove('show','hide'); void tr.offsetWidth;
  tr.querySelector('#transitionTitle').textContent='THE SCARLET BANNER';
@@ -145,7 +148,7 @@ function enterScarlet(){
    save(); render(); window.scrollTo({top:0,behavior:'instant'});
  },3900);
 }
-function returnToLivingEvents(){state.red=false;save();render();showView('events');window.scrollTo({top:0,behavior:'smooth'})}
+function returnToLivingEvents(){state.red=false;history.replaceState({},'',location.pathname);save();render();showView('events');window.scrollTo({top:0,behavior:'smooth'})}
 function playRed(id){let e=RED.find(x=>x.id===id);if(!e||state.redCompleted.includes(id)||!e.unlock(state))return;if(id==='room'&&!state.redCompleted.includes('mark'))return;if(id==='mark')redGameMark();if(id==='room')redGameRoom();if(id==='remains')redGameRemains();if(id==='longnight')redGameLongNight();if(id==='fever')redGameFever();if(id==='bullet')redGameBullet()}
 function redOpen(e,html){state.current=e.id;document.getElementById('modalCode').textContent=e.code;document.getElementById('modalTitle').textContent=e.title;document.getElementById('modalIntro').textContent=e.desc;document.getElementById('gameArea').innerHTML=html;document.getElementById('eventModal').classList.add('show')}
 function completeRed(id){let idx=RED.findIndex(e=>e.id===id);if(idx<0)return;if(!state.redCompleted.includes(id))state.redCompleted.push(id);if(!state.memory.includes(idx))state.memory.push(idx);let entry=RED_MEMORY[idx][0];if(!state.encyclopedia.includes(entry))state.encyclopedia.push(entry);if(state.redCompleted.length>=3&&!state.achievements.includes('eyes'))state.achievements.push('eyes');save();closeModal();render();showToast('🩸 RED EVENT COMPLETE — '+RED[idx].title);}
