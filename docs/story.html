@@ -2234,6 +2234,71 @@ filter:blur(1px);opacity:.55;pointer-events:none;transition:opacity 1.4s,transfo
 @media(max-width:600px){.v22-survival-book{padding:34px 20px}.v22-page{min-height:520px}.v22-copy{font-size:15px;line-height:1.9}}
 </style>
 
+
+<style id="mobile-navigation-final-v2">
+/* FINAL MOBILE NAVIGATION — all Story controls remain reachable */
+@media (max-width: 700px){
+  html,body{width:100%;max-width:100%;overflow-x:hidden;}
+  .top-nav{
+    position:fixed;
+    top:8px; left:50%; transform:translateX(-50%);
+    width:calc(100% - 16px);
+    max-width:none;
+    display:grid;
+    grid-template-columns:1fr auto;
+    align-items:center;
+    gap:8px;
+    padding:10px;
+    border-radius:24px;
+  }
+  .nav-logo{font-size:13px;min-width:0;white-space:nowrap;}
+  .nav-links{
+    grid-column:1 / -1;
+    width:100%;
+    max-width:none !important;
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:center;
+    align-items:center;
+    gap:5px;
+    overflow:visible !important;
+  }
+  .nav-links a,
+  .nav-links a:nth-child(3),
+  .nav-links a:nth-child(n+4){
+    display:block !important;
+    flex:0 1 auto;
+    min-width:0;
+    padding:7px 8px;
+    font-size:10px;
+    line-height:1.15;
+    white-space:nowrap;
+  }
+  .lang-switch-v4{margin-left:2px;flex:0 0 auto;}
+  .lang-btn-v4{padding:7px 8px;min-height:34px;}
+
+  /* Move the hero below the expanded mobile navigation. */
+  .hero{padding-top:245px;}
+
+  /* Never let long cards/buttons create horizontal clipping. */
+  .section-inner,.section-content,.timeline,.book-grid,.gifts-grid,.memory-grid,
+  .journey-grid,.today-grid,.v19-grid{max-width:100%;min-width:0;}
+  button,a,.book-card,.gift-card,.memory-card,.today-card,.journey-card{
+    max-width:100%;
+    overflow-wrap:anywhere;
+  }
+}
+@media (max-width: 480px){
+  .top-nav{width:calc(100% - 12px);padding:8px;border-radius:21px;}
+  .nav-logo{font-size:12px;}
+  .nav-links{gap:3px;}
+  .nav-links a,
+  .nav-links a:nth-child(3),
+  .nav-links a:nth-child(n+4){font-size:9px;padding:6px 6px;}
+  .lang-btn-v4{font-size:10px;padding:6px 7px;}
+  .hero{padding-top:265px;}
+}
+</style>
 </head>
 
 <body>
