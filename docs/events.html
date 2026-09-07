@@ -73,7 +73,7 @@
 <div class="reset"><button onclick="resetProgress()">RESET EVENT PROGRESS</button></div>
 </div></main>
 
-<section id="redWorld" class="red-world"><div class="wrap"><section class="red-hero"><div class="eyebrow">PHASE II · RED WORLD</div><h1>THE SCARLET BANNER</h1><p>You crossed the line. The world is still the same place — but something inside it is no longer hidden.</p></section><div class="red-nav"><button class="active" data-red="redEvents">Red Events</button><button data-red="redArchive">Red Archive</button><button data-red="subject">Subject</button><button data-red="redUnknown">???</button></div><div class="red-return"><button class="btn" onclick="returnToLivingEvents()">← RETURN TO LIVING EVENTS</button><a class="btn" href="story.html">← BACK TO OUR STORY</a></div><section id="redEvents" class="red-view active"><div class="section-title"><h2>RED EVENTS</h2><span id="redProgress">0 / 6</span></div><div id="redEventGrid" class="grid"></div></section><section id="redArchive" class="red-view"><div class="book"><div class="eyebrow">RED ARCHIVE · MEMORY RECOVERY</div><h2>Recovered Pages</h2><p>Fragments appear only when the corresponding Red Event has been survived.</p><div id="memoryList"></div></div></section><section id="subject" class="red-view"><div class="subject"><div class="silhouette"></div><div class="subject-info"><div class="eyebrow">SUBJECT 014</div><h2 id="subjectName">THE BOY WHO WANTED TO FORGET</h2><p id="subjectSummary" style="color:#aaa;line-height:1.8">At the beginning of the recovered story, he is fourteen. His memories are fragmented, but his fears remember more than he does.</p><div class="facts"><div class="fact"><span>Age at beginning</span><b>14</b></div><div class="fact"><span>Memory</span><b id="memoryStatus">LOST</b></div><div class="fact"><span>Known marks</span><b>Red mark · eye injury · bullet scar</b></div><div class="fact"><span>What changed him</span><b>Loss · betrayal · conflict · fear</b></div><div class="fact"><span>What he learned</span><b>The past walks with him.</b></div><div class="fact"><span>Recovery</span><b id="recovery">0%</b></div></div></div></div></section><section id="redUnknown" class="red-view"><div class="book"><div class="eyebrow">████████ · FINAL NIGHTMARE</div><h2>THE BIGGEST NIGHTMARE</h2><p>The white girl runs. He has to follow her. If he fails, the ground disappears and the abyss waits below — with the sword from the first nightmare.</p><div class="memory"><p><b>WHY SHE RUNS</b><br>She is not simply a monster. She represents the memory he keeps trying to reach.</p></div><div class="memory"><p><b>THE LAST RUN</b><br>When he finally catches her, she says: <em>“You don't have to run anymore.”</em> The abyss disappears. The sword falls. He does not run from what he remembers.</p></div><div class="memory"><p><b>AFTER THE NIGHTMARE</b><br>He is no longer afraid of the dream. Fear may still exist, but it no longer controls him.</p></div><div class="memory"><p><b>WHAT HE FEARS NOW</b><br>Not the sword. Not the abyss. Not the girl. His greatest fear is becoming the person he would have been if he had stopped walking forward.</p></div><button class="btn" id="finalNightmareBtn" onclick="playFinalNightmare()">ENTER THE LAST RUN</button></div></section></div></section>
+<section id="redWorld" class="red-world"><div class="wrap"><section class="red-hero"><div class="eyebrow">PHASE II · RED WORLD</div><h1>THE SCARLET BANNER</h1><p>You crossed the line. The world is still the same place — but something inside it is no longer hidden.</p></section><div class="red-nav"><button class="active" data-red="redEvents">Red Events</button><button data-red="redArchive">Red Archive</button><button data-red="subject">Subject</button><button id="redUnknownTab" data-red="redUnknown" class="locked-tab" disabled>???</button></div><div class="red-return"><button class="btn" onclick="returnToLivingEvents()">← RETURN TO LIVING EVENTS</button><a class="btn" href="story.html">← BACK TO OUR STORY</a></div><section id="redEvents" class="red-view active"><div class="section-title"><h2>RED EVENTS</h2><span id="redProgress">0 / 6</span></div><div id="redEventGrid" class="grid"></div></section><section id="redArchive" class="red-view"><div class="book"><div class="eyebrow">RED ARCHIVE · MEMORY RECOVERY</div><h2>Recovered Pages</h2><p>Fragments appear only when the corresponding Red Event has been survived.</p><div id="memoryList"></div></div></section><section id="subject" class="red-view"><div class="subject"><div class="silhouette"></div><div class="subject-info"><div class="eyebrow">SUBJECT 014</div><h2 id="subjectName">THE BOY WHO WANTED TO FORGET</h2><p id="subjectSummary" style="color:#aaa;line-height:1.8">At the beginning of the recovered story, he is fourteen. His memories are fragmented, but his fears remember more than he does.</p><div class="facts"><div class="fact"><span>Age at beginning</span><b>14</b></div><div class="fact"><span>Memory</span><b id="memoryStatus">LOST</b></div><div class="fact"><span>Known marks</span><b id="knownMarks">—</b></div><div class="fact"><span>What changed him</span><b id="changedHim">—</b></div><div class="fact"><span>What he learned</span><b>The past walks with him.</b></div><div class="fact"><span>Recovery</span><b id="recovery">0%</b></div></div></div></div></section><section id="redUnknown" class="red-view"><div class="book"><div class="eyebrow">████████ · FINAL NIGHTMARE</div><h2>THE BIGGEST NIGHTMARE</h2><p>The white girl runs. He has to follow her. If he fails, the ground disappears and the abyss waits below — with the sword from the first nightmare.</p><div class="memory"><p><b>WHY SHE RUNS</b><br>She is not simply a monster. She represents the memory he keeps trying to reach.</p></div><div class="memory"><p><b>THE LAST RUN</b><br>When he finally catches her, she says: <em>“You don't have to run anymore.”</em> The abyss disappears. The sword falls. He does not run from what he remembers.</p></div><div class="memory"><p><b>AFTER THE NIGHTMARE</b><br>He is no longer afraid of the dream. Fear may still exist, but it no longer controls him.</p></div><div class="memory"><p><b>WHAT HE FEARS NOW</b><br>Not the sword. Not the abyss. Not the girl. His greatest fear is becoming the person he would have been if he had stopped walking forward.</p></div><button class="btn" id="finalNightmareBtn" onclick="playFinalNightmare()">ENTER THE LAST RUN</button></div></section></div></section>
 
 <div id="eventModal" class="modal">
   <div class="modal-box">
@@ -173,7 +173,53 @@ function achievementDescription(id){
 }
 
 function renderEncyclopedia(){let html='<div class="category">PERSONAL</div>';let unlocked=0;PERSONAL.forEach((p,i)=>{let ok=state.encyclopedia.includes(p[0]);if(ok)unlocked++;html+=`<div class="entry ${ok?'open':''}"><b>${ok?esc(p[0]):'UNKNOWN ENTRY'}</b><small>${ok?esc(p[1]).replace(/\n/g,'<br>'):'This page has not been discovered yet.'}</small><span class="mark">${ok?'✓':'???'}</span></div>`});html+='<div class="category">RED ARCHIVE</div>';RED_MEMORY.forEach((m,i)=>{let ok=state.memory.includes(i);if(ok)unlocked++;html+=`<div class="entry ${ok?'open':''}"><b>${ok?esc(m[0]):'REDACTED FILE'}</b><small>${ok?esc(m[1]):'Complete the corresponding Red Event.'}</small><span class="mark">${ok?'✓':'???'}</span></div>`});document.getElementById('encyclopediaList').innerHTML=html;document.getElementById('entryProgress').textContent=unlocked+' / '+(PERSONAL.length+RED_MEMORY.length)+' entries';document.getElementById('keysText').textContent=state.keys}
-function renderRed(){document.getElementById('redWorld').classList.toggle('active',state.red);document.getElementById('normalWorld').style.display=state.red?'none':'';if(!state.red)return;document.getElementById('redProgress').textContent=state.redCompleted.length+' / 6';document.getElementById('redEventGrid').innerHTML=RED.map(e=>{let st=state.redCompleted.includes(e.id)?'completed':e.unlock(state)?'available':'locked';return `<article class="card"><div class="icon">${e.icon}</div><div class="code">${e.code}</div><h2>${e.title}</h2><p>${e.desc}</p><div class="meta"><span class="pill status ${st}">${st.toUpperCase()}</span><span class="pill">${st==='completed'?'ARCHIVE UPDATED':e.entry}</span></div><div class="actions">${st==='available'?`<button class="btn red-pulse" onclick="playRed('${e.id}')">ENTER EVENT</button>`:st==='completed'?'<button class="btn secondary" disabled>✓ COMPLETED</button>':'<button class="btn secondary" disabled>🔒 LOCKED</button>'}</div></article>`}).join('');document.getElementById('memoryList').innerHTML=RED_MEMORY.map((m,i)=>state.memory.includes(i)?`<div class="memory"><div class="code">${esc(m[0])}</div><p>${esc(m[1])}</p></div>`:`<div class="memory"><div class="code">REDACTED FILE</div><p><span class="sealed">ACCESS LOCKED</span></p></div>`).join('');document.getElementById('recovery').textContent=Math.round(state.redCompleted.length/6*100)+'%';document.getElementById('memoryStatus').textContent=state.redCompleted.length>=6?'RECOVERED':'FRAGMENTED'}
+function renderRed(){
+  document.getElementById('redWorld').classList.toggle('active',state.red);
+  document.getElementById('normalWorld').style.display=state.red?'none':'';
+  if(!state.red)return;
+
+  document.getElementById('redProgress').textContent=state.redCompleted.length+' / 6';
+
+  const redGrid=document.getElementById('redEventGrid');
+  redGrid.innerHTML=RED.map((e,i)=>{
+    let completed=state.redCompleted.includes(e.id);
+    let available=e.unlock(state);
+    if(!completed && !available && i>state.redCompleted.length) return '';
+    let st=completed?'completed':available?'available':'locked';
+    return `<article class="card"><div class="icon">${e.icon}</div><div class="code">${e.code}</div><h2>${e.title}</h2><p>${e.desc}</p><div class="meta"><span class="pill status ${st}">${st.toUpperCase()}</span><span class="pill">${completed?'ARCHIVE UPDATED':e.entry}</span></div><div class="actions">${available?`<button class="btn red-pulse" onclick="playRed('${e.id}')">ENTER EVENT</button>`:'<button class="btn secondary" disabled>🔒 LOCKED</button>'}</div></article>`;
+  }).join('');
+
+  const visibleMemories=RED_MEMORY.map((m,i)=>{
+    if(state.memory.includes(i)) return `<div class="memory"><div class="code">${esc(m[0])}</div><p>${esc(m[1])}</p></div>`;
+    if(i===state.memory.length) return `<div class="memory"><div class="code">NEXT MEMORY</div><p>The next page will appear after the next Red Event.</p></div>`;
+    return '';
+  }).join('');
+  document.getElementById('memoryList').innerHTML=visibleMemories || '<div class="memory"><div class="code">REDACTED</div><p>Complete RED 01 to recover the first memory.</p></div>';
+
+  document.getElementById('recovery').textContent=Math.round(state.redCompleted.length/6*100)+'%';
+  document.getElementById('memoryStatus').textContent=state.redCompleted.length>=6?'RECOVERED':state.redCompleted.length?'FRAGMENTED':'LOST';
+  document.getElementById('knownMarks').textContent=[
+    state.redCompleted.includes('mark')?'Red mark':'',
+    state.redCompleted.includes('room')?'eye injury':'',
+    state.redCompleted.includes('bullet')?'bullet scar':''
+  ].filter(Boolean).join(' · ') || '—';
+  document.getElementById('changedHim').textContent=[
+    state.redCompleted.includes('remains')?'conflict at home':'',
+    state.redCompleted.includes('longnight')?'loss · betrayal':'',
+    state.redCompleted.includes('mark')?'fear':''
+  ].filter(Boolean).join(' · ') || '—';
+
+  const tab=document.getElementById('redUnknownTab');
+  const unlockedFinal=state.redCompleted.length>=6;
+  tab.disabled=!unlockedFinal;
+  tab.style.display=unlockedFinal?'':'none';
+  const unknown=document.getElementById('redUnknown');
+  if(!unlockedFinal) unknown.classList.remove('active');
+  document.getElementById('subjectSummary').textContent=
+    state.redCompleted.length>=3
+      ? 'At the beginning of the recovered story, he is fourteen. His memories are fragmented, but his fears remember more than he does.'
+      : 'The file is incomplete. Only fragments of the Subject are available.';
+}
 function stats(){document.getElementById('completedCount').textContent=state.completed.length;document.getElementById('availableCount').textContent=EVENTS.filter(e=>status(e)==='available').length+(state.completed.length===6?1:0);document.getElementById('keyCount').textContent=state.keys}
 function showView(name){document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('active',b.dataset.view===name));document.querySelectorAll('.view').forEach(v=>v.classList.toggle('active',v.id===name));if(name==='achievements')location.hash='achievements'}
 document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>showView(b.dataset.view));
@@ -251,8 +297,33 @@ function returnToLivingEvents(){state.red=false;history.replaceState({},'',locat
 function playRed(id){let e=RED.find(x=>x.id===id);if(!e||state.redCompleted.includes(id)||!e.unlock(state))return;if(id==='room'&&!state.redCompleted.includes('mark'))return;if(id==='mark')redGameMark();if(id==='room')redGameRoom();if(id==='remains')redGameRemains();if(id==='longnight')redGameLongNight();if(id==='fever')redGameFever();if(id==='bullet')redGameBullet()}
 function redOpen(e,html){state.current=e.id;document.getElementById('modalCode').textContent=e.code;document.getElementById('modalTitle').textContent=e.title;document.getElementById('modalIntro').textContent=e.desc;document.getElementById('gameArea').innerHTML=html;document.getElementById('eventModal').classList.add('show')}
 function completeRed(id){let idx=RED.findIndex(e=>e.id===id);if(idx<0)return;if(!state.redCompleted.includes(id))state.redCompleted.push(id);if(!state.memory.includes(idx))state.memory.push(idx);let entry=RED_MEMORY[idx][0];if(!state.encyclopedia.includes(entry))state.encyclopedia.push(entry);if(state.redCompleted.length>=3&&!state.achievements.includes('eyes'))state.achievements.push('eyes');save();closeModal();render();showToast('🩸 RED EVENT COMPLETE — '+RED[idx].title);}
-function redGameMark(){redOpen(RED[0],`<div class="game active"><div class="game-board" style="min-height:330px"><p>THE NIGHTMARE</p><p style="color:#aaa">Catch the real white figure. False silhouettes disappear when clicked. Catch the real figure 12 times.</p><div id="chaseBoard" style="height:210px;position:relative"></div><div id="redMsg" class="game-message">0 / 12 catches</div></div></div>`);window.chase=0;window.falseClicks=0;spawnChase()}
-function spawnChase(){let b=document.getElementById('chaseBoard');if(!b)return;b.innerHTML='';for(let i=0;i<3;i++){let x=document.createElement('button');x.style.cssText='position:absolute;width:55px;height:85px;border:1px solid rgba(255,255,255,.2);border-radius:45%;background:#101117;color:#777;cursor:pointer';x.style.left=(5+Math.random()*80)+'%';x.style.top=(10+Math.random()*65)+'%';x.textContent='◯';x.onclick=()=>{if(x.dataset.real==='1'){window.chase++;document.getElementById('redMsg').textContent=window.chase+' / 12 catches';if(window.chase>=12)completeRed('mark');else spawnChase()}else{window.chase=0;window.falseClicks++;document.getElementById('redMsg').textContent='False silhouette. Run resets to 0 / 12.';spawnChase()}};b.appendChild(x);if(i===Math.floor(Math.random()*3))x.dataset.real='1'}}
+function redGameMark(){redOpen(RED[0],`<div class="game active"><div class="game-board" style="min-height:330px"><p>THE NIGHTMARE</p><p style="color:#aaa">Catch the real white figure. False silhouettes are distractions, but a wrong click will not reset your progress. Catch the real figure 8 times.</p><div id="chaseBoard" style="height:210px;position:relative"></div><div id="redMsg" class="game-message">0 / 8 catches</div></div></div>`);window.chase=0;window.falseClicks=0;spawnChase()}
+function spawnChase(){
+  let b=document.getElementById('chaseBoard'); if(!b)return;
+  b.innerHTML='';
+  let realIndex=Math.floor(Math.random()*3);
+  for(let i=0;i<3;i++){
+    let x=document.createElement('button');
+    x.style.cssText='position:absolute;width:72px;height:100px;border:1px solid rgba(255,255,255,.24);border-radius:45%;background:#15151b;color:#fff;cursor:pointer;font-size:28px;box-shadow:0 0 18px rgba(255,255,255,.08);';
+    x.style.left=(8+Math.random()*76)+'%';
+    x.style.top=(8+Math.random()*62)+'%';
+    x.textContent=i===realIndex?'◯':'○';
+    x.dataset.real=i===realIndex?'1':'0';
+    x.onclick=()=>{
+      if(x.dataset.real==='1'){
+        window.chase++;
+        document.getElementById('redMsg').textContent=window.chase+' / 8 catches';
+        if(window.chase>=8) completeRed('mark');
+        else spawnChase();
+      }else{
+        x.style.opacity='.25';
+        x.disabled=true;
+        document.getElementById('redMsg').textContent='False silhouette. Keep looking — your progress stays.';
+      }
+    };
+    b.appendChild(x);
+  }
+}
 function redGameRoom(){redOpen(RED[1],`<div class="game active"><div class="game-board"><p>Reconstruct the missing memory in order.</p><div class="words" id="roomWords"></div><div id="redMsg" class="game-message">1 / 7</div></div></div>`);window.roomSeq=0;let labels=['pain','bandage','silence','blank space','lost memory','question','awake'];let box=document.getElementById('roomWords');labels.sort(()=>Math.random()-.5).forEach((x,i)=>{let b=document.createElement('button');b.className='word';b.textContent=x;b.dataset.n=labels.indexOf(x)+1;b.onclick=()=>{let expected=window.roomSeq+1;if(Number(b.dataset.n)!==expected){window.roomSeq=0;document.querySelectorAll('#roomWords .word').forEach(z=>z.classList.remove('selected'));document.getElementById('redMsg').textContent='The fragments reshuffle.';redGameRoom();return}window.roomSeq++;b.classList.add('selected');document.getElementById('redMsg').textContent=window.roomSeq+' / 7';if(window.roomSeq===7)completeRed('room')};box.appendChild(b)})}
 function redGameRemains(){redOpen(RED[2],`<div class="game active"><div class="game-board"><p>Three truths. Two wrong choices reset the round.</p><div class="words" id="truths"></div><div id="redMsg" class="game-message">Round 1 / 3</div></div></div>`);window.truthRound=0;window.truthErrors=0;nextTruth()}
 function nextTruth(){let box=document.getElementById('truths');if(!box)return;box.innerHTML='';let right=window.truthRound%3;['He learned to rely on himself too early.','Nothing ever happened at home.','Arguments at home changed him.'].forEach((x,i)=>{let b=document.createElement('button');b.className='word';b.textContent=x;b.onclick=()=>{if(i!==right){window.truthRound=0;window.truthErrors++;document.getElementById('redMsg').textContent='The memory rejects it. Start again.';nextTruth();return}window.truthRound++;if(window.truthRound>=3)completeRed('remains');else{document.getElementById('redMsg').textContent='Round '+(window.truthRound+1)+' / 3';nextTruth()}};box.appendChild(b)})}
@@ -269,7 +340,13 @@ const originalCompleteRed=completeRed;
 completeRed=function(id){if(id==='mark'&&!state.redCompleted.includes('mark')){let idx=RED.findIndex(e=>e.id==='mark');state.redCompleted.push('mark');state.memory.push(idx);if(!state.encyclopedia.includes(RED_MEMORY[idx][0]))state.encyclopedia.push(RED_MEMORY[idx][0]);if(state.redCompleted.length>=3&&!state.achievements.includes('eyes'))state.achievements.push('eyes');save();closeModal();render();showToast('🩸 RED 01 COMPLETE');let tr=document.getElementById('transition');tr.classList.remove('show','hide');void tr.offsetWidth;tr.classList.add('show','hide');setTimeout(()=>{playRed('room')},3900);return}originalCompleteRed(id)};
 // URL/hash support for Story -> Event Achievements.
 if(location.hash==='#achievements')showView('achievements');
-document.querySelectorAll('.red-nav button').forEach(b=>b.onclick=()=>{document.querySelectorAll('.red-nav button').forEach(x=>x.classList.remove('active'));document.querySelectorAll('.red-view').forEach(x=>x.classList.remove('active'));b.classList.add('active');document.getElementById(b.dataset.red).classList.add('active')});
+document.querySelectorAll('.red-nav button').forEach(b=>b.onclick=()=>{
+  if(b.disabled)return;
+  document.querySelectorAll('.red-nav button').forEach(x=>x.classList.remove('active'));
+  document.querySelectorAll('.red-view').forEach(x=>x.classList.remove('active'));
+  b.classList.add('active');
+  document.getElementById(b.dataset.red).classList.add('active');
+});
 function resetProgress(){if(confirm('Reset all Living Events progress and achievements?')){localStorage.removeItem(KEY);state=fresh();render();showView('events');showToast('Event progress reset. A new journey begins.')}}
 render();
 </script>
