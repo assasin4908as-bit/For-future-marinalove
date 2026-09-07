@@ -3,10 +3,485 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>For Marina ❤️</title>
-<meta http-equiv="refresh" content="0; url=story.html">
+<title>Oksy & Marina ❤️ — Our Story</title>
+
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;width:100%;height:100%;overflow:hidden}
+body{
+    background:#030307;
+    color:#fff;
+    font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+}
+canvas{
+    position:fixed;
+    inset:0;
+    width:100%;
+    height:100%;
+    pointer-events:none;
+}
+#stars{z-index:0}
+#mist{z-index:1;opacity:.65}
+
+.scene{
+    position:relative;
+    z-index:2;
+    width:100%;
+    height:100%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    overflow:hidden;
+    background:
+        radial-gradient(circle at 50% 35%,rgba(110,10,35,.22),transparent 32%),
+        radial-gradient(circle at 50% 100%,rgba(80,0,20,.18),transparent 45%);
+}
+
+.moon{
+    position:absolute;
+    top:8vh;
+    left:50%;
+    width:min(34vw,330px);
+    height:min(34vw,330px);
+    transform:translateX(-50%);
+    border-radius:50%;
+    background:
+        radial-gradient(circle at 38% 34%,#fff 0 3%,#d9d9dc 34%,#777782 70%,#35353d 100%);
+    box-shadow:
+        0 0 35px rgba(255,255,255,.12),
+        0 0 110px rgba(180,180,200,.08);
+    opacity:.58;
+    filter:blur(.2px);
+}
+
+.moon:after{
+    content:"";
+    position:absolute;
+    inset:0;
+    border-radius:50%;
+    background:
+        radial-gradient(circle at 25% 30%,rgba(0,0,0,.12) 0 5%,transparent 6%),
+        radial-gradient(circle at 67% 27%,rgba(0,0,0,.11) 0 7%,transparent 8%),
+        radial-gradient(circle at 55% 67%,rgba(0,0,0,.10) 0 9%,transparent 10%);
+}
+
+.content{
+    width:min(1000px,92vw);
+    text-align:center;
+    margin-top:18vh;
+}
+
+.kicker{
+    font-size:11px;
+    letter-spacing:.5em;
+    color:rgba(255,255,255,.4);
+    margin-bottom:25px;
+}
+
+.names{
+    font-size:clamp(52px,10vw,112px);
+    line-height:.9;
+    font-weight:200;
+    letter-spacing:-.045em;
+    text-shadow:0 0 35px rgba(255,40,75,.08);
+}
+
+.names span{color:#ff3c61}
+
+.subtitle{
+    margin-top:24px;
+    font-size:clamp(17px,3vw,27px);
+    font-weight:300;
+    color:rgba(255,255,255,.72);
+    letter-spacing:.12em;
+}
+
+.date{
+    margin-top:12px;
+    font-size:11px;
+    letter-spacing:.35em;
+    color:rgba(255,255,255,.32);
+}
+
+.enter{
+    margin-top:48px;
+    position:relative;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    min-width:260px;
+    height:62px;
+    padding:0 35px;
+    border:1px solid rgba(255,50,85,.55);
+    border-radius:4px;
+    background:rgba(80,0,20,.2);
+    color:#fff;
+    text-decoration:none;
+    letter-spacing:.28em;
+    font-size:12px;
+    overflow:hidden;
+    box-shadow:
+        0 0 25px rgba(255,25,65,.08),
+        inset 0 0 20px rgba(255,25,65,.04);
+    transition:.35s ease;
+}
+
+.enter:before{
+    content:"";
+    position:absolute;
+    left:-120%;
+    top:0;
+    width:100%;
+    height:100%;
+    background:linear-gradient(90deg,transparent,rgba(255,255,255,.13),transparent);
+    transition:.65s ease;
+}
+
+.enter:hover{
+    border-color:#ff4165;
+    box-shadow:
+        0 0 35px rgba(255,30,70,.18),
+        inset 0 0 25px rgba(255,30,70,.08);
+    transform:translateY(-3px);
+}
+
+.enter:hover:before{left:120%}
+
+.corner{
+    position:absolute;
+    bottom:28px;
+    left:50%;
+    transform:translateX(-50%);
+    font-size:9px;
+    letter-spacing:.35em;
+    color:rgba(255,255,255,.2);
+}
+
+.hint{
+    position:absolute;
+    bottom:58px;
+    left:50%;
+    transform:translateX(-50%);
+    font-size:10px;
+    letter-spacing:.18em;
+    color:rgba(255,255,255,.27);
+    animation:breathe 3s ease-in-out infinite;
+}
+
+@keyframes breathe{
+    0%,100%{opacity:.25}
+    50%{opacity:.65}
+}
+
+.red-line{
+    position:absolute;
+    left:0;
+    right:0;
+    bottom:0;
+    height:1px;
+    background:#ff234f;
+    box-shadow:0 0 15px rgba(255,35,79,.8);
+    animation:linePulse 2.7s ease-in-out infinite;
+}
+
+@keyframes linePulse{
+    0%,100%{opacity:.25}
+    50%{opacity:.9}
+}
+
+#transition{
+    position:fixed;
+    inset:0;
+    z-index:100;
+    background:#020207;
+    pointer-events:none;
+    opacity:0;
+}
+
+#transition.active{
+    animation:fadeIn .85s ease forwards;
+}
+
+#slash{
+    position:absolute;
+    left:-20%;
+    top:50%;
+    width:140%;
+    height:2px;
+    background:#ff234f;
+    box-shadow:0 0 8px #ff234f,0 0 30px rgba(255,35,79,.8);
+    transform:rotate(-5deg) scaleX(0);
+}
+
+#transition.active #slash{
+    animation:slash .75s ease .05s forwards;
+}
+
+#transitionText{
+    position:absolute;
+    inset:0;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:clamp(18px,4vw,42px);
+    letter-spacing:.3em;
+    opacity:0;
+}
+
+#transition.active #transitionText{
+    animation:textIn .45s ease .42s forwards;
+}
+
+@keyframes fadeIn{to{opacity:1}}
+@keyframes slash{to{transform:rotate(-5deg) scaleX(1)}}
+@keyframes textIn{to{opacity:1}}
+
+@media(max-width:700px){
+    .moon{
+        width:270px;
+        height:270px;
+        top:7vh;
+    }
+    .content{
+        margin-top:25vh;
+    }
+    .kicker{
+        letter-spacing:.32em;
+        font-size:9px;
+    }
+    .names{
+        font-size:clamp(46px,15vw,75px);
+    }
+    .subtitle{
+        font-size:16px;
+    }
+    .enter{
+        min-width:230px;
+        height:58px;
+    }
+}
+
+@media(max-width:420px){
+    .moon{
+        width:220px;
+        height:220px;
+        top:8vh;
+    }
+    .content{
+        margin-top:27vh;
+    }
+    .names{
+        font-size:47px;
+    }
+    .date{
+        letter-spacing:.2em;
+    }
+}
+</style>
 </head>
+
 <body>
-<p>Opening our story... ❤️</p>
+
+<canvas id="stars"></canvas>
+<canvas id="mist"></canvas>
+
+<div class="scene">
+
+    <div class="moon"></div>
+
+    <main class="content">
+
+        <div class="kicker">
+            A STORY THAT IS STILL BEING WRITTEN
+        </div>
+
+        <div class="names">
+            Oksy <span>&amp;</span> Marina
+        </div>
+
+        <div class="subtitle">
+            OUR STORY
+        </div>
+
+        <div class="date">
+            27 · 06 · 2026 — FOREVER MOVING
+        </div>
+
+        <a href="story.html" class="enter" id="enterStory">
+            ENTER OUR STORY
+        </a>
+
+    </main>
+
+    <div class="hint">
+        THERE IS MORE BEYOND THIS PAGE
+    </div>
+
+    <div class="corner">
+        SOME STORIES ARE MEANT TO KEEP MOVING
+    </div>
+
+    <div class="red-line"></div>
+
+</div>
+
+<div id="transition">
+    <div id="slash"></div>
+    <div id="transitionText">OUR STORY</div>
+</div>
+
+<script>
+/* =========================================================
+   STAR FIELD
+========================================================= */
+
+const stars = document.getElementById("stars");
+const sctx = stars.getContext("2d");
+
+let W = innerWidth;
+let H = innerHeight;
+let DPR = Math.min(devicePixelRatio || 1,2);
+
+function resize(){
+    W = innerWidth;
+    H = innerHeight;
+    DPR = Math.min(devicePixelRatio || 1,2);
+
+    stars.width = W * DPR;
+    stars.height = H * DPR;
+    stars.style.width = W + "px";
+    stars.style.height = H + "px";
+
+    sctx.setTransform(DPR,0,0,DPR,0,0);
+
+    mist.width = W * DPR;
+    mist.height = H * DPR;
+    mist.style.width = W + "px";
+    mist.style.height = H + "px";
+
+    mctx.setTransform(DPR,0,0,DPR,0,0);
+}
+
+window.addEventListener("resize",resize);
+
+
+/* =========================================================
+   STARS
+========================================================= */
+
+const particles = Array.from(
+    {length: innerWidth < 700 ? 80 : 150},
+    () => ({
+        x:Math.random()*W,
+        y:Math.random()*H,
+        r:Math.random()*1.2+.2,
+        a:Math.random()*.5+.08,
+        vx:(Math.random()-.5)*.08,
+        vy:(Math.random()-.5)*.08
+    })
+);
+
+function drawStars(){
+
+    sctx.clearRect(0,0,W,H);
+
+    for(const p of particles){
+
+        p.x += p.vx;
+        p.y += p.vy;
+
+        if(p.x < 0) p.x = W;
+        if(p.x > W) p.x = 0;
+        if(p.y < 0) p.y = H;
+        if(p.y > H) p.y = 0;
+
+        sctx.beginPath();
+        sctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+        sctx.fillStyle =
+            `rgba(255,255,255,${p.a})`;
+        sctx.fill();
+    }
+
+    requestAnimationFrame(drawStars);
+}
+
+
+/* =========================================================
+   MIST
+========================================================= */
+
+const mist = document.getElementById("mist");
+const mctx = mist.getContext("2d");
+
+let t = 0;
+
+function drawMist(){
+
+    t += .002;
+
+    mctx.clearRect(0,0,W,H);
+
+    const g =
+        mctx.createRadialGradient(
+            W*.5,
+            H*.65,
+            20,
+            W*.5,
+            H*.65,
+            Math.max(W,H)*.7
+        );
+
+    const shift =
+        Math.sin(t)*.035;
+
+    g.addColorStop(
+        0,
+        `rgba(120,10,35,${.10+shift})`
+    );
+
+    g.addColorStop(
+        .55,
+        "rgba(70,5,20,.035)"
+    );
+
+    g.addColorStop(
+        1,
+        "rgba(0,0,0,0)"
+    );
+
+    mctx.fillStyle = g;
+    mctx.fillRect(0,0,W,H);
+
+    requestAnimationFrame(drawMist);
+}
+
+resize();
+drawStars();
+drawMist();
+
+
+/* =========================================================
+   CINEMATIC ENTRY
+========================================================= */
+
+const enter =
+    document.getElementById("enterStory");
+
+const transition =
+    document.getElementById("transition");
+
+enter.addEventListener("click",function(e){
+
+    e.preventDefault();
+
+    transition.classList.add("active");
+
+    setTimeout(() => {
+        window.location.href = "story.html";
+    },1050);
+
+});
+</script>
+
 </body>
 </html>
