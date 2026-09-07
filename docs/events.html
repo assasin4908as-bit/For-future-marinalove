@@ -67,6 +67,37 @@
 .event-splash .splash-soft{color:#777984;font-size:13px}
 .event-splash.hidden{display:none!important}
 @keyframes splashPulse{50%{transform:scale(1.08);opacity:.55}}
+
+/* MOBILE RESPONSIVE PATCH — all controls stay visible on phones */
+@media (max-width: 700px){
+  html,body{width:100%;max-width:100%;overflow-x:hidden;}
+  *{max-width:100%;}
+  .top{width:100%;flex-wrap:wrap;gap:10px;padding:12px 14px;}
+  .brand,.back{min-width:0;max-width:100%;}
+  .tabs,.red-nav,.red-return,.actions{width:100%;display:grid;grid-template-columns:1fr;gap:9px;}
+  .tab,.red-nav button,.red-return .btn,.actions .btn,.btn{width:100%;min-width:0;max-width:100%;white-space:normal;overflow-wrap:anywhere;text-align:center;}
+  .wrap{width:100%;max-width:100%;padding-left:14px;padding-right:14px;}
+  .grid,.object-grid,.door-code,.facts,.subject{grid-template-columns:1fr!important;}
+  .stats{grid-template-columns:1fr 1fr!important;}
+  .card,.game-board,.subject-info,.words{min-width:0;width:100%;}
+  .section-title{flex-direction:column;align-items:flex-start;gap:8px;}
+  .red-return{display:flex;flex-direction:column;}
+  .modal{padding:10px;}
+  .modal-box{width:100%;max-width:none;max-height:92vh;padding:16px;}
+  .event-splash{width:100%;min-height:360px;padding:34px 18px;}
+  .event-splash h2{font-size:clamp(32px,10vw,56px);overflow-wrap:anywhere;}
+  .event-splash p{font-size:15px;}
+  .game-object,.door-symbol,.word{width:100%;min-width:0;}
+  .red-hero h1{font-size:clamp(38px,12vw,58px);overflow-wrap:anywhere;}
+  .pill{max-width:100%;white-space:normal;overflow-wrap:anywhere;}
+  .red-nav button{min-height:46px;}
+}
+@media (max-width: 420px){
+  .stats{grid-template-columns:1fr!important;}
+  .wrap{padding-left:10px;padding-right:10px;}
+  .top{padding:10px;}
+  .modal-box{padding:13px;}
+}
 </style>
 </head>
 <body>
