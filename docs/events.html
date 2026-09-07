@@ -23,6 +23,13 @@
 .reset{margin-top:30px;text-align:center}.reset button{cursor:pointer;border:1px solid rgba(255,255,255,.1);background:transparent;color:#555;border-radius:9px;padding:7px 10px;font-size:9px}
 @media(max-width:700px){.stats{grid-template-columns:repeat(2,1fr)}.subject{grid-template-columns:1fr}.facts{grid-template-columns:1fr}.door-code{grid-template-columns:1fr}.top{padding:12px 14px}.wrap{padding-top:28px}.modal-box{padding:20px}}
 </style>
+<style>
+@keyframes redTargetPulse{
+  from{transform:scale(.92);filter:brightness(.9)}
+  to{transform:scale(1.08);filter:brightness(1.25)}
+}
+</style>
+
 
 <style id="final-fix-css">
 /* Event VII is a normal Events card. Scarlet colors belong ONLY to the world after entry. */
@@ -186,7 +193,7 @@ function renderRed(){
     let available=e.unlock(state);
     if(!completed && !available && i>state.redCompleted.length) return '';
     let st=completed?'completed':available?'available':'locked';
-    return `<article class="card"><div class="icon">${e.icon}</div><div class="code">${e.code}</div><h2>${e.title}</h2><p>${e.desc}</p><div class="meta"><span class="pill status ${st}">${st.toUpperCase()}</span><span class="pill">${completed?'ARCHIVE UPDATED':e.entry}</span></div><div class="actions">${available?`<button class="btn red-pulse" onclick="playRed('${e.id}')">ENTER EVENT</button>`:'<button class="btn secondary" disabled>🔒 LOCKED</button>'}</div></article>`;
+    return `<article class="card"><div class="icon">${e.icon}</div><div class="code">${e.code}</div><h2>${e.title}</h2><p>${e.desc}</p><div class="meta"><span class="pill status ${st}">${st.toUpperCase()}</span><span class="pill">${completed?'MEMORY RECOVERED':'MEMORY HIDDEN'}</span></div><div class="actions">${available?`<button class="btn red-pulse" onclick="playRed('${e.id}')">ENTER EVENT</button>`:'<button class="btn secondary" disabled>🔒 LOCKED</button>'}</div></article>`;
   }).join('');
 
   const visibleMemories=RED_MEMORY.map((m,i)=>{
@@ -210,10 +217,11 @@ function renderRed(){
   ].filter(Boolean).join(' · ') || '—';
 
   const tab=document.getElementById('redUnknownTab');
-  const unlockedFinal=state.redCompleted.length>=6;
+  const unknown=document.getElementById('redUnknown');
+  const unlockedFinal=state.redCompleted.length===6;
   tab.disabled=!unlockedFinal;
   tab.style.display=unlockedFinal?'':'none';
-  const unknown=document.getElementById('redUnknown');
+  unknown.style.display=unlockedFinal?'':'none';
   if(!unlockedFinal) unknown.classList.remove('active');
   document.getElementById('subjectSummary').textContent=
     state.redCompleted.length>=3
@@ -297,32 +305,58 @@ function returnToLivingEvents(){state.red=false;history.replaceState({},'',locat
 function playRed(id){let e=RED.find(x=>x.id===id);if(!e||state.redCompleted.includes(id)||!e.unlock(state))return;if(id==='room'&&!state.redCompleted.includes('mark'))return;if(id==='mark')redGameMark();if(id==='room')redGameRoom();if(id==='remains')redGameRemains();if(id==='longnight')redGameLongNight();if(id==='fever')redGameFever();if(id==='bullet')redGameBullet()}
 function redOpen(e,html){state.current=e.id;document.getElementById('modalCode').textContent=e.code;document.getElementById('modalTitle').textContent=e.title;document.getElementById('modalIntro').textContent=e.desc;document.getElementById('gameArea').innerHTML=html;document.getElementById('eventModal').classList.add('show')}
 function completeRed(id){let idx=RED.findIndex(e=>e.id===id);if(idx<0)return;if(!state.redCompleted.includes(id))state.redCompleted.push(id);if(!state.memory.includes(idx))state.memory.push(idx);let entry=RED_MEMORY[idx][0];if(!state.encyclopedia.includes(entry))state.encyclopedia.push(entry);if(state.redCompleted.length>=3&&!state.achievements.includes('eyes'))state.achievements.push('eyes');save();closeModal();render();showToast('🩸 RED EVENT COMPLETE — '+RED[idx].title);}
-function redGameMark(){redOpen(RED[0],`<div class="game active"><div class="game-board" style="min-height:330px"><p>THE NIGHTMARE</p><p style="color:#aaa">Catch the real white figure. False silhouettes are distractions, but a wrong click will not reset your progress. Catch the real figure 8 times.</p><div id="chaseBoard" style="height:210px;position:relative"></div><div id="redMsg" class="game-message">0 / 8 catches</div></div></div>`);window.chase=0;window.falseClicks=0;spawnChase()}
+function redGameMark(){
+  redOpen(RED[0],`<div class="game active">
+    <div class="game-board" style="min-height:330px">
+      <p>THE NIGHTMARE</p>
+      <p style="color:#aaa">Find the single red object. It is the only thing you need to follow. Catch it 8 times.</p>
+      <div id="chaseBoard" style="height:210px;position:relative"></div>
+      <div id="redMsg" class="game-message">0 / 8 catches</div>
+    </div>
+  </div>`);
+  window.chase=0;
+  spawnChase();
+}
 function spawnChase(){
-  let b=document.getElementById('chaseBoard'); if(!b)return;
+  const b=document.getElementById('chaseBoard');
+  if(!b)return;
+
   b.innerHTML='';
-  let realIndex=Math.floor(Math.random()*3);
-  for(let i=0;i<3;i++){
-    let x=document.createElement('button');
-    x.style.cssText='position:absolute;width:72px;height:100px;border:1px solid rgba(255,255,255,.24);border-radius:45%;background:#15151b;color:#fff;cursor:pointer;font-size:28px;box-shadow:0 0 18px rgba(255,255,255,.08);';
-    x.style.left=(8+Math.random()*76)+'%';
-    x.style.top=(8+Math.random()*62)+'%';
-    x.textContent=i===realIndex?'◯':'○';
-    x.dataset.real=i===realIndex?'1':'0';
-    x.onclick=()=>{
-      if(x.dataset.real==='1'){
-        window.chase++;
-        document.getElementById('redMsg').textContent=window.chase+' / 8 catches';
-        if(window.chase>=8) completeRed('mark');
-        else spawnChase();
-      }else{
-        x.style.opacity='.25';
-        x.disabled=true;
-        document.getElementById('redMsg').textContent='False silhouette. Keep looking — your progress stays.';
-      }
-    };
-    b.appendChild(x);
-  }
+
+  const x=document.createElement('button');
+  x.type='button';
+  x.setAttribute('aria-label','Red object');
+  x.style.cssText=`
+    position:absolute;
+    width:78px;
+    height:78px;
+    border-radius:50%;
+    border:2px solid rgba(255,110,110,.95);
+    background:radial-gradient(circle at 35% 30%,#ffb0b0 0%,#ff3b3b 28%,#b40000 68%,#5b0000 100%);
+    color:#fff;
+    cursor:pointer;
+    box-shadow:0 0 18px rgba(255,40,40,.8),0 0 42px rgba(255,0,0,.35);
+    animation:redTargetPulse 1s ease-in-out infinite alternate;
+    z-index:2;
+  `;
+  x.textContent='✦';
+
+  x.style.left=(10+Math.random()*74)+'%';
+  x.style.top=(10+Math.random()*58)+'%';
+
+  x.onclick=()=>{
+    window.chase++;
+    document.getElementById('redMsg').textContent=window.chase+' / 8 catches';
+
+    if(window.chase>=8){
+      completeRed('mark');
+      return;
+    }
+
+    spawnChase();
+  };
+
+  b.appendChild(x);
 }
 function redGameRoom(){redOpen(RED[1],`<div class="game active"><div class="game-board"><p>Reconstruct the missing memory in order.</p><div class="words" id="roomWords"></div><div id="redMsg" class="game-message">1 / 7</div></div></div>`);window.roomSeq=0;let labels=['pain','bandage','silence','blank space','lost memory','question','awake'];let box=document.getElementById('roomWords');labels.sort(()=>Math.random()-.5).forEach((x,i)=>{let b=document.createElement('button');b.className='word';b.textContent=x;b.dataset.n=labels.indexOf(x)+1;b.onclick=()=>{let expected=window.roomSeq+1;if(Number(b.dataset.n)!==expected){window.roomSeq=0;document.querySelectorAll('#roomWords .word').forEach(z=>z.classList.remove('selected'));document.getElementById('redMsg').textContent='The fragments reshuffle.';redGameRoom();return}window.roomSeq++;b.classList.add('selected');document.getElementById('redMsg').textContent=window.roomSeq+' / 7';if(window.roomSeq===7)completeRed('room')};box.appendChild(b)})}
 function redGameRemains(){redOpen(RED[2],`<div class="game active"><div class="game-board"><p>Three truths. Two wrong choices reset the round.</p><div class="words" id="truths"></div><div id="redMsg" class="game-message">Round 1 / 3</div></div></div>`);window.truthRound=0;window.truthErrors=0;nextTruth()}
@@ -331,7 +365,7 @@ function redGameLongNight(){redOpen(RED[3],`<div class="game active"><div class=
 function redGameFever(){redOpen(RED[4],`<div class="game active"><div class="game-board"><p>Rebuild the fever memory. The sequence is hidden inside the story.</p><div class="words" id="feverChoices"></div><div id="redMsg" class="game-message">Choose the first fragment.</div><div class="hint-box" id="feverHint">Hints available: 3</div><button class="btn secondary" onclick="revealFeverHint()">REVEAL HINT</button></div></div>`);state.fever={seq:[],hints:0};let items=['40°C','HEAT','SWEAT','THIRST','WATER','WEAKNESS','DIZZINESS','DARKNESS','AWAKE'];let box=document.getElementById('feverChoices');items.forEach((x,i)=>{let b=document.createElement('button');b.className='word';b.textContent=x;b.dataset.n=i+1;b.onclick=()=>{if(Number(b.dataset.n)!==state.fever.seq.length+1){state.fever.seq=[];document.querySelectorAll('#feverChoices .word').forEach(z=>z.classList.remove('selected'));document.getElementById('redMsg').textContent='The fever breaks the sequence. Start again.';return}state.fever.seq.push(i+1);b.classList.add('selected');document.getElementById('redMsg').textContent=state.fever.seq.length+' / 9';if(state.fever.seq.length===9)completeRed('fever')};box.appendChild(b)})}
 function revealFeverHint(){if(state.fever.hints>=3)return;state.fever.hints++;let hints=['The memory begins with the temperature that burns.','After water comes weakness — then the world starts to disappear.','The final three are DIZZINESS → DARKNESS → AWAKE.'];document.getElementById('feverHint').textContent='Hint '+state.fever.hints+': '+hints[state.fever.hints-1]}
 function redGameBullet(){redOpen(RED[5],`<div class="game active"><div class="game-board"><p>Seven safe points. Move through the street without touching the warning zone.</p><div class="words" id="bulletChoices"></div><div id="redMsg" class="game-message">0 / 7 safe points</div></div></div>`);window.bulletSeq=0;let box=document.getElementById('bulletChoices');for(let i=1;i<=7;i++){let b=document.createElement('button');b.className='word';b.textContent='SAFE POINT '+i;b.onclick=()=>{if(i!==window.bulletSeq+1){window.bulletSeq=0;document.querySelectorAll('#bulletChoices .word').forEach(z=>z.classList.remove('selected'));document.getElementById('redMsg').textContent='Warning. The route resets.';return}window.bulletSeq++;b.classList.add('selected');document.getElementById('redMsg').textContent=window.bulletSeq+' / 7 safe points';if(window.bulletSeq===7)completeRed('bullet')};box.appendChild(b)}}
-function playFinalNightmare(){if(state.redCompleted.length<6)return;redOpen({code:'FINAL NIGHTMARE',title:'THE WHITE GIRL',desc:'The last run. Catch what you spent years trying to reach.'},`<div class="game active"><div class="game-board" style="min-height:350px"><p>The white girl runs through the fog. Catch the real figure.</p><div id="finalBoard" style="height:230px;position:relative"></div><div id="finalMsg" class="game-message">0 / 15 catches</div></div></div>`);window.finalCatch=0;spawnFinal()}
+function playFinalNightmare(){if(state.redCompleted.length!==6)return;redOpen({code:'FINAL NIGHTMARE',title:'THE WHITE GIRL',desc:'The last run. Catch what you spent years trying to reach.'},`<div class="game active"><div class="game-board" style="min-height:350px"><p>The white girl runs through the fog. Catch the real figure.</p><div id="finalBoard" style="height:230px;position:relative"></div><div id="finalMsg" class="game-message">0 / 15 catches</div></div></div>`);window.finalCatch=0;spawnFinal()}
 function spawnFinal(){let b=document.getElementById('finalBoard');if(!b)return;b.innerHTML='';for(let i=0;i<4;i++){let x=document.createElement('button');x.style.cssText='position:absolute;width:48px;height:90px;border:0;background:rgba(255,255,255,.1);border-radius:50% 50% 42% 42%;color:#fff;cursor:pointer';x.style.left=(5+Math.random()*82)+'%';x.style.top=(5+Math.random()*70)+'%';x.textContent='◯';x.dataset.real=i===Math.floor(Math.random()*4)?'1':'0';x.onclick=()=>{if(x.dataset.real==='1'){window.finalCatch++;document.getElementById('finalMsg').textContent=window.finalCatch+' / 15 catches';if(window.finalCatch>=15){state.final=true;if(!state.achievements.includes('hidden'))state.achievements.push('hidden');if(!state.achievements.includes('complete'))state.achievements.push('complete');save();closeModal();render();showToast('✦ YOU FOUND WHAT I HID');}else spawnFinal()}else{window.finalCatch=0;document.getElementById('finalMsg').textContent='The false figure. The run resets.';spawnFinal()}};b.appendChild(x)}}
 function showToast(text){let t=document.getElementById('toast');t.textContent=text;t.classList.add('show');clearTimeout(showToast.timer);showToast.timer=setTimeout(()=>t.classList.remove('show'),3000)}
 function transitionToRoom(){let tr=document.getElementById('transition');tr.classList.remove('show','hide');void tr.offsetWidth;tr.classList.add('show','hide');setTimeout(()=>{playRed('room')},3900)}
