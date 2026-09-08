@@ -99,9 +99,39 @@ canvas{position:absolute;inset:0;width:100%;height:100%}
  #stats{top:122px}.intro-title{letter-spacing:11px}.intro-sub{font-size:9px}
  #panel{bottom:15px}
 }
+
+.worldExit{
+ position:fixed;
+ top:18px;
+ left:18px;
+ z-index:300;
+ display:inline-flex;
+ align-items:center;
+ justify-content:center;
+ padding:10px 15px;
+ border:1px solid rgba(255,255,255,.28);
+ border-radius:999px;
+ background:rgba(1,2,8,.72);
+ color:#eee;
+ text-decoration:none;
+ font-size:9px;
+ letter-spacing:2px;
+ backdrop-filter:blur(10px);
+ box-shadow:0 0 22px rgba(255,255,255,.05);
+ transition:.3s ease;
+}
+.worldExit:hover{
+ border-color:#fff;
+ transform:translateX(-3px);
+ box-shadow:0 0 28px rgba(255,255,255,.12);
+}
+@media(max-width:600px){
+ .worldExit{top:12px;left:12px;font-size:8px;padding:9px 12px}
+}
 </style>
 </head>
 <body>
+<a class="worldExit" href="story.html">← BACK TO STORY</a>
 
 <canvas id="space"></canvas>
 <canvas id="vortex"></canvas>
@@ -1122,6 +1152,13 @@ function startFinal(){
     ctx.lineTo(lineLength,0);
     ctx.stroke();
 
+    /* VORTEX PROGRESS */
+    const vortexProgress =
+      Math.min(
+        Math.max(elapsed-1.3,0)/4.2,
+        1
+      );
+
     /* tiny blue/pink particles around the contact point */
     for(let k=0;k<34;k++){
       const a=k*.82+elapsed*.8;
@@ -1134,12 +1171,6 @@ function startFinal(){
     }
 
     /* VORTEX */
-    const vortexProgress=
-      Math.min(
-        Math.max(elapsed-1.3,0)/4.2,
-        1
-      );
-
     ctx.globalAlpha=
       vortexProgress*.65;
 
@@ -1216,7 +1247,7 @@ function startFinal(){
         "🏆 ABYSS CONQUERED";
 
       document.getElementById("achievementSub").textContent =
-        "БЕЗДНА ПРОЙДЕНА · 36 ТОЧЕК";
+        "ABYSS CONQUERED · 36 POINTS";
 
     }
 
@@ -1234,7 +1265,7 @@ document
     "pointerdown",
     event=>{
       event.preventDefault();
-      location.reload();
+      location.href="story.html";
     }
   );
 

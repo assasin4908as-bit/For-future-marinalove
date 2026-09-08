@@ -2291,6 +2291,64 @@ filter:blur(1px);opacity:.55;pointer-events:none;transition:opacity 1.4s,transfo
     .world-card{min-height:220px;padding:24px}
 }
 </style>
+
+<style id="story-final-mobile-nav">
+@media (max-width:700px){
+    .top-nav{
+        position:relative!important;
+        height:auto!important;
+        min-height:64px!important;
+        display:grid!important;
+        grid-template-columns:1fr!important;
+        gap:8px!important;
+        padding:10px 12px!important;
+    }
+
+    .nav-links{
+        width:100%!important;
+        max-width:none!important;
+        display:flex!important;
+        flex-wrap:wrap!important;
+        justify-content:center!important;
+        align-items:center!important;
+        gap:6px!important;
+        overflow:visible!important;
+    }
+
+    .nav-links a,
+    .nav-links a:nth-child(3),
+    .nav-links a:nth-child(n+4){
+        display:inline-flex!important;
+        visibility:visible!important;
+        opacity:1!important;
+        white-space:nowrap!important;
+        font-size:10px!important;
+        padding:6px 8px!important;
+    }
+
+    .hero{
+        padding-top:245px!important;
+    }
+}
+
+@media (max-width:480px){
+    .hero{
+        padding-top:265px!important;
+    }
+
+    .nav-links{
+        gap:4px!important;
+    }
+
+    .nav-links a,
+    .nav-links a:nth-child(3),
+    .nav-links a:nth-child(n+4){
+        font-size:9px!important;
+        padding:5px 6px!important;
+    }
+}
+</style>
+
 </head>
 
 <body>
@@ -7087,6 +7145,6 @@ checkTrees();checkFragments();checkCat();checkCandles();checkBook();checkStars()
 })();
 </script>
 
-<script src="abyss-integration.js"></script>
+<!-- ABYSS is linked directly from the Deep Worlds section. -->
 </body>
 </html>

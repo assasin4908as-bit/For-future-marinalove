@@ -283,6 +283,35 @@ body.s20 #coreMessage{display:block}
  .introTitle{letter-spacing:8px}
  .monoButton{width:95px;height:220px}
 }
+
+.worldExit{
+ position:fixed;
+ top:18px;
+ left:18px;
+ z-index:500;
+ display:inline-flex;
+ align-items:center;
+ justify-content:center;
+ padding:10px 15px;
+ border:1px solid rgba(255,255,255,.26);
+ border-radius:999px;
+ background:rgba(2,2,4,.78);
+ color:#fff;
+ text-decoration:none;
+ font-size:9px;
+ letter-spacing:2px;
+ backdrop-filter:blur(10px);
+ box-shadow:0 0 24px rgba(255,255,255,.05);
+ transition:.3s ease;
+}
+.worldExit:hover{
+ border-color:#fff;
+ transform:translateX(-3px);
+ box-shadow:0 0 30px rgba(255,255,255,.13);
+}
+@media(max-width:700px){
+ .worldExit{top:12px;left:12px;font-size:8px;padding:9px 12px}
+}
 </style>
 </head>
 

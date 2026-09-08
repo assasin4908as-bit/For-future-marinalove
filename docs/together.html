@@ -673,10 +673,40 @@ canvas{
         letter-spacing:4px;
     }
 }
+
+.worldExit{
+    position:fixed;
+    top:18px;
+    left:18px;
+    z-index:100;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    padding:10px 15px;
+    border:1px solid rgba(255,255,255,.24);
+    border-radius:999px;
+    background:rgba(2,2,7,.72);
+    color:#fff;
+    text-decoration:none;
+    font-size:9px;
+    letter-spacing:2px;
+    backdrop-filter:blur(10px);
+    transition:.3s ease;
+    box-shadow:0 0 22px rgba(255,255,255,.05);
+}
+.worldExit:hover{
+    border-color:#fff;
+    transform:translateX(-3px);
+    box-shadow:0 0 28px rgba(255,255,255,.12);
+}
+@media(max-width:700px){
+    .worldExit{top:12px;left:12px;font-size:8px;padding:9px 12px}
+}
 </style>
 </head>
 
 <body>
+<a class="worldExit" href="story.html">← BACK TO STORY</a>
 
 <canvas id="background"></canvas>
 <canvas id="effects"></canvas>
