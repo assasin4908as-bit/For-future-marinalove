@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>MONOLITH — Full Working Probe</title>
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;width:100%;height:100%;background:#020204;color:#f4f4f4;font-family:Arial,sans-serif}
+body{overflow:hidden}
+button{font:inherit}
+
+/* ================= WORLD ================= */
+#world{
+ position:fixed;inset:0;overflow:hidden;
+ background:
+ radial-gradient(ellipse at 50% 48%,rgba(255,255,255,.045),transparent 19%),
+ radial-gradient(ellipse at 50% 70%,rgba(80,82,92,.09),transparent 43%),
+ linear-gradient(180deg,#010102 0%,#08090c 52%,#010102 100%);
+ transition:background 2.8s ease;
+}
+#world:before{
+ content:"";position:absolute;inset:0;
+ background:
+ radial-gradient(ellipse at 50% 45%,transparent 25%,rgba(0,0,0,.64) 72%),
+ repeating-linear-gradient(108deg,transparent 0 150px,rgba(255,255,255,.018) 151px 152px);
+ animation:worldDrift 24s linear infinite;
+}
+#world:after{
+ content:"";position:absolute;inset:-20%;
+ background:radial-gradient(ellipse,rgba(140,140,150,.035),transparent 58%);
+ filter:blur(35px);
+ animation:fogMove 12s ease-in-out infinite alternate;
+}
+@keyframes worldDrift{to{transform:translate(30px,-15px)}}
+@keyframes fogMove{to{transform:translateX(8%) scale(1.08)}}
+
+.fog{
+ position:absolute;inset:-20%;z-index:1;
+ background:
+ radial-gradient(ellipse at 25% 65%,rgba(150,150,160,.045),transparent 28%),
+ radial-gradient(ellipse at 75% 35%,rgba(150,150,160,.04),transparent 30%);
+ filter:blur(24px);
+ animation:fog 9s ease-in-out infinite alternate;
+}
+@keyframes fog{to{transform:translateX(8%) scale(1.08)}}
+
+.particle{
+ position:absolute;width:2px;height:2px;border-radius:50%;
+ background:#ddd;opacity:.18;z-index:2;
+ animation:particleRise linear infinite;
+}
+@keyframes particleRise{
+ from{transform:translateY(15vh);opacity:0}
+ 20%{opacity:.28}
+ 80%{opacity:.18}
+ to{transform:translateY(-120vh);opacity:0}
+}
+
+/* Background monolith */
+#stone{
+ position:absolute;left:50%;top:50%;
+ width:min(430px,42vw);height:min(680px,82vh);
+ transform:translate(-50%,-48%);
+ z-index:2;
+ background:
+ linear-gradient(90deg,#040406 0%,#15161a 40%,#202126 48%,#08090b 78%,#030305 100%);
+ clip-path:polygon(17% 0,88% 3%,97% 95%,69% 100%,6% 96%,1% 7%);
+ opacity:.38;
+ filter:drop-shadow(0 0 55px #000);
+ transition:all 2.8s ease;
+}
+#stone:before{
+ content:"";position:absolute;inset:0;
+ background:linear-gradient(110deg,transparent 20%,rgba(255,255,255,.06) 49%,transparent 70%);
+ transform:translateX(-120%);
+ animation:stoneSweep 8s ease-in-out infinite;
+}
+@keyframes stoneSweep{50%{transform:translateX(120%)}}
+
+#coreGlow{
+ position:absolute;left:50%;top:50%;z-index:4;
+ width:12px;height:12px;border-radius:50%;
+ transform:translate(-50%,-50%);
+ background:#fff;opacity:0;
+ box-shadow:0 0 50px 12px rgba(255,255,255,.22);
+ transition:all 2.5s ease;
+}
+.structure{
+ position:absolute;left:50%;top:50%;z-index:3;
+ width:480px;height:480px;transform:translate(-50%,-50%) rotate(45deg) scale(.55);
+ border:1px solid rgba(255,255,255,.025);
+ opacity:0;transition:all 2.5s ease;
+}
+.structure.two{transform:translate(-50%,-50%) rotate(0deg) scale(.5);width:300px;height:600px}
+.structure.three{transform:translate(-50%,-50%) rotate(90deg) scale(.45);width:650px;height:250px}
+body.s5 #world{
+ background:
+ radial-gradient(ellipse at 50% 48%,rgba(255,255,255,.075),transparent 23%),
+ radial-gradient(ellipse at 50% 70%,rgba(90,92,104,.13),transparent 48%),
+ linear-gradient(180deg,#020204,#0e0f13 52%,#010102);
+}
+body.s10 #world{
+ background:
+ radial-gradient(ellipse at 50% 48%,rgba(255,255,255,.12),transparent 27%),
+ radial-gradient(circle at 24% 60%,rgba(110,112,124,.07),transparent 28%),
+ radial-gradient(circle at 76% 40%,rgba(110,112,124,.07),transparent 28%),
+ linear-gradient(180deg,#030306,#14151a 52%,#020203);
+}
+body.s15 #world{
+ background:
+ radial-gradient(ellipse at 50% 50%,rgba(255,255,255,.19),transparent 28%),
+ radial-gradient(circle at 20% 70%,rgba(150,152,165,.11),transparent 30%),
+ radial-gradient(circle at 80% 30%,rgba(150,152,165,.10),transparent 30%),
+ linear-gradient(180deg,#040407,#191a20 52%,#020203);
+}
+body.s20 #world{
+ background:
+ radial-gradient(circle at 50% 50%,rgba(255,255,255,.42),transparent 18%),
+ radial-gradient(circle at 50% 50%,rgba(180,185,195,.16),transparent 43%),
+ linear-gradient(180deg,#060609,#1a1b21 55%,#020203);
+}
+body.s5 #stone{opacity:.5;filter:drop-shadow(0 0 60px #000)}
+body.s10 #stone{opacity:.62;transform:translate(-50%,-48%) scale(1.015);box-shadow:inset 0 0 100px rgba(255,255,255,.04)}
+body.s15 #stone{opacity:.75;transform:translate(-50%,-48%) scale(1.03);box-shadow:inset 0 0 160px rgba(255,255,255,.10)}
+body.s20 #stone{opacity:.14;transform:translate(-50%,-48%) scale(1.1);filter:blur(1px)}
+body.s5 .structure{opacity:.22;transform:translate(-50%,-50%) rotate(45deg) scale(.7)}
+body.s10 .structure{opacity:.4;transform:translate(-50%,-50%) rotate(80deg) scale(.9)}
+body.s15 .structure{opacity:.65;transform:translate(-50%,-50%) rotate(125deg) scale(1.12)}
+body.s20 .structure{opacity:1;transform:translate(-50%,-50%) rotate(180deg) scale(1.35);border-color:rgba(255,255,255,.13)}
+body.s5 .structure.two{transform:translate(-50%,-50%) rotate(25deg) scale(.65)}
+body.s10 .structure.two{transform:translate(-50%,-50%) rotate(55deg) scale(.85)}
+body.s15 .structure.two{transform:translate(-50%,-50%) rotate(90deg) scale(1)}
+body.s20 .structure.two{transform:translate(-50%,-50%) rotate(135deg) scale(1.2)}
+body.s10 .structure.three{opacity:.22}
+body.s15 .structure.three{opacity:.5}
+body.s20 .structure.three{opacity:.8}
+body.s5 #coreGlow{opacity:.04}
+body.s10 #coreGlow{opacity:.12}
+body.s15 #coreGlow{opacity:.32;box-shadow:0 0 90px 28px rgba(255,255,255,.18)}
+body.s20 #coreGlow{opacity:1;width:32px;height:32px;box-shadow:0 0 180px 60px rgba(255,255,255,.42)}
+
+/* ================= INTRO ================= */
+#intro{
+ position:fixed;inset:0;z-index:100;
+ display:flex;align-items:center;justify-content:center;text-align:center;
+ background:#010102;
+ transition:opacity 1.2s ease,transform 1.5s ease;
+}
+#intro.out{opacity:0;transform:scale(1.07);pointer-events:none}
+.kicker{font-size:10px;letter-spacing:6px;opacity:.5}
+.introTitle{font-size:clamp(45px,10vw,105px);letter-spacing:14px;font-weight:300;margin:15px 0}
+.monoButton{
+ width:115px;height:265px;margin:38px auto 24px;cursor:pointer;
+ position:relative;
+ background:linear-gradient(90deg,#040405,#292a2e 48%,#060607);
+ clip-path:polygon(14% 0,88% 3%,100% 95%,70% 100%,4% 94%,0 8%);
+ box-shadow:0 0 50px #000;
+}
+.monoButton:hover{filter:brightness(1.35)}
+#introCrack{
+ position:absolute;left:50%;top:8%;width:2px;height:24px;
+ transform:translateX(-50%);background:#fff;opacity:0;box-shadow:0 0 13px #fff;
+}
+.introBranch{
+ position:absolute;left:50%;top:18%;height:80px;width:1px;
+ transform-origin:top;background:#fff;opacity:0;
+}
+.crackOn{animation:crackOpen .8s forwards}
+.branchOn{animation:branchOpen .9s forwards}
+@keyframes crackOpen{to{height:180px;opacity:1}}
+@keyframes branchOpen{to{opacity:.8}}
+.enterHint{font-size:10px;letter-spacing:3px;opacity:.65}
+
+/* ================= UI ================= */
+#app{
+ position:relative;z-index:20;height:100%;overflow:auto;
+ padding:20px 5vw;
+}
+header{
+ max-width:900px;margin:auto;display:flex;justify-content:space-between;align-items:end;
+ border-bottom:1px solid rgba(255,255,255,.12);padding-bottom:12px;
+}
+.brand{font-size:13px;letter-spacing:6px}
+.counter{font:11px monospace;text-align:right;color:#aaa}
+.counter strong{font-size:22px;color:#fff}
+.progress{height:3px;max-width:900px;margin:10px auto;background:#18191c}
+.progress i{display:block;height:100%;width:0;background:#fff;transition:width .6s}
+.tabs{max-width:900px;margin:18px auto 0;display:flex;justify-content:center;gap:7px}
+.tab{
+ background:rgba(3,3,5,.8);border:1px solid #303136;color:#999;
+ padding:10px 18px;font-size:10px;letter-spacing:2px;cursor:pointer;
+}
+.tab.active{color:#fff;border-color:#888}
+main{max-width:900px;margin:10px auto;position:relative}
+.view{display:none}.view.active{display:block}
+
+/* Vertical path */
+#taskView{position:relative;min-height:700px;padding-bottom:60px}
+.path{display:flex;flex-direction:column;align-items:center;position:relative;z-index:20;pointer-events:none}
+.taskNode{
+ position:relative;pointer-events:auto;width:min(600px,94%);height:66px;
+ display:flex;align-items:center;justify-content:center;cursor:pointer;
+}
+.taskNode:before{
+ content:"";position:absolute;left:50%;top:0;bottom:0;
+ border-left:1px solid rgba(255,255,255,.25);
+}
+.taskNode:first-child:before{top:33px}.taskNode:last-child:before{bottom:33px}
+.dot{
+ position:relative;z-index:40;width:13px;height:13px;border-radius:50%;
+ border:1px solid #fff;background:#050506;box-shadow:0 0 9px rgba(255,255,255,.2);
+ transition:.3s;
+}
+.taskNode:hover .dot{transform:scale(1.35);box-shadow:0 0 20px rgba(255,255,255,.8)}
+.taskNode.current .dot{width:17px;height:17px;box-shadow:0 0 22px rgba(255,255,255,.85)}
+.taskNode.done .dot{background:#fff;box-shadow:0 0 16px #fff}
+.label{
+ position:absolute;left:calc(50% + 30px);
+ color:#888;font-size:10px;letter-spacing:3px;white-space:nowrap;
+}
+.taskNode.current .label,.taskNode:hover .label{color:#fff}
+.taskNode.locked{opacity:.25;cursor:not-allowed}
+.taskNode.done{opacity:.7}
+
+/* Card beside clicked circle */
+.taskCard{
+ position:absolute;
+ left:calc(50% + 110px);
+ width:min(400px,40vw);
+ border:1px solid rgba(255,255,255,.17);
+ background:linear-gradient(145deg,rgba(8,8,11,.96),rgba(2,2,4,.94));
+ padding:22px;
+ z-index:100;
+ display:none;
+ box-shadow:0 20px 70px rgba(0,0,0,.55);
+ backdrop-filter:blur(10px);
+}
+.taskCard.show{display:block;animation:cardIn .3s ease-out;pointer-events:auto;touch-action:manipulation}
+.taskCard:before{content:"";position:absolute;left:-18px;top:27px;width:18px;border-top:1px solid rgba(255,255,255,.3)}
+@keyframes cardIn{from{opacity:0;transform:translateX(-8px)}to{opacity:1;transform:none}}
+.taskCard h2{font-size:23px;font-weight:300;letter-spacing:5px;margin:8px 0 10px}
+.taskCard p{font-size:13px;line-height:1.65;color:#aaa;margin:0 0 18px}
+.answers{display:grid;gap:8px;position:relative;z-index:120;pointer-events:auto}
+.ans{
+ position:relative;z-index:130;pointer-events:auto;touch-action:manipulation;
+ width:100%;text-align:left;background:#08080a;border:1px solid #38383d;
+ color:#eee;padding:12px;cursor:pointer;font-size:11px;letter-spacing:.8px;
+}
+.ans:hover{background:#111114;border-color:#aaa}
+.feedback{height:20px;margin-top:10px;font:10px monospace;letter-spacing:1.5px}
+
+/* Other tabs */
+.simple{
+ max-width:650px;margin:65px auto;padding:32px;
+ border:1px solid rgba(255,255,255,.15);background:rgba(3,3,5,.82);
+ color:#aaa;line-height:1.85;
+}
+.simple h2,.ach h2{color:#fff;font-weight:300;letter-spacing:6px}
+.ach{max-width:650px;margin:55px auto}
+.badge{border:1px solid #292a2e;padding:17px;margin:8px 0;color:#666;letter-spacing:2px;font-size:11px}
+.badge.on{color:#fff;border-color:#888;box-shadow:0 0 20px rgba(255,255,255,.04)}
+#coreMessage{
+ display:none;text-align:center;max-width:650px;margin:35px auto;
+ padding:28px;border:1px solid rgba(255,255,255,.25);
+ background:rgba(0,0,0,.5);
+}
+body.s20 #coreMessage{display:block}
+#coreMessage h2{font-size:40px;letter-spacing:8px;font-weight:300}
+
+/* mobile */
+@media(max-width:760px){
+ #app{padding:14px 10px}
+ .tabs{overflow:auto;justify-content:flex-start}
+ .tab{white-space:nowrap}
+ .taskNode{height:60px}
+ .label{left:calc(50% + 23px);font-size:9px}
+ .taskCard{
+   position:fixed;left:12px;right:12px;bottom:12px;top:auto!important;
+   width:auto;max-height:43vh;overflow:auto;
+ }
+ .simple{margin:35px 0;padding:23px}
+ .introTitle{letter-spacing:8px}
+ .monoButton{width:95px;height:220px}
+}
+</style>
+</head>
+
+<body class="s0">
+
+<div id="world">
+ <div class="fog"></div>
+ <div id="stone"></div>
+ <div class="structure"></div>
+ <div class="structure two"></div>
+ <div class="structure three"></div>
+ <div id="coreGlow"></div>
+</div>
+
+<!-- Entrance -->
+<section id="intro">
+ <div>
+  <div class="kicker">A PIECE OF ME</div>
+  <div class="introTitle">MONOLITH</div>
+  <div class="kicker">GOING DEEPER</div>
+  <div class="monoButton" id="enterMono">
+   <div id="introCrack"></div>
+   <script>
+    for(let i=0;i<12;i++){
+      document.write('<i class="introBranch" style="transform:rotate('+(-78+i*14)+'deg)"></i>');
+    }
+   </script>
+  </div>
+  <div class="enterHint">TOUCH THE MONOLITH</div>
+ </div>
+</section>
+
+<div id="app">
+ <header>
+  <div class="brand">MONOLITH</div>
+  <div class="counter">ПРОГРЕСС ЗАДАНИЙ<br><strong id="count">0 / 20</strong></div>
+ </header>
+ <div class="progress"><i id="bar"></i></div>
+
+ <nav class="tabs">
+  <button class="tab active" data-view="taskView">ЗАДАНИЕ</button>
+  <button class="tab" data-view="prologue">ПРОЛОГ</button>
+  <button class="tab" data-view="achievements">ДОСТИЖЕНИЯ</button>
+ </nav>
+
+ <main>
+  <section id="taskView" class="view active">
+   <div class="path" id="path"></div>
+
+   <div id="taskCard" class="taskCard" onclick="event.stopPropagation()"><button id="closeTask" type="button" aria-label="Закрыть" style="position:absolute;right:8px;top:8px;border:0;background:transparent;color:#777;padding:5px;cursor:pointer">×</button>
+    <div id="stage" style="font:10px monospace;color:#777;letter-spacing:3px">I · SURFACE</div>
+    <h2 id="taskTitle">ЗАДАНИЕ 1</h2>
+    <p id="taskText"></p>
+    <div class="answers" id="answers"></div>
+    <div class="feedback" id="feedback"></div>
+   </div>
+
+   <div id="coreMessage">
+    <div class="kicker">20 / 20</div>
+    <h2>THE CORE</h2>
+    <p>Ты дошёл до самой глубокой части MONOLITH.</p>
+    <p>Теперь открывается ответ на главный вопрос.</p>
+   </div>
+  </section>
+
+  <section id="prologue" class="view">
+   <div class="simple">
+    <h2>ПРОЛОГ</h2>
+    <p>MONOLITH — это путь внутрь. Каждое задание открывает ещё одну часть мира.</p>
+    <p>Первые четыре шага почти ничего не меняют. После пятого MONOLITH начинает отвечать на твоё присутствие.</p>
+    <p>Чем дальше ты идёшь, тем больше частей открывается.</p>
+   </div>
+  </section>
+
+  <section id="achievements" class="view">
+   <div class="ach">
+    <h2>ДОСТИЖЕНИЯ</h2>
+    <div class="badge" id="b5">FIRST CHANGE · 5 / 20</div>
+    <div class="badge" id="b10">HALF INSIDE · 10 / 20</div>
+    <div class="badge" id="b15">DEEPER · 15 / 20</div>
+    <div class="badge" id="b20">THE CORE · 20 / 20</div>
+   </div>
+  </section>
+ </main>
+</div>
+
+<script>
+const questions=[
+ {title:"ЧТО Я ЛЮБЛЮ СМОТРЕТЬ?",opts:["Мультики Аниме","Аниме и фильмы","Аниме и сериалы"],correct:1},
+ {title:"КАКУЮ ПОГОДУ Я ЛЮБЛЮ?",opts:["Солнечную","Дождливую","Туманную"],correct:0},
+ {title:"ЕСТЬ ЛИ У МЕНЯ АЛЛЕРГИЯ?",opts:["Нету","Да, есть аллергия на пыль","Да, есть аллергия на пыльцу определённого дерева"],correct:2},
+ {title:"МОЙ ХАРАКТЕР",opts:["Ленивый","Любящий и заботливый","Любящий, заботливый и трудолюбивый"],correct:2},
+ {title:"ЧТО Я ВЫБЕРУ?",opts:["Провести дома целый день","Лежать и играть в игры","Провести время с любимым человеком"],correct:2},
+ {title:"ЧЕГО Я НЕ СДЕЛАЮ НИКОГДА?",opts:["Никогда не дарю подарки","Никогда не брошу курить","Никогда не сделаю ничего плохого другому человеку"],correct:2},
+ {title:"КАКОЙ ПОДАРОК Я ХОЧУ?",opts:["Подарок — iPhone","Подарок от любимого человека","Подарок — деньги"],correct:1},
+ {title:"МОЯ МЕЧТА: КЕМ Я ХОЧУ СТАТЬ ИЛИ ЧТО ОТКРЫТЬ?",opts:["Стать барменом и открыть свою кофейню или бар","Стать кондуктором","Открыть свой магазин с игрушками"],correct:0},
+ {title:"ЧТО ДЛЯ МЕНЯ ВАЖНЕЕ?",opts:["Деньги","Вещи","Люди, которые мне дороги"],correct:2},
+ {title:"ЧТО Я ЦЕНЮ В ЧЕЛОВЕКЕ?",opts:["Внешность","Деньги и статус","Искренность и доброту"],correct:2},
+ {title:"ЧТО Я СДЕЛАЮ РАДИ ЛЮБИМОГО ЧЕЛОВЕКА?",opts:["Ничего","Только то, что удобно мне","Постараюсь сделать его счастливее"],correct:2},
+ {title:"ЧТО МНЕ БЛИЖЕ?",opts:["Быть одному","Жить только для себя","Быть рядом с тем, кого люблю"],correct:2},
+ {title:"ЧТО Я ХОЧУ СОЗДАТЬ?",opts:["Просто заработать много денег","Купить много вещей","Создать что-то своё"],correct:2},
+ {title:"ЧТО Я НЕ ХОЧУ ПОТЕРЯТЬ?",opts:["Свободное время","Деньги","Близких мне людей"],correct:2},
+ {title:"ЧТО ДЛЯ МЕНЯ ЗНАЧИТ «СЧАСТЬЕ»?",opts:["Иметь всё, что хочется","Никогда ни о чём не переживать","Быть рядом с любимым человеком и знать, что он счастлив"],correct:2},
+ {title:"ЧТО Я ХОЧУ ОСТАВИТЬ ПОСЛЕ СЕБЯ?",opts:["Деньги","Вещи","Что-то, что создано мной и останется после меня"],correct:2},
+ {title:"ЧТО Я ВЫБЕРУ, ЕСЛИ ПРИДЁТСЯ?",opts:["То, что проще","То, что выгоднее","То, что важно для меня"],correct:2},
+ {title:"РАДИ ЧЕГО Я ГОТОВ ИДТИ ДАЛЬШЕ?",opts:["Ради денег","Ради чужого мнения","Ради людей и мечты, которые для меня действительно важны"],correct:2},
+ {title:"ЧЕГО Я ХОЧУ?",opts:["Провести хорошую жизнь","Хочу исполнить мечту любимого человека","Хочу исполнить свои хотелки"],correct:1}
+];
+
+const path=document.getElementById("path");
+const closeTask=document.getElementById("closeTask");
+closeTask.onclick=function(e){e.stopPropagation();card.classList.remove("show")};
+const card=document.getElementById("taskCard");
+const title=document.getElementById("taskTitle");
+const text=document.getElementById("taskText");
+const answers=document.getElementById("answers");
+const feedback=document.getElementById("feedback");
+let progress=0, selected=0;
+
+/* create 20 nodes */
+for(let i=1;i<=20;i++){
+ const n=document.createElement("div");
+ n.className="taskNode "+(i===1?"current":"locked");
+ n.id="node"+i;
+ n.innerHTML='<div class="dot"></div><div class="label">ЗАДАНИЕ '+i+'</div>';
+ n.onclick=()=>{
+   if(i<=progress+1){
+     selected=i;
+     showTask(i);
+   }
+ };
+ path.appendChild(n);
+}
+
+/* 20th task is an emotional ending, not a normal quiz */
+function taskText(i){
+ if(i<=4) return "Это первая часть пути. Выбери ответ, который действительно описывает меня.";
+ if(i===5) return "Пятый шаг. После него MONOLITH впервые изменит окружающий мир.";
+ if(i<=9) return "Ты уже внутри. Каждый правильный ответ открывает ещё одну часть.";
+ if(i===10) return "Половина пути пройдена. Мир вокруг тебя уже не тот, каким был в начале.";
+ if(i<=14) return "Ты идёшь глубже. Здесь начинают открываться вещи, которые не видно снаружи.";
+ if(i===15) return "Пятнадцатый шаг. Свет изнутри становится сильнее.";
+ if(i<=18) return "Ты почти достиг CORE. Осталось совсем немного.";
+ if(i===19) return "Перед последним шагом MONOLITH спрашивает о том, чего ты действительно хочешь.";
+ return "Последнее задание — не тест. Это ответ на вопрос, зачем вообще существует MONOLITH.";
+}
+
+function showTask(i){
+ selected=i;
+ card.classList.add("show");
+
+ const node=document.getElementById("node"+i);
+ const taskView=document.getElementById("taskView");
+
+ if(window.innerWidth>760){
+   const r=node.getBoundingClientRect();
+   const tr=taskView.getBoundingClientRect();
+   card.style.left="calc(50% + 105px)";
+   card.style.top=Math.max(0,r.top-tr.top-24)+"px";
+ }else{
+   card.style.left="";
+   card.style.top="";
+ }
+
+ document.getElementById("stage").textContent=
+   i<=5?"I · SURFACE":i<=10?"II · INSIDE":i<=15?"III · DEEPER":"IV · CORE";
+
+ title.textContent=i===20?"ПОЧЕМУ Я СОЗДАЛ MONOLITH?":questions[i-1].title;
+ text.textContent=taskText(i);
+ answers.innerHTML="";
+ feedback.textContent="";
+
+ if(i===20){
+   answers.innerHTML=`
+    <div style="color:#aaa;line-height:1.8;font-size:13px">
+      Потому что я хотел собрать в одном месте части себя.<br><br>
+      То, что я люблю.<br>
+      То, о чём мечтаю.<br>
+      То, что для меня важно.<br>
+      То, что я редко показываю другим.<br><br>
+      Я хотел, чтобы человек, который проходит этот путь,
+      не просто узнал факты обо мне.<br><br>
+      Я хотел, чтобы он <b style="color:#fff">узнал меня самого.</b><br><br>
+      <b style="color:#fff">MONOLITH — это кусочки меня, собранные в одном месте.</b><br><br>
+      И если ты дошёл до самого конца —<br>
+      значит, ты увидел гораздо больше, чем просто сайт.<br><br>
+      <b style="color:#fff">Теперь ты знаешь, почему он существует. ❤️</b>
+    </div>
+    <button class="ans" id="coreButton" style="margin-top:18px;text-align:center">ОТКРЫТЬ CORE</button>`;
+   document.getElementById("coreButton").onclick=function(){
+     progress=20;
+     update();
+     card.classList.remove("show");
+   };
+   return;
+ }
+
+ questions[i-1].opts.forEach((opt,j)=>{
+   const b=document.createElement("button");
+   b.type="button";
+   b.className="ans";
+   b.textContent=(j===0?"A · ":(j===1?"B · ":"C · "))+opt;
+
+   b.addEventListener("click",function(ev){
+     ev.preventDefault();
+     ev.stopPropagation();
+
+     if(j===questions[i-1].correct){
+       feedback.textContent="✓ CORRECT · PIECE UNLOCKED";
+       progress=Math.max(progress,i);
+       update();
+
+       if(progress<20){
+         setTimeout(function(){
+           showTask(progress+1);
+         },450);
+       }
+     }else{
+       feedback.textContent="× INCORRECT · THIS IS NOT YOUR PIECE";
+     }
+   },{passive:false});
+
+   answers.appendChild(b);
+ });
+}
+function update(){
+ document.getElementById("count").textContent=progress+" / 20";
+ document.getElementById("bar").style.width=(progress*5)+"%";
+ document.body.className=
+   progress>=20?"s20":progress>=15?"s15":progress>=10?"s10":progress>=5?"s5":"s0";
+
+ for(let i=1;i<=20;i++){
+   const n=document.getElementById("node"+i);
+   n.className="taskNode "+
+    (i<=progress?"done ":"")+
+    (i===progress+1?"current ":"")+
+    (i>progress+1?"locked":"");
+ }
+ [5,10,15,20].forEach(x=>{
+   document.getElementById("b"+x).className="badge "+(progress>=x?"on":"");
+ });
+ if(progress>=20){
+   card.classList.remove("show");
+   setTimeout(()=>window.scrollTo({top:0,behavior:"smooth"}),50);
+ }
+}
+
+/* tabs */
+document.querySelectorAll(".tab").forEach(tab=>{
+ tab.onclick=()=>{
+   document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));
+   tab.classList.add("active");
+   document.querySelectorAll(".view").forEach(x=>x.classList.remove("active"));
+   document.getElementById(tab.dataset.view).classList.add("active");
+   card.classList.remove("show");
+ };
+});
+
+/* entrance */
+document.getElementById("enterMono").onclick=()=>{
+ const crack=document.getElementById("introCrack");
+ const branches=[...document.querySelectorAll(".introBranch")];
+ crack.classList.add("crackOn");
+ branches.forEach((b,i)=>setTimeout(()=>b.classList.add("branchOn"),350+i*115));
+ setTimeout(()=>document.getElementById("intro").classList.add("out"),3000);
+ setTimeout(()=>showTask(1),4100);
+};
+
+/* ambient particles */
+for(let i=0;i<95;i++){
+ const p=document.createElement("i");
+ p.className="particle";
+ p.style.left=Math.random()*100+"%";
+ p.style.top=Math.random()*100+"%";
+ p.style.animationDuration=(9+Math.random()*18)+"s";
+ p.style.animationDelay=(-Math.random()*18)+"s";
+ document.getElementById("world").appendChild(p);
+}
+</script>
+</body>
+</html>

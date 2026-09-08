@@ -1,1 +1,1787 @@
-<!doctype html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>OUR TIME TOGETHER</title><style>body{margin:0;background:#020308;color:#fff;font:15px Arial;overflow:hidden}.world{min-height:100vh;display:grid;place-items:center;padding:16px}.panel{width:min(800px,94vw);text-align:center;padding:30px;border:1px solid #fff2;border-radius:25px;background:#0008;position:relative;z-index:2}h1{font-size:clamp(35px,8vw,70px);font-weight:200}.timer{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.unit{padding:18px;border:1px solid #fff1;border-radius:15px}.num{font-size:clamp(28px,6vw,52px);display:block}.label{font-size:10px;color:#aaa;letter-spacing:.2em}canvas{position:fixed;inset:0;width:100%;height:100%}.back{color:#aaa}@media(max-width:550px){.timer{grid-template-columns:repeat(2,1fr)}} </style></head><body><canvas id="c"></canvas><main class="world"><section class="panel"><a class="back" href="story.html">← STORY</a><h1>OUR TIME TOGETHER</h1><p>Two paths crossed. And they kept going.</p><div class="timer"><div class="unit"><span class="num" data-days>00</span><span class="label">DAYS</span></div><div class="unit"><span class="num" data-hours>00</span><span class="label">HOURS</span></div><div class="unit"><span class="num" data-minutes>00</span><span class="label">MINUTES</span></div><div class="unit"><span class="num" data-seconds>00</span><span class="label">SECONDS</span></div></div><p style="color:#aaa">Since 31 August 2026 · and still counting ❤️</p></section></main><script src="site-engine.js"></script><script src="living-story.js"></script><script src="together.js"></script><script>const ctx=c.getContext('2d');let W,H,t=0;function size(){W=c.width=innerWidth;H=c.height=innerHeight;ctx.setTransform(devicePixelRatio,0,0,devicePixelRatio,0,0);W=innerWidth;H=innerHeight}addEventListener('resize',size);size();function draw(){t+=.008;ctx.clearRect(0,0,W,H);const cx=W/2,cy=H/2;['rgba(255,100,185,.75)','rgba(90,145,255,.75)'].forEach((col,k)=>{ctx.beginPath();for(let i=0;i<260;i++){const q=i/259,x=cx+(q-.5)*W*1.7,y=cy+Math.sin(q*7+t*(k?-.8:.8))*90+Math.sin(q*17-t)*22+(k?1:-1)*q*35;i?ctx.lineTo(x,y):ctx.moveTo(x,y)}ctx.strokeStyle=col;ctx.lineWidth=1.2;ctx.stroke()});requestAnimationFrame(draw)}draw();TogetherWorld.startTimer(document.querySelector('.panel'));</script></body></html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Oksy & Marina — Together</title>
+
+<style>
+*{
+    box-sizing:border-box;
+}
+
+html,body{
+    margin:0;
+    width:100%;
+    height:100%;
+    overflow:hidden;
+    background:#020207;
+    color:white;
+    font-family:Arial,Helvetica,sans-serif;
+}
+
+canvas{
+    position:fixed;
+    inset:0;
+    width:100%;
+    height:100%;
+}
+
+#background{
+    z-index:1;
+}
+
+#effects{
+    z-index:2;
+    pointer-events:none;
+}
+
+#threads{
+    z-index:4;
+    pointer-events:none;
+}
+
+.vignette{
+    position:fixed;
+    inset:0;
+    z-index:8;
+    pointer-events:none;
+
+    background:
+        radial-gradient(
+            circle at center,
+            transparent 15%,
+            rgba(0,0,0,.25) 55%,
+            rgba(0,0,0,.9) 100%
+        );
+}
+
+/* =========================
+   ENTRANCE
+========================= */
+
+#entrance{
+    position:fixed;
+    inset:0;
+    z-index:30;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    transition:
+        opacity 1.5s ease,
+        visibility 1.5s ease;
+}
+
+#entrance.hide{
+    opacity:0;
+    visibility:hidden;
+    pointer-events:none;
+}
+
+.coreGlow{
+    position:absolute;
+
+    width:300px;
+    height:300px;
+
+    border-radius:50%;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(255,70,180,.16),
+            rgba(70,100,255,.09) 38%,
+            transparent 72%
+        );
+
+    filter:blur(25px);
+
+    animation:
+        coreBreath 3s ease-in-out infinite;
+}
+
+@keyframes coreBreath{
+
+    0%,100%{
+        transform:scale(.8);
+        opacity:.45;
+    }
+
+    50%{
+        transform:scale(1.2);
+        opacity:1;
+    }
+}
+
+/* =========================
+   ARTIFACT
+========================= */
+
+#artifact{
+    position:relative;
+
+    width:92px;
+    height:92px;
+
+    border-radius:50%;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    cursor:pointer;
+
+    border:1px solid rgba(255,255,255,.3);
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(255,255,255,.13),
+            rgba(255,255,255,.015) 65%,
+            transparent
+        );
+
+    box-shadow:
+        0 0 25px rgba(255,80,190,.25),
+        0 0 60px rgba(80,100,255,.2);
+
+    transition:.45s ease;
+}
+
+#artifact:hover{
+    transform:scale(1.1);
+
+    box-shadow:
+        0 0 40px rgba(255,80,190,.55),
+        0 0 90px rgba(80,100,255,.4);
+}
+
+#artifact::before,
+#artifact::after{
+
+    content:"";
+
+    position:absolute;
+
+    width:38px;
+    height:38px;
+
+    border:2px solid;
+
+    border-radius:8px;
+
+    transform:rotate(45deg);
+}
+
+#artifact::before{
+    border-color:#ff5cb8;
+    box-shadow:0 0 18px #ff5cb8;
+}
+
+#artifact::after{
+
+    width:27px;
+    height:27px;
+
+    border-color:#6387ff;
+
+    box-shadow:0 0 18px #6387ff;
+}
+
+.touch{
+    position:absolute;
+
+    top:112px;
+
+    width:220px;
+
+    text-align:center;
+
+    font-size:9px;
+
+    letter-spacing:4px;
+
+    color:rgba(255,255,255,.55);
+}
+
+.hint{
+    position:absolute;
+
+    bottom:30px;
+
+    font-size:9px;
+
+    letter-spacing:3px;
+
+    color:rgba(255,255,255,.28);
+}
+
+/* =========================
+   TOGETHER
+========================= */
+
+#together{
+    position:fixed;
+    inset:0;
+
+    z-index:15;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    opacity:0;
+
+    transform:scale(.94);
+
+    pointer-events:none;
+
+    transition:
+        opacity 2s ease,
+        transform 2s ease;
+}
+
+#together.show{
+    opacity:1;
+    transform:scale(1);
+    pointer-events:auto;
+}
+
+.content{
+
+    position:relative;
+
+    width:min(1000px,92vw);
+
+    text-align:center;
+}
+
+/* =========================
+   LIVING LINES
+========================= */
+
+.line{
+
+    position:absolute;
+
+    left:0;
+    right:0;
+
+    height:2px;
+
+    overflow:hidden;
+
+    opacity:.8;
+}
+
+.line::after{
+
+    content:"";
+
+    position:absolute;
+
+    width:32%;
+
+    height:100%;
+
+    animation:
+        travel 2.8s linear infinite,
+        pulse 1.3s ease-in-out infinite;
+}
+
+.pink{
+    top:-45px;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            rgba(255,92,184,.7),
+            transparent
+        );
+
+    box-shadow:
+        0 0 15px rgba(255,92,184,.8);
+}
+
+.pink::after{
+
+    background:#ff5cb8;
+
+    box-shadow:
+        0 0 20px #ff5cb8;
+
+}
+
+.blue{
+
+    bottom:-45px;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            rgba(99,135,255,.7),
+            transparent
+        );
+
+    box-shadow:
+        0 0 15px rgba(99,135,255,.8);
+}
+
+.blue::after{
+
+    background:#6387ff;
+
+    box-shadow:
+        0 0 20px #6387ff;
+
+    animation-delay:-1.4s;
+}
+
+@keyframes travel{
+
+    from{
+        left:-35%;
+    }
+
+    to{
+        left:105%;
+    }
+}
+
+@keyframes pulse{
+
+    0%,100%{
+        opacity:.35;
+        transform:scaleY(.7);
+    }
+
+    50%{
+        opacity:1;
+        transform:scaleY(2);
+    }
+}
+
+/* =========================
+   TITLE
+========================= */
+
+.title{
+
+    font-size:
+        clamp(30px,7vw,72px);
+
+    font-weight:300;
+
+    letter-spacing:
+        clamp(5px,1.8vw,15px);
+
+    text-shadow:
+        0 0 20px rgba(255,92,184,.4),
+        0 0 45px rgba(99,135,255,.3);
+}
+
+.since{
+
+    margin-top:14px;
+
+    font-size:10px;
+
+    letter-spacing:6px;
+
+    color:rgba(255,255,255,.45);
+}
+
+/* =========================
+   COUNTER
+========================= */
+
+.counter{
+
+    margin-top:55px;
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(6,1fr);
+
+    gap:12px;
+}
+
+.unit{
+
+    padding:22px 7px;
+
+    border:
+        1px solid rgba(255,255,255,.08);
+
+    background:
+        rgba(255,255,255,.025);
+
+    transition:.4s ease;
+}
+
+.unit:hover{
+
+    border-color:
+        rgba(255,92,184,.35);
+
+    box-shadow:
+        0 0 30px
+        rgba(255,92,184,.08);
+}
+
+.number{
+
+    font-size:
+        clamp(24px,4vw,48px);
+
+    line-height:1;
+
+    font-weight:300;
+
+    font-variant-numeric:
+        tabular-nums;
+
+    transition:
+        text-shadow .25s ease;
+}
+
+.number.tick{
+
+    text-shadow:
+        0 0 18px rgba(255,255,255,.8);
+}
+
+.label{
+
+    margin-top:10px;
+
+    font-size:8px;
+
+    letter-spacing:2px;
+
+    color:rgba(255,255,255,.4);
+}
+
+.message{
+
+    margin-top:38px;
+
+    font-size:9px;
+
+    letter-spacing:4px;
+
+    color:rgba(255,255,255,.35);
+
+    animation:
+        messagePulse 3s ease-in-out infinite;
+}
+
+@keyframes messagePulse{
+
+    0%,100%{
+        opacity:.3;
+    }
+
+    50%{
+        opacity:.85;
+    }
+}
+
+/* =========================
+   ACHIEVEMENT
+========================= */
+
+#achievement{
+
+    position:fixed;
+
+    right:25px;
+    bottom:25px;
+
+    z-index:60;
+
+    width:min(330px,calc(100vw - 40px));
+
+    padding:16px 18px;
+
+    border:
+        1px solid rgba(255,255,255,.15);
+
+    background:
+        rgba(5,5,12,.86);
+
+    backdrop-filter:
+        blur(15px);
+
+    box-shadow:
+        0 0 35px rgba(255,70,180,.12);
+
+    transform:
+        translateX(120%);
+
+    opacity:0;
+
+    transition:
+        transform .7s cubic-bezier(.2,.8,.2,1),
+        opacity .7s ease;
+}
+
+#achievement.show{
+
+    transform:translateX(0);
+
+    opacity:1;
+}
+
+.achievementTop{
+
+    font-size:8px;
+
+    letter-spacing:3px;
+
+    color:#ff5cb8;
+}
+
+.achievementName{
+
+    margin-top:6px;
+
+    font-size:15px;
+
+    letter-spacing:2px;
+}
+
+.achievementDesc{
+
+    margin-top:7px;
+
+    font-size:10px;
+
+    line-height:1.5;
+
+    color:rgba(255,255,255,.5);
+}
+
+/* =========================
+   FLASH
+========================= */
+
+#flash{
+
+    position:fixed;
+
+    inset:0;
+
+    z-index:50;
+
+    pointer-events:none;
+
+    opacity:0;
+
+    background:
+        radial-gradient(
+            circle at center,
+            rgba(255,255,255,.95),
+            rgba(255,70,180,.3) 18%,
+            transparent 60%
+        );
+}
+
+#flash.fire{
+
+    animation:
+        flash .9s ease forwards;
+}
+
+@keyframes flash{
+
+    0%{
+        opacity:0;
+    }
+
+    25%{
+        opacity:.9;
+    }
+
+    100%{
+        opacity:0;
+    }
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media(max-width:700px){
+
+    .counter{
+
+        grid-template-columns:
+            repeat(3,1fr);
+
+        gap:7px;
+
+        margin-top:40px;
+    }
+
+    .unit{
+        padding:16px 5px;
+    }
+
+    .number{
+        font-size:24px;
+    }
+
+    .label{
+        font-size:7px;
+        letter-spacing:1px;
+    }
+
+    .pink{
+        top:-28px;
+    }
+
+    .blue{
+        bottom:-28px;
+    }
+
+    .message{
+        margin-top:28px;
+        font-size:8px;
+        letter-spacing:2px;
+    }
+
+    #achievement{
+
+        right:20px;
+        bottom:20px;
+    }
+}
+
+@media(max-width:380px){
+
+    .number{
+        font-size:20px;
+    }
+
+    .since{
+        letter-spacing:4px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<canvas id="background"></canvas>
+<canvas id="effects"></canvas>
+<canvas id="threads"></canvas>
+
+<div class="vignette"></div>
+
+<!-- =========================
+     ENTRANCE
+========================= -->
+
+<div id="entrance">
+
+    <div class="coreGlow"></div>
+
+    <div id="artifact">
+
+        <div class="touch">
+            TOUCH TO BEGIN
+        </div>
+
+    </div>
+
+    <div class="hint">
+        TWO THREADS · ONE STORY
+    </div>
+
+</div>
+
+
+<div id="flash"></div>
+
+
+<!-- =========================
+     TOGETHER
+========================= -->
+
+<section id="together">
+
+    <div class="content">
+
+        <div class="line pink"></div>
+
+        <div class="title">
+            TIME TOGETHER
+        </div>
+
+        <div class="since">
+            SINCE 31 · 08 · 2026
+        </div>
+
+        <div class="counter">
+
+            <div class="unit">
+                <div class="number" id="years">0</div>
+                <div class="label">YEARS</div>
+            </div>
+
+            <div class="unit">
+                <div class="number" id="months">0</div>
+                <div class="label">MONTHS</div>
+            </div>
+
+            <div class="unit">
+                <div class="number" id="days">0</div>
+                <div class="label">DAYS</div>
+            </div>
+
+            <div class="unit">
+                <div class="number" id="hours">00</div>
+                <div class="label">HOURS</div>
+            </div>
+
+            <div class="unit">
+                <div class="number" id="minutes">00</div>
+                <div class="label">MINUTES</div>
+            </div>
+
+            <div class="unit">
+                <div class="number" id="seconds">00</div>
+                <div class="label">SECONDS</div>
+            </div>
+
+        </div>
+
+        <div class="message">
+            STILL COUNTING...
+        </div>
+
+        <div class="line blue"></div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     ACHIEVEMENT
+========================= -->
+
+<div id="achievement">
+
+    <div class="achievementTop">
+        ACHIEVEMENT UNLOCKED
+    </div>
+
+    <div
+        class="achievementName"
+        id="achievementName"
+    >
+    </div>
+
+    <div
+        class="achievementDesc"
+        id="achievementDesc"
+    >
+    </div>
+
+</div>
+
+
+<script>
+
+/* =====================================================
+   CANVAS SETUP
+===================================================== */
+
+const bg =
+    document.getElementById("background");
+
+const bctx =
+    bg.getContext("2d");
+
+const effects =
+    document.getElementById("effects");
+
+const ectx =
+    effects.getContext("2d");
+
+const threads =
+    document.getElementById("threads");
+
+const tctx =
+    threads.getContext("2d");
+
+let W = window.innerWidth;
+let H = window.innerHeight;
+let DPR = window.devicePixelRatio || 1;
+
+function resize(){
+
+    W = window.innerWidth;
+    H = window.innerHeight;
+    DPR = window.devicePixelRatio || 1;
+
+    [bg,effects,threads].forEach(canvas=>{
+
+        canvas.width = W * DPR;
+        canvas.height = H * DPR;
+
+        canvas.style.width = W+"px";
+        canvas.style.height = H+"px";
+
+    });
+
+    bctx.setTransform(DPR,0,0,DPR,0,0);
+    ectx.setTransform(DPR,0,0,DPR,0,0);
+    tctx.setTransform(DPR,0,0,DPR,0,0);
+}
+
+resize();
+
+window.addEventListener(
+    "resize",
+    resize
+);
+
+
+/* =====================================================
+   BACKGROUND
+===================================================== */
+
+const stars=[];
+
+for(let i=0;i<230;i++){
+
+    stars.push({
+
+        x:Math.random()*W,
+
+        y:Math.random()*H,
+
+        size:
+            Math.random()*1.5+.2,
+
+        speed:
+            Math.random()*.12+.02,
+
+        alpha:
+            Math.random()*.5+.1,
+
+        phase:
+            Math.random()*Math.PI*2
+
+    });
+}
+
+function drawBackground(time){
+
+    bctx.clearRect(0,0,W,H);
+
+    const pinkGlow =
+        bctx.createRadialGradient(
+            W*.32,
+            H*.5,
+            0,
+            W*.32,
+            H*.5,
+            W*.65
+        );
+
+    pinkGlow.addColorStop(
+        0,
+        "rgba(255,50,170,.055)"
+    );
+
+    pinkGlow.addColorStop(
+        1,
+        "transparent"
+    );
+
+    bctx.fillStyle=pinkGlow;
+    bctx.fillRect(0,0,W,H);
+
+
+    const blueGlow =
+        bctx.createRadialGradient(
+            W*.7,
+            H*.5,
+            0,
+            W*.7,
+            H*.5,
+            W*.6
+        );
+
+    blueGlow.addColorStop(
+        0,
+        "rgba(70,100,255,.055)"
+    );
+
+    blueGlow.addColorStop(
+        1,
+        "transparent"
+    );
+
+    bctx.fillStyle=blueGlow;
+    bctx.fillRect(0,0,W,H);
+
+
+    stars.forEach(s=>{
+
+        s.y -= s.speed;
+
+        if(s.y < -5)
+            s.y = H+5;
+
+        const pulse =
+            .55 +
+            Math.sin(
+                time*.001+s.phase
+            )*.3;
+
+        bctx.beginPath();
+
+        bctx.arc(
+            s.x,
+            s.y,
+            s.size,
+            0,
+            Math.PI*2
+        );
+
+        bctx.fillStyle=
+            `rgba(255,255,255,${s.alpha*pulse})`;
+
+        bctx.fill();
+
+    });
+
+    requestAnimationFrame(
+        drawBackground
+    );
+}
+
+requestAnimationFrame(
+    drawBackground
+);
+
+
+/* =====================================================
+   ENTRANCE THREADS
+===================================================== */
+
+let started=false;
+let sequenceStart=0;
+
+const sparks=[];
+
+for(let i=0;i<100;i++){
+
+    sparks.push({
+
+        p:Math.random(),
+
+        side:
+            Math.random()<.5
+                ? -1
+                : 1,
+
+        speed:
+            .00035+
+            Math.random()*.001,
+
+        phase:
+            Math.random()*Math.PI*2,
+
+        size:
+            Math.random()*2+.3
+
+    });
+}
+
+
+function threadPath(
+    side,
+    p,
+    time,
+    progress
+){
+
+    const centerX=W/2;
+    const centerY=H/2;
+
+    let x;
+
+    if(side<0){
+
+        x =
+            centerX -
+            W*.55 +
+            p*W*.55;
+
+    }else{
+
+        x =
+            centerX +
+            W*.55 -
+            p*W*.55;
+
+    }
+
+    const wave =
+        Math.sin(
+            p*Math.PI*4+
+            time*.004
+        );
+
+    const crossing =
+        Math.sin(
+            p*Math.PI*2
+        );
+
+    let y =
+        centerY+
+        wave*
+        Math.min(90,W*.11)*
+        crossing*
+        progress;
+
+
+    const twist =
+        Math.sin(p*Math.PI)*
+        48*
+        progress;
+
+    if(side<0)
+        x += twist;
+    else
+        x -= twist;
+
+    return {x,y};
+}
+
+
+function drawThread(
+    color,
+    side,
+    progress,
+    time
+){
+
+    tctx.beginPath();
+
+    const steps=180;
+
+    for(let i=0;i<=steps;i++){
+
+        const p=i/steps;
+
+        const point=
+            threadPath(
+                side,
+                p,
+                time,
+                progress
+            );
+
+        if(i===0){
+
+            tctx.moveTo(
+                point.x,
+                point.y
+            );
+
+        }else{
+
+            tctx.lineTo(
+                point.x,
+                point.y
+            );
+        }
+    }
+
+    tctx.strokeStyle=color;
+
+    tctx.lineWidth=2.7;
+
+    tctx.shadowColor=color;
+
+    tctx.shadowBlur=22;
+
+    tctx.stroke();
+
+
+    tctx.shadowBlur=0;
+
+    tctx.lineWidth=.6;
+
+    tctx.strokeStyle=
+        "rgba(255,255,255,.65)";
+
+    tctx.stroke();
+}
+
+
+function drawThreadSparks(
+    progress,
+    time
+){
+
+    sparks.forEach(s=>{
+
+        s.p += s.speed;
+
+        if(s.p>1)
+            s.p=0;
+
+        const point=
+            threadPath(
+                s.side,
+                s.p,
+                time+s.phase*100,
+                progress
+            );
+
+        const color=
+            s.side<0
+                ? "255,92,184"
+                : "99,135,255";
+
+        ectx.beginPath();
+
+        ectx.arc(
+            point.x,
+            point.y,
+            s.size,
+            0,
+            Math.PI*2
+        );
+
+        ectx.fillStyle=
+            `rgba(${color},${.25+progress*.75})`;
+
+        ectx.shadowColor=
+            `rgb(${color})`;
+
+        ectx.shadowBlur=12;
+
+        ectx.fill();
+
+    });
+
+    ectx.shadowBlur=0;
+}
+
+
+function animateSequence(time){
+
+    if(!started)
+        return;
+
+    const elapsed =
+        time-sequenceStart;
+
+    const progress =
+        Math.min(
+            elapsed/4200,
+            1
+        );
+
+    tctx.clearRect(
+        0,0,W,H
+    );
+
+    ectx.clearRect(
+        0,0,W,H
+    );
+
+
+    drawThread(
+        "#ff5cb8",
+        -1,
+        progress,
+        time
+    );
+
+    drawThread(
+        "#6387ff",
+        1,
+        progress,
+        time
+    );
+
+    drawThreadSparks(
+        progress,
+        time
+    );
+
+
+    requestAnimationFrame(
+        animateSequence
+    );
+}
+
+
+/* =====================================================
+   EFFECT BURSTS
+===================================================== */
+
+function burstParticles(){
+
+    const cx=W/2;
+    const cy=H/2;
+
+    for(let i=0;i<80;i++){
+
+        const angle=
+            Math.random()*
+            Math.PI*2;
+
+        const speed=
+            Math.random()*5+2;
+
+        const life=
+            50+
+            Math.random()*50;
+
+        createBurst(
+            cx,
+            cy,
+            angle,
+            speed,
+            life,
+            i%2===0
+                ? "255,92,184"
+                : "99,135,255"
+        );
+    }
+}
+
+
+const bursts=[];
+
+function createBurst(
+    x,
+    y,
+    angle,
+    speed,
+    life,
+    color
+){
+
+    bursts.push({
+
+        x,
+        y,
+
+        vx:Math.cos(angle)*speed,
+        vy:Math.sin(angle)*speed,
+
+        life,
+        maxLife:life,
+
+        color
+
+    });
+}
+
+
+function animateBursts(){
+
+    ectx.save();
+
+    bursts.forEach((p,index)=>{
+
+        p.x+=p.vx;
+        p.y+=p.vy;
+
+        p.vx*=.97;
+        p.vy*=.97;
+
+        p.life--;
+
+        const alpha=
+            Math.max(
+                0,
+                p.life/p.maxLife
+            );
+
+        ectx.beginPath();
+
+        ectx.arc(
+            p.x,
+            p.y,
+            1.4,
+            0,
+            Math.PI*2
+        );
+
+        ectx.fillStyle=
+            `rgba(${p.color},${alpha})`;
+
+        ectx.shadowColor=
+            `rgb(${p.color})`;
+
+        ectx.shadowBlur=10;
+
+        ectx.fill();
+
+    });
+
+    ectx.restore();
+
+    for(
+        let i=bursts.length-1;
+        i>=0;
+        i--
+    ){
+
+        if(bursts[i].life<=0)
+            bursts.splice(i,1);
+
+    }
+
+    requestAnimationFrame(
+        animateBursts
+    );
+}
+
+requestAnimationFrame(
+    animateBursts
+);
+
+
+/* =====================================================
+   ACHIEVEMENTS
+===================================================== */
+
+const ACHIEVEMENTS = {
+
+    firstTouch:{
+        name:"FIRST TOUCH",
+        desc:"You started the journey."
+    },
+
+    twoThreads:{
+        name:"TWO THREADS",
+        desc:"Two different paths found each other."
+    },
+
+    oneStory:{
+        name:"ONE STORY",
+        desc:"The two threads became one."
+    },
+
+    timeKeeper:{
+        name:"TIME KEEPER",
+        desc:"You opened the time that belongs to both of you."
+    }
+
+};
+
+
+const achievementBox=
+    document.getElementById(
+        "achievement"
+    );
+
+const achievementName=
+    document.getElementById(
+        "achievementName"
+    );
+
+const achievementDesc=
+    document.getElementById(
+        "achievementDesc"
+    );
+
+
+function unlockAchievement(id){
+
+    const key=
+        "together_achievement_"+id;
+
+    if(localStorage.getItem(key))
+        return;
+
+    localStorage.setItem(
+        key,
+        "true"
+    );
+
+    const data=
+        ACHIEVEMENTS[id];
+
+    achievementName.textContent=
+        data.name;
+
+    achievementDesc.textContent=
+        data.desc;
+
+    achievementBox.classList.add(
+        "show"
+    );
+
+    setTimeout(()=>{
+
+        achievementBox.classList.remove(
+            "show"
+        );
+
+    },4000);
+}
+
+
+/* =====================================================
+   START
+===================================================== */
+
+const artifact=
+    document.getElementById(
+        "artifact"
+    );
+
+const entrance=
+    document.getElementById(
+        "entrance"
+    );
+
+const together=
+    document.getElementById(
+        "together"
+    );
+
+const flash=
+    document.getElementById(
+        "flash"
+    );
+
+
+function begin(){
+
+    if(started)
+        return;
+
+    started=true;
+
+    sequenceStart=
+        performance.now();
+
+    unlockAchievement(
+        "firstTouch"
+    );
+
+    entrance.classList.add(
+        "hide"
+    );
+
+    requestAnimationFrame(
+        animateSequence
+    );
+
+
+    /* first crossing */
+
+    setTimeout(()=>{
+
+        unlockAchievement(
+            "twoThreads"
+        );
+
+        burstParticles();
+
+    },2100);
+
+
+    /* final meeting */
+
+    setTimeout(()=>{
+
+        burstParticles();
+
+        burstParticles();
+
+        flash.classList.add(
+            "fire"
+        );
+
+        unlockAchievement(
+            "oneStory"
+        );
+
+    },4100);
+
+
+    /* reveal counter */
+
+    setTimeout(()=>{
+
+        together.classList.add(
+            "show"
+        );
+
+        unlockAchievement(
+            "timeKeeper"
+        );
+
+    },5000);
+}
+
+
+artifact.addEventListener(
+    "click",
+    begin
+);
+
+artifact.addEventListener(
+    "touchstart",
+    begin,
+    {passive:true}
+);
+
+
+/* =====================================================
+   REAL TIME COUNTER
+===================================================== */
+
+const beginning =
+    new Date(
+        2026,
+        7,
+        31,
+        0,
+        0,
+        0
+    );
+
+
+function pad(value){
+
+    return String(value)
+        .padStart(2,"0");
+}
+
+
+function setNumber(
+    id,
+    value
+){
+
+    const el=
+        document.getElementById(id);
+
+    const text=
+        String(value);
+
+    if(el.textContent!==text){
+
+        el.textContent=text;
+
+        el.classList.remove(
+            "tick"
+        );
+
+        void el.offsetWidth;
+
+        el.classList.add(
+            "tick"
+        );
+    }
+}
+
+
+function updateCounter(){
+
+    const now=
+        new Date();
+
+    if(now<beginning)
+        return;
+
+
+    /*
+       Full years
+    */
+
+    let years=
+        now.getFullYear()-
+        beginning.getFullYear();
+
+
+    let point=
+        new Date(
+            beginning.getFullYear()+years,
+            beginning.getMonth(),
+            beginning.getDate(),
+            beginning.getHours(),
+            beginning.getMinutes(),
+            beginning.getSeconds()
+        );
+
+
+    if(point>now){
+
+        years--;
+
+        point=
+            new Date(
+                beginning.getFullYear()+years,
+                beginning.getMonth(),
+                beginning.getDate(),
+                beginning.getHours(),
+                beginning.getMinutes(),
+                beginning.getSeconds()
+            );
+    }
+
+
+    /*
+       Full months
+    */
+
+    let months=
+        now.getMonth()-
+        point.getMonth();
+
+    if(months<0)
+        months+=12;
+
+
+    let monthPoint=
+        new Date(
+            point.getFullYear(),
+            point.getMonth()+months,
+            point.getDate(),
+            point.getHours(),
+            point.getMinutes(),
+            point.getSeconds()
+        );
+
+
+    if(monthPoint>now){
+
+        months--;
+
+        if(months<0)
+            months=11;
+
+        monthPoint=
+            new Date(
+                point.getFullYear(),
+                point.getMonth()+months,
+                point.getDate(),
+                point.getHours(),
+                point.getMinutes(),
+                point.getSeconds()
+            );
+    }
+
+
+    /*
+       Remaining days/hours/minutes/seconds
+    */
+
+    let remaining=
+        now.getTime()-
+        monthPoint.getTime();
+
+
+    const DAY=
+        86400000;
+
+    const HOUR=
+        3600000;
+
+    const MINUTE=
+        60000;
+
+    const SECOND=
+        1000;
+
+
+    const days=
+        Math.floor(
+            remaining/DAY
+        );
+
+    remaining -=
+        days*DAY;
+
+
+    const hours=
+        Math.floor(
+            remaining/HOUR
+        );
+
+    remaining -=
+        hours*HOUR;
+
+
+    const minutes=
+        Math.floor(
+            remaining/MINUTE
+        );
+
+    remaining -=
+        minutes*MINUTE;
+
+
+    const seconds=
+        Math.floor(
+            remaining/SECOND
+        );
+
+
+    setNumber(
+        "years",
+        years
+    );
+
+    setNumber(
+        "months",
+        months
+    );
+
+    setNumber(
+        "days",
+        days
+    );
+
+    setNumber(
+        "hours",
+        pad(hours)
+    );
+
+    setNumber(
+        "minutes",
+        pad(minutes)
+    );
+
+    setNumber(
+        "seconds",
+        pad(seconds)
+    );
+}
+
+
+updateCounter();
+
+setInterval(
+    updateCounter,
+    1000
+);
+
+</script>
+
+</body>
+</html>

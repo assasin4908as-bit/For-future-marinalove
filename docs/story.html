@@ -2094,12 +2094,6 @@ body::after{content:"";position:fixed;inset:0;z-index:40;pointer-events:none;opa
 
 
 .events-nav-link{color:#fff;text-decoration:none;position:relative;transition:.25s}.events-nav-link:hover{color:#ff6b78;text-shadow:0 0 14px rgba(255,55,75,.65)}
-
-
-
-
-@media(max-width:700px){
-    
 </style>
 
 <style id="v13-book-redesign">
@@ -2235,68 +2229,66 @@ filter:blur(1px);opacity:.55;pointer-events:none;transition:opacity 1.4s,transfo
 </style>
 
 
-<style id="mobile-navigation-final-v2">
-/* FINAL MOBILE NAVIGATION — all Story controls remain reachable */
-@media (max-width: 700px){
-  html,body{width:100%;max-width:100%;overflow-x:hidden;}
-  .top-nav{
-    position:fixed;
-    top:8px; left:50%; transform:translateX(-50%);
-    width:calc(100% - 16px);
-    max-width:none;
-    display:grid;
-    grid-template-columns:1fr auto;
-    align-items:center;
-    gap:8px;
-    padding:10px;
-    border-radius:24px;
-  }
-  .nav-logo{font-size:13px;min-width:0;white-space:nowrap;}
-  .nav-links{
-    grid-column:1 / -1;
-    width:100%;
-    max-width:none !important;
-    display:flex;
-    flex-wrap:wrap;
-    justify-content:center;
-    align-items:center;
-    gap:5px;
-    overflow:visible !important;
-  }
-  .nav-links a,
-  .nav-links a:nth-child(3),
-  .nav-links a:nth-child(n+4){
-    display:block !important;
-    flex:0 1 auto;
-    min-width:0;
-    padding:7px 8px;
-    font-size:10px;
-    line-height:1.15;
-    white-space:nowrap;
-  }
-  .lang-switch-v4{margin-left:2px;flex:0 0 auto;}
-  .lang-btn-v4{padding:7px 8px;min-height:34px;}
-
-  /* Move the hero below the expanded mobile navigation. */
-  .hero{padding-top:245px;}
-
-  /* Never let long cards/buttons create horizontal clipping. */
-  .section-inner,.section-content,.timeline,.book-grid,.gifts-grid,.memory-grid,
-  .journey-grid,.today-grid,.v19-grid{max-width:100%;min-width:0;}
-  button,a,.book-card,.gift-card,.memory-card,.today-card,.journey-card{
-    max-width:100%;
-    overflow-wrap:anywhere;
-  }
+<style id="worldsIntegrationStyle">
+.worlds-section{
+    position:relative;
+    background:
+        radial-gradient(circle at 50% 45%, rgba(120,70,100,.10), transparent 42%),
+        linear-gradient(180deg, rgba(0,0,0,.05), rgba(0,0,0,.28));
 }
-@media (max-width: 480px){
-  .top-nav{width:calc(100% - 12px);padding:8px;border-radius:21px;}
-  .nav-logo{font-size:12px;}
-  .nav-links{gap:3px;}
-  .nav-links a,
-  .nav-links a:nth-child(3),
-  .nav-links a:nth-child(n+4){font-size:9px;padding:6px 6px;}
-  .lang-btn-v4{font-size:10px;padding:6px 7px;}
-  .hero{padding-top:265px;}
+.worlds-grid{
+    display:grid;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:18px;
+    margin-top:42px;
+}
+.world-card{
+    position:relative;
+    min-height:245px;
+    padding:30px;
+    display:flex;
+    flex-direction:column;
+    justify-content:flex-end;
+    overflow:hidden;
+    color:#fff;
+    text-decoration:none;
+    border:1px solid rgba(255,255,255,.13);
+    background:rgba(5,6,10,.72);
+    backdrop-filter:blur(10px);
+    transition:transform .35s ease,border-color .35s ease,box-shadow .35s ease;
+}
+.world-card:hover{
+    transform:translateY(-5px);
+    border-color:rgba(255,255,255,.35);
+    box-shadow:0 20px 60px rgba(0,0,0,.45);
+}
+.world-card::before{
+    content:"";
+    position:absolute;
+    width:230px;
+    height:230px;
+    border-radius:50%;
+    left:50%;
+    top:40%;
+    transform:translate(-50%,-50%);
+    opacity:.28;
+    pointer-events:none;
+}
+.monolith-world::before{background:radial-gradient(circle,rgba(255,255,255,.10),transparent 68%)}
+.abyss-world::before{background:radial-gradient(circle,rgba(120,145,255,.16),transparent 68%)}
+.new-world::before{background:radial-gradient(circle,rgba(0,255,100,.13),transparent 68%)}
+.together-world::before{background:radial-gradient(circle,rgba(255,80,180,.14),transparent 68%)}
+.echo-world::before{background:radial-gradient(circle,rgba(150,150,255,.11),transparent 68%)}
+.world-code,.world-title,.world-text,.world-enter{position:relative;z-index:1}
+.world-code{font-size:8px;letter-spacing:3px;color:#707580;margin-bottom:12px}
+.world-title{font-size:clamp(26px,4vw,44px);font-weight:300;letter-spacing:7px;margin-bottom:13px}
+.world-text{max-width:470px;color:rgba(255,255,255,.53);font-size:12px;line-height:1.8}
+.world-enter{margin-top:22px;font-size:9px;letter-spacing:3px;color:rgba(255,255,255,.82)}
+.new-world .world-enter{color:#77ff9a}
+.together-world .world-enter{color:#f3a4d0}
+@media(max-width:700px){
+    .worlds-grid{grid-template-columns:1fr}
+    .world-card{min-height:220px;padding:24px}
 }
 </style>
 </head>
@@ -2327,11 +2319,13 @@ filter:blur(1px);opacity:.55;pointer-events:none;transition:opacity 1.4s,transfo
         <a href="#lantern">Lantern</a>
         <a href="#end" data-i18n="navEnd">End</a>
         <a href="events.html" class="events-nav-link">Events ✦</a>
-<a href="events.html#achievements" class="events-nav-link">Event Achievements ✦</a>
         <div class="lang-switch-v4" role="group" aria-label="Language">
             <button type="button" class="lang-btn-v4 active" data-lang="en">EN</button>
             <button type="button" class="lang-btn-v4" data-lang="ru">RU</button>
-        </div>
+    
+        <a href="#journey">Journey</a>
+        <a href="#living">Living</a>
+        <a href="events.html">Events ✦</a>    </div>
     </div>
 
 </nav>
@@ -3142,7 +3136,7 @@ filter:blur(1px);opacity:.55;pointer-events:none;transition:opacity 1.4s,transfo
 <!-- =========================================================
      MY JOURNEY — INDEPENDENT MAP
 ========================================================= -->
-<section class="section journey-v4" id="journey">
+<section class="section journey-v4" id="travel-map">
   <div class="section-inner">
     <div class="section-label" data-en="Places that became part of my story" data-ru="Места, которые стали частью моей истории">Places that became part of my story</div>
     <h2 class="section-title reveal" data-en="My Journey" data-ru="Моё путешествие">My Journey</h2>
@@ -3480,6 +3474,101 @@ filter:blur(1px);opacity:.55;pointer-events:none;transition:opacity 1.4s,transfo
 
 </section>
 
+
+
+<!-- =========================================================
+     LIVING SYSTEMS — PART OF STORY
+========================================================= -->
+<section class="section living-section" id="living">
+  <div class="section-inner">
+    <div class="section-label">PARTS OF THE STORY THAT KEEP MOVING</div>
+    <h2 class="section-title reveal">The Living Side</h2>
+    <p class="section-intro reveal">
+      Some parts of this website are not just pages. They continue to change,
+      count time, and reveal new pieces of the story.
+    </p>
+
+    <div class="worlds-grid living-grid">
+      <a class="world-card events-world reveal" href="events.html">
+        <span class="world-code">LIVING SYSTEM 01</span>
+        <span class="world-title">EVENTS ✦</span>
+        <span class="world-text">A collection of events, discoveries and achievements. New chapters can appear as the story grows.</span>
+        <span class="world-enter">ENTER EVENTS →</span>
+      </a>
+
+      <a class="world-card together-world reveal" href="together.html">
+        <span class="world-code">LIVING SYSTEM 02</span>
+        <span class="world-title">TOGETHER</span>
+        <span class="world-text">The time that belongs to both of us. Every second since 31 August 2026.</span>
+        <span class="world-enter">ENTER TOGETHER →</span>
+      </a>
+
+      <a class="world-card new-world reveal" href="new.html">
+        <span class="world-code">LIVING SYSTEM 03</span>
+        <span class="world-title">NEW</span>
+        <span class="world-text">A living update layer. New changes, hidden discoveries and temporary events appear here.</span>
+        <span class="world-enter">DISCOVER NEW →</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================
+     DEEP WORLDS — INSIDE STORY
+========================================================= -->
+<section class="section worlds-section" id="journey">
+  <div class="section-inner">
+    <div class="section-label">DEEPER PARTS OF ME</div>
+    <h2 class="section-title reveal">My Journey</h2>
+    <p class="section-intro reveal">
+      These worlds are hidden deeper inside the Story. They are pieces of me,
+      built as places you can actually enter and explore.
+    </p>
+
+    <div class="worlds-grid">
+      <a class="world-card monolith-world reveal" href="monolith.html">
+        <span class="world-code">DEEP WORLD 01</span>
+        <span class="world-title">MONOLITH</span>
+        <span class="world-text">Twenty pieces of me. Choices, memories, dreams and the things I rarely show.</span>
+        <span class="world-enter">ENTER MONOLITH →</span>
+      </a>
+
+      <a class="world-card abyss-world reveal" href="abyss.html">
+        <span class="world-code">DEEP WORLD 02</span>
+        <span class="world-title">ABYSS</span>
+        <span class="world-text">Thirty-six depths. Questions, mini-stories and memories pulled toward the center.</span>
+        <span class="world-enter">ENTER THE ABYSS →</span>
+      </a>
+
+      <a class="world-card echo-world reveal" href="echo.html">
+        <span class="world-code">DEEP WORLD 03</span>
+        <span class="world-title">ECHO</span>
+        <span class="world-text">A place for the things that remain after a moment has already passed.</span>
+        <span class="world-enter">ENTER ECHO →</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<style>
+.living-grid{
+  margin-bottom:18px;
+}
+.events-world{
+  border-color:rgba(255,80,105,.22);
+}
+.events-world:hover{
+  border-color:rgba(255,100,120,.55);
+  box-shadow:0 0 35px rgba(255,60,90,.10);
+}
+.monolith-world:hover{
+  border-color:rgba(220,220,220,.42);
+}
+.abyss-world:hover{
+  border-color:rgba(150,165,210,.48);
+  box-shadow:0 0 40px rgba(80,100,170,.10);
+}
+</style>
 
 <!-- =========================================================
      FINAL
@@ -6846,37 +6935,6 @@ checkTrees();checkFragments();checkCat();checkCandles();checkBook();checkStars()
 .v21-future{margin:55px auto 0;max-width:850px;text-align:center;display:none}.v21-future.show{display:block;animation:v21in .9s ease}.v21-letter{margin-top:25px;padding:38px 32px;text-align:left;border:1px solid rgba(210,180,150,.18);background:linear-gradient(135deg,rgba(210,190,160,.07),rgba(255,255,255,.025));border-radius:20px;box-shadow:0 25px 80px rgba(0,0,0,.3)}.v21-letter .to{font-size:.75rem;letter-spacing:.2em;text-transform:uppercase;color:#a7a7af}.v21-letter p{line-height:1.9;color:#ddd;margin:18px 0}.v21-sign{text-align:right;font-style:italic;color:#eee;margin-top:28px}.v21-final-message{margin:60px auto 0;text-align:center;display:none}.v21-final-message.show{display:block;animation:v21in 1.2s ease}.v21-final-message .heart{font-size:4rem;filter:drop-shadow(0 0 25px rgba(200,40,60,.35));animation:v21beat 2s ease-in-out infinite}.v21-final-message h2{font-size:clamp(2rem,5vw,3.5rem);margin:20px 0 12px}.v21-final-message p{color:#bbb;line-height:1.8}
 @keyframes v21in{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}@keyframes v21beat{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
 @media(max-width:760px){.v21-path{grid-template-columns:1fr}.v21-panel{padding:28px 22px}.v21-home{min-height:330px}.v21-window{left:7%;width:34%}.v21-sofa{left:10%;width:52%}.v21-table{right:7%;width:32%}.v21-cup.one{right:23%}.v21-cup.two{right:16%}}
-
-/* MOBILE RESPONSIVE PATCH — all controls stay visible on phones */
-@media (max-width: 700px){
-  html,body{width:100%;max-width:100%;overflow-x:hidden;}
-  *{max-width:100%;}
-  .top{width:100%;flex-wrap:wrap;gap:10px;padding:12px 14px;}
-  .brand,.back{min-width:0;max-width:100%;}
-  .tabs,.red-nav,.red-return,.actions{width:100%;display:grid;grid-template-columns:1fr;gap:9px;}
-  .tab,.red-nav button,.red-return .btn,.actions .btn,.btn{width:100%;min-width:0;max-width:100%;white-space:normal;overflow-wrap:anywhere;text-align:center;}
-  .wrap{width:100%;max-width:100%;padding-left:14px;padding-right:14px;}
-  .grid,.object-grid,.door-code,.facts,.subject{grid-template-columns:1fr!important;}
-  .stats{grid-template-columns:1fr 1fr!important;}
-  .card,.game-board,.subject-info,.words{min-width:0;width:100%;}
-  .section-title{flex-direction:column;align-items:flex-start;gap:8px;}
-  .red-return{display:flex;flex-direction:column;}
-  .modal{padding:10px;}
-  .modal-box{width:100%;max-width:none;max-height:92vh;padding:16px;}
-  .event-splash{width:100%;min-height:360px;padding:34px 18px;}
-  .event-splash h2{font-size:clamp(32px,10vw,56px);overflow-wrap:anywhere;}
-  .event-splash p{font-size:15px;}
-  .game-object,.door-symbol,.word{width:100%;min-width:0;}
-  .red-hero h1{font-size:clamp(38px,12vw,58px);overflow-wrap:anywhere;}
-  .pill{max-width:100%;white-space:normal;overflow-wrap:anywhere;}
-  .red-nav button{min-height:46px;}
-}
-@media (max-width: 420px){
-  .stats{grid-template-columns:1fr!important;}
-  .wrap{padding-left:10px;padding-right:10px;}
-  .top{padding:10px;}
-  .modal-box{padding:13px;}
-}
 </style>
 
 <section id="v21-final-world">
@@ -7029,5 +7087,6 @@ checkTrees();checkFragments();checkCat();checkCandles();checkBook();checkStars()
 })();
 </script>
 
+<script src="abyss-integration.js"></script>
 </body>
 </html>
